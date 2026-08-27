@@ -1,0 +1,230 @@
+import "./Projects.css";
+
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import FeaturedProject from "./FeaturedProject";
+import ProjectCard from "./ProjectCard";
+
+import {
+  getFullProjects,
+} from "../../services/projects.service";
+
+import type {
+  FullProject,
+} from "../../types/project";
+
+
+export default function Projects() {
+
+  const [projects, setProjects] =
+    useState<FullProject[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+
+  /* ================= LOAD PROJECTS ================= */
+
+  useEffect(() => {
+
+    async function loadProjects() {
+
+      try {
+
+        setLoading(true);
+
+        const data =
+          await getFullProjects();
+
+
+        /* Only show published projects */
+
+        const publishedProjects =
+          data.filter(
+            (project) =>
+              project.published === true
+          );
+
+
+        setProjects(
+          publishedProjects
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error loading projects:",
+          error
+        );
+
+        setProjects([]);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+    loadProjects();
+
+  }, []);
+
+
+  /* ================= LOADING ================= */
+
+  if (loading) {
+
+    return (
+
+      <section className="projects-page">
+
+        <div className="projects-header">
+
+          <h1>
+            Projects
+          </h1>
+
+          <p>
+            Loading projects...
+          </p>
+
+        </div>
+
+      </section>
+
+    );
+
+  }
+
+
+  /* ================= SPLIT PROJECTS ================= */
+
+  const featuredProjects =
+    projects.filter(
+      (project) =>
+        project.featured === true
+    );
+
+
+  const otherProjects =
+    projects.filter(
+      (project) =>
+        project.featured !== true
+    );
+
+
+  /* ================= PAGE ================= */
+
+  return (
+
+    <section className="projects-page">
+
+
+      {/* ================= HEADER ================= */}
+
+      <div className="projects-header">
+
+        <h1>
+          Projects
+        </h1>
+
+        <p>
+          A collection of AI systems, full-stack
+          applications, machine learning models,
+          research work, and software products
+          I've designed and developed.
+        </p>
+
+      </div>
+
+
+      {/* ================= FEATURED PROJECTS ================= */}
+
+      {featuredProjects.length > 0 && (
+
+        <section className="projects-featured">
+
+          <h2 className="projects-section-title">
+
+            Featured Projects
+
+          </h2>
+
+
+          <div className="featured-list">
+
+            {featuredProjects.map(
+              (project) => (
+
+                <FeaturedProject
+                  key={project.id}
+                  project={project}
+                />
+
+              )
+            )}
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* ================= OTHER PROJECTS ================= */}
+
+      {otherProjects.length > 0 && (
+
+        <section className="projects-other">
+
+          <h2 className="projects-section-title">
+
+            Other Projects
+
+          </h2>
+
+
+          <div className="projects-grid">
+
+            {otherProjects.map(
+              (project) => (
+
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                />
+
+              )
+            )}
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* ================= EMPTY STATE ================= */}
+
+      {projects.length === 0 && (
+
+        <div className="projects-empty">
+
+          <p>
+            No projects available yet.
+          </p>
+
+        </div>
+
+      )}
+
+    </section>
+
+  );
+
+}

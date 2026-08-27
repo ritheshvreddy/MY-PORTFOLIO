@@ -1,0 +1,45 @@
+:root{
+
+/* Typography */
+
+--fs-display:4rem;
+
+--fs-h1:2.8rem;
+
+--fs-h2:2rem;
+
+--fs-h3:1.4rem;
+
+--fs-body:1rem;
+
+--fs-small:.9rem;
+
+/* Spacing */
+
+--space-xs:8px;
+
+--space-sm:14px;
+
+--space-md:20px;
+
+--space-lg:28px;
+
+--space-xl:40px;
+
+/* Cards */
+
+--card-padding:28px;
+
+--card-radius:22px;
+
+/* Buttons */
+
+--btn-height:52px;
+
+--btn-padding:0 26px;
+
+/* Profile */
+
+--profile-size:290px;
+
+}

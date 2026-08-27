@@ -1,0 +1,280 @@
+/* =======================================================
+   SKILLS SECTION
+======================================================= */
+
+.skills-section {
+  width: min(1400px, 92%);
+  margin: 0 auto;
+  padding: 60px 0 120px;
+}
+
+/* =======================================================
+   CATEGORY
+======================================================= */
+
+.skill-category {
+  margin-bottom: 50px;
+}
+
+/* Remove margin after the last category */
+.skill-category:last-child {
+  margin-bottom: 0;
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.category-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+}
+
+/* =======================================================
+   GRID
+======================================================= */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+/* =======================================================
+   TILT
+======================================================= */
+
+.skill-tilt {
+  height: 250px;
+  perspective: 1200px;
+}
+
+/* =======================================================
+   CARD
+======================================================= */
+
+.skill-card {
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+
+  transition: transform .7s ease;
+
+  border-radius: 24px;
+
+  cursor: pointer;
+
+}
+
+.skill-tilt:hover .skill-card {
+
+  transform: rotateY(180deg);
+
+}
+
+/* =======================================================
+   FRONT & BACK
+======================================================= */
+
+.skill-front,
+.skill-back {
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 28px;
+
+  backface-visibility: hidden;
+
+}
+
+/* =======================================================
+   LIGHT MODE
+======================================================= */
+
+body.light .skill-front,
+body.light .skill-back {
+
+  background: white;
+
+  border: 1px solid rgba(0,0,0,.08);
+
+  box-shadow:
+
+      0 15px 35px rgba(0,0,0,.08);
+
+}
+
+/* =======================================================
+   DARK MODE
+======================================================= */
+
+body.dark .skill-front,
+body.dark .skill-back {
+
+  background: #111827;
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  color: white;
+
+  box-shadow:
+
+      0 18px 40px rgba(0,0,0,.45);
+
+}
+
+/* =======================================================
+   BACK
+======================================================= */
+
+.skill-back {
+
+  transform: rotateY(180deg);
+
+  text-align: center;
+
+}
+
+.skill-back h3 {
+
+  margin-bottom: 14px;
+
+  font-size: 1.25rem;
+
+}
+
+.skill-back p {
+
+  line-height: 1.7;
+
+  opacity: .8;
+
+  font-size: .95rem;
+
+}
+
+/* =======================================================
+   SVG LOGO
+======================================================= */
+
+.skill-icon {
+
+  width: 68px;
+
+  height: 68px;
+
+  object-fit: contain;
+
+  margin-bottom: 22px;
+
+  transition: .35s;
+
+}
+
+.skill-tilt:hover .skill-icon {
+
+  transform: scale(1.08);
+
+}
+
+/* =======================================================
+   TITLE
+======================================================= */
+
+.skill-title {
+
+  font-size: 1.15rem;
+
+  font-weight: 700;
+
+  text-align: center;
+
+}
+
+/* =======================================================
+   HOVER SHADOW
+======================================================= */
+
+.skill-tilt:hover .skill-front,
+.skill-tilt:hover .skill-back {
+
+  box-shadow:
+
+      0 25px 60px rgba(37,99,235,.20);
+
+}
+
+/* =======================================================
+   RESPONSIVE
+======================================================= */
+
+@media (max-width:900px){
+
+.skills-grid{
+
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+}
+
+.skill-tilt{
+
+height:220px;
+
+}
+
+.skill-icon{
+
+width:58px;
+height:58px;
+margin-bottom:18px;
+}
+
+}
+
+@media(max-width:600px){
+
+.skills-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:22px;
+
+}
+
+.skill-tilt{
+
+height:200px;
+
+}
+
+.skill-icon{
+
+width:50px;
+height:50px;
+
+}
+
+.skill-title{
+
+font-size:1rem;
+
+}
+
+}

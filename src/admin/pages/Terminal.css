@@ -1,0 +1,838 @@
+/* =========================================================
+   TERMINAL ADMIN PAGE
+========================================================= */
+
+.admin-terminal-page {
+  width: 100%;
+  min-height: 100%;
+
+  padding: 32px 36px 60px;
+
+  box-sizing: border-box;
+
+  background: #f8fafc;
+
+  color: #0f172a;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.terminal-page-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 28px;
+}
+
+.terminal-page-header h1 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 32px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.5px;
+}
+
+.terminal-page-header p {
+  margin: 8px 0 0;
+
+  color: #64748b;
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.terminal-error,
+.terminal-success {
+  margin-bottom: 20px;
+
+  padding: 13px 16px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+}
+
+.terminal-error {
+  background: #fff7f7;
+
+  border: 1px solid #fecaca;
+
+  color: #b91c1c;
+}
+
+.terminal-success {
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+
+  color: #15803d;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.terminal-primary-button,
+.terminal-secondary-button,
+.terminal-danger-button,
+.terminal-close-button {
+  border: 0;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.terminal-primary-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.terminal-primary-button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-1px);
+}
+
+
+.terminal-secondary-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 9px 14px;
+
+  border: 1px solid #dbe3ed;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #1d4ed8;
+
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+.terminal-secondary-button:hover {
+  background: #eff6ff;
+
+  border-color: #bfdbfe;
+}
+
+
+.terminal-danger-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 9px 14px;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #dc2626;
+
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+.terminal-danger-button:hover {
+  background: #fff1f2;
+
+  border-color: #fca5a5;
+}
+
+
+.terminal-close-button {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 38px;
+
+  height: 38px;
+
+  border-radius: 8px;
+
+  background: #f1f5f9;
+
+  color: #475569;
+
+  font-size: 22px;
+}
+
+.terminal-close-button:hover {
+  background: #e2e8f0;
+}
+
+
+.terminal-primary-button:disabled,
+.terminal-secondary-button:disabled,
+.terminal-danger-button:disabled,
+.terminal-close-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+.terminal-editor {
+  margin-bottom: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(15, 23, 42, 0.04);
+
+  overflow: hidden;
+}
+
+.terminal-editor-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 22px 24px;
+
+  border-bottom: 1px solid #edf2f7;
+}
+
+.terminal-editor-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+.terminal-editor-header p {
+  margin: 6px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.terminal-form {
+  padding: 24px;
+}
+
+.terminal-form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 20px;
+}
+
+.terminal-form-group label {
+  color: #334155;
+
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+.terminal-form-group input,
+.terminal-form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.terminal-form-group textarea {
+  min-height: 210px;
+
+  resize: vertical;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  line-height: 1.65;
+}
+
+.terminal-form-group input::placeholder,
+.terminal-form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+.terminal-form-group input:focus,
+.terminal-form-group textarea:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.08);
+}
+
+.terminal-field-help {
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM ROW
+========================================================= */
+
+.terminal-form-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 240px)
+    1fr;
+
+  align-items: center;
+
+  gap: 30px;
+}
+
+.terminal-checkbox {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #334155;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.terminal-checkbox input {
+  width: 16px;
+
+  height: 16px;
+
+  margin: 0;
+
+  accent-color: #2563eb;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.terminal-form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  margin-top: 22px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf2f7;
+}
+
+
+/* =========================================================
+   COMMAND PANEL
+========================================================= */
+
+.terminal-panel {
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 13px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 3px 12px
+    rgba(15, 23, 42, 0.04);
+}
+
+.terminal-panel-header {
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #edf2f7;
+}
+
+.terminal-panel-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+.terminal-panel-header p {
+  margin: 5px 0 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   COMMAND LIST
+========================================================= */
+
+.terminal-command-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 0;
+}
+
+
+/* =========================================================
+   COMMAND CARD
+========================================================= */
+
+.terminal-command-card {
+  min-width: 0;
+
+  padding: 20px;
+
+  border-bottom: 1px solid #edf2f7;
+
+  background: #ffffff;
+
+  transition:
+    background 0.18s ease;
+}
+
+.terminal-command-card:nth-child(odd) {
+  border-right: 1px solid #edf2f7;
+}
+
+.terminal-command-card:hover {
+  background: #fafcff;
+}
+
+
+/* =========================================================
+   COMMAND HEADER
+========================================================= */
+
+.terminal-command-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.terminal-command-title {
+  display: flex;
+
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 8px;
+}
+
+.terminal-prompt {
+  color: #2563eb;
+
+  font-weight: 800;
+}
+
+.terminal-command-title code {
+  overflow: hidden;
+
+  color: #0f172a;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.terminal-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 22px;
+
+  padding: 0 8px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+.terminal-status.published {
+  background: #ecfdf3;
+
+  color: #15803d;
+}
+
+.terminal-status.draft {
+  background: #fff7ed;
+
+  color: #c2410c;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.terminal-command-description {
+  margin: 10px 0 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   OUTPUT PREVIEW
+========================================================= */
+
+.terminal-output-preview {
+  margin-top: 14px;
+
+  padding: 13px 14px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 8px;
+
+  background: #0f172a;
+
+  color: #e2e8f0;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 11px;
+
+  line-height: 1.65;
+
+  overflow: hidden;
+}
+
+.terminal-output-preview div {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.terminal-more-lines {
+  margin-top: 6px;
+
+  color: #93c5fd !important;
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.terminal-command-meta {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 13px;
+
+  padding-top: 11px;
+
+  border-top: 1px solid #f1f5f9;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.terminal-command-actions {
+  display: flex;
+
+  gap: 7px;
+
+  margin-top: 14px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.terminal-empty {
+  padding: 65px 25px;
+
+  text-align: center;
+}
+
+.terminal-empty-icon {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 48px;
+
+  height: 48px;
+
+  margin: 0 auto 14px;
+
+  border-radius: 12px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+.terminal-empty h3 {
+  margin: 0;
+
+  color: #334155;
+
+  font-size: 17px;
+}
+
+.terminal-empty p {
+  margin: 7px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .admin-terminal-page {
+    padding: 28px 24px 50px;
+  }
+
+  .terminal-command-list {
+    grid-template-columns: 1fr;
+  }
+
+  .terminal-command-card:nth-child(odd) {
+    border-right: 0;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .admin-terminal-page {
+    padding: 22px 16px 40px;
+  }
+
+  .terminal-page-header {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .terminal-page-header
+  .terminal-primary-button {
+    width: 100%;
+  }
+
+  .terminal-editor-header,
+  .terminal-form {
+    padding: 18px;
+  }
+
+  .terminal-form-row {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .terminal-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .terminal-form-actions button {
+    width: 100%;
+  }
+
+  .terminal-command-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .terminal-command-actions button {
+    flex: 1;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .terminal-page-header h1 {
+    font-size: 28px;
+  }
+
+  .terminal-command-card {
+    padding: 17px;
+  }
+
+}

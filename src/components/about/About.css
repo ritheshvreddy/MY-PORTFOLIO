@@ -1,0 +1,1132 @@
+/* ==========================================================
+   PAGE
+========================================================== */
+
+.about-page{
+    width:min(1250px,92%);
+    margin:auto;
+    padding:110px 0 90px;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.about-header{
+
+    text-align:center;
+
+    margin-bottom:80px;
+}
+
+.about-header h1{
+
+    font-size:2.8rem;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+    margin-bottom:18px;
+}
+
+.about-header p{
+
+    max-width:760px;
+
+    margin:auto;
+
+    font-size:1.08rem;
+
+    line-height:1.9;
+
+    opacity:.75;
+}
+
+/* ==========================================================
+   PREMIUM GLASS CARD
+========================================================== */
+
+.about-card,
+.hobbies-card,
+.contact-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:30px;
+
+    padding:48px;
+
+    transition:.35s;
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+body.light .about-card,
+body.light .hobbies-card,
+body.light .contact-card{
+
+    background:
+        rgba(255,255,255,.60);
+
+    border:
+        1px solid rgba(255,255,255,.75);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.08);
+}
+
+body.light .about-card::before,
+body.light .hobbies-card::before,
+body.light .contact-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.22),
+            rgba(96,165,250,.06)
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+body.dark .about-card,
+body.dark .hobbies-card,
+body.dark .contact-card{
+
+    background:
+        rgba(12,22,48,.72);
+
+    border:
+        1px solid rgba(96,165,250,.15);
+
+    box-shadow:
+        0 30px 60px rgba(0,0,0,.48);
+}
+
+body.dark .about-card::before,
+body.dark .hobbies-card::before,
+body.dark .contact-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at top right,
+            rgba(96,165,250,.14),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            circle at bottom left,
+            rgba(147,197,253,.08),
+            transparent 45%
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   CARD HOVER
+========================================================== */
+
+.about-card:hover,
+.hobbies-card:hover,
+.contact-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 35px 70px rgba(37,99,235,.20);
+}
+/* ==========================================================
+   ABOUT CARD
+========================================================== */
+
+.about-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    padding:50px;
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    transition:.35s;
+}
+
+/* ---------- LIGHT ---------- */
+
+body.light .about-card{
+
+    background:rgba(255,255,255,.58);
+
+    border:1px solid rgba(255,255,255,.7);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.08);
+}
+
+/* ---------- DARK ---------- */
+
+body.dark .about-card{
+
+    background:rgba(13,22,46,.72);
+
+    border:1px solid rgba(96,165,250,.12);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.45);
+}
+
+.about-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(circle at top right,
+        rgba(96,165,250,.12),
+        transparent 45%),
+
+        radial-gradient(circle at bottom left,
+        rgba(147,197,253,.08),
+        transparent 45%);
+
+    pointer-events:none;
+}
+
+.about-content{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.about-content p{
+
+    font-size:1rem;
+
+    line-height:1.85;
+
+    margin-bottom:26px;
+}
+
+body.dark .about-content p{
+
+    color:#cbd5e1;
+}
+
+body.light .about-content p{
+
+    color:#475569;
+}
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.about-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:24px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+/* ==========================================================
+   RESUME BUTTON
+========================================================== */
+
+.resume-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 14px 28px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+.resume-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px rgba(37, 99, 235, 0.45);
+}
+
+.resume-button:active {
+  transform: translateY(0);
+}
+
+.resume-button svg {
+  font-size: 16px;
+}
+
+/* ==========================================================
+   HOBBIES
+========================================================== */
+
+.hobbies-section{
+
+    margin-bottom:90px;
+}
+
+.hobbies-card{
+
+    position:relative;
+}
+
+.hobbies-card>*{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.hobbies-card h2{
+
+    font-size:1.65rem;
+
+    font-weight:800;
+
+    margin-bottom:14px;
+}
+
+.hobbies-subtitle{
+
+    font-size:1rem;
+
+    opacity:.75;
+
+    margin-bottom:40px;
+}
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.hobby-list{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(170px,1fr));
+
+    gap:24px;
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.hobby{
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    min-height:170px;
+
+    border-radius:24px;
+
+    transition:.35s;
+
+    cursor:default;
+}
+
+/* ==========================================================
+   LIGHT
+========================================================== */
+
+body.light .hobby{
+
+    background:rgba(255,255,255,.82);
+
+    border:1px solid rgba(37,99,235,.08);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.06);
+}
+
+/* ==========================================================
+   DARK
+========================================================== */
+
+body.dark .hobby{
+
+    background:rgba(25,40,78,.55);
+
+    border:1px solid rgba(96,165,250,.14);
+
+    box-shadow:
+        0 18px 35px rgba(0,0,0,.25);
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.hobby-icon{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:74px;
+
+    height:74px;
+
+    border-radius:20px;
+
+    transition:.35s;
+}
+
+body.light .hobby-icon{
+
+    background:rgba(37,99,235,.08);
+}
+
+body.dark .hobby-icon{
+
+    background:rgba(255,255,255,.05);
+}
+
+.hobby-icon img{
+
+    width:50px;
+
+    height:50px;
+
+    object-fit:contain;
+
+    transition:.35s;
+}
+
+/* ==========================================================
+   NAME
+========================================================== */
+
+.hobby-name{
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    letter-spacing:.2px;
+}
+
+body.light .hobby-name{
+
+    color:#1e293b;
+}
+
+body.dark .hobby-name{
+
+    color:#f8fafc;
+}
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.hobby:hover{
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 22px 45px rgba(37,99,235,.20);
+}
+
+.hobby:hover .hobby-icon{
+
+    transform:scale(1.08);
+}
+
+.hobby:hover .hobby-icon img{
+
+    transform:scale(1.12);
+}
+
+/* ==========================================================
+   GLOW EFFECT
+========================================================== */
+
+.hobby::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at top,
+            rgba(96,165,250,.15),
+            transparent 65%
+        );
+
+    opacity:0;
+
+    transition:.35s;
+}
+
+.hobby:hover::before{
+
+    opacity:1;
+}
+
+/* ==========================================================
+   CONTACT
+========================================================== */
+
+.contact-section{
+    margin-top:50px;
+    text-align:center;
+}
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.contact-title{
+
+    margin-bottom:55px;
+}
+
+.contact-title h1{
+
+    font-size:2.8rem;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.contact-title p{
+
+    max-width:680px;
+
+    margin:auto;
+
+    font-size:1.05rem;
+
+    line-height:1.8;
+
+    opacity:.75;
+}
+
+/* ==========================================================
+   FORM CARD
+========================================================== */
+
+.contact-card{
+
+    position:relative;
+
+    width:min(860px,92%);
+
+    margin:auto;
+
+    padding:42px;
+
+    border-radius:28px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:22px;
+
+    overflow:hidden;
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+}
+
+/* ---------- LIGHT ---------- */
+
+body.light .contact-card{
+
+    background:rgba(255,255,255,.60);
+
+    border:1px solid rgba(255,255,255,.70);
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,.08);
+}
+
+/* ---------- DARK ---------- */
+
+body.dark .contact-card{
+
+    background:rgba(12,22,48,.72);
+
+    border:1px solid rgba(96,165,250,.15);
+
+    box-shadow:
+        0 30px 60px rgba(0,0,0,.45);
+}
+
+.contact-card>*{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.contact-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at top right,
+            rgba(96,165,250,.12),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            circle at bottom left,
+            rgba(147,197,253,.08),
+            transparent 45%
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   INPUTS
+========================================================== */
+
+.contact-card input,
+.contact-card textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    padding:18px 20px;
+
+    border-radius:18px;
+
+    font-size:1rem;
+
+    transition:.3s;
+
+    resize:none;
+}
+
+/* ---------- LIGHT ---------- */
+
+body.light .contact-card input,
+body.light .contact-card textarea{
+
+    background:white;
+
+    color:#111827;
+}
+
+/* ---------- DARK ---------- */
+
+body.dark .contact-card input,
+body.dark .contact-card textarea{
+
+    background:rgba(255,255,255,.95);
+
+    color:#111827;
+}
+
+.contact-card input::placeholder,
+.contact-card textarea::placeholder{
+
+    color:#6b7280;
+}
+
+.contact-card textarea{
+
+    min-height:170px;
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.contact-button{
+
+    grid-column:1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.contact-button:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(37,99,235,.35);
+}
+
+/* ==========================================================
+   SOCIAL LINKS
+========================================================== */
+
+.contact-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:34px;
+
+    margin-top:36px;
+
+    flex-wrap:wrap;
+}
+
+.contact-links a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:inherit;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.contact-links a:hover{
+
+    color:#3b82f6;
+
+    transform:translateY(-2px);
+}
+
+.contact-links svg{
+
+    font-size:1.05rem;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1000px){
+
+.about-page{
+    padding:100px 0 70px;
+}
+
+.about-header,
+.contact-title{
+
+margin-bottom:65px;
+
+}
+
+.about-card,
+.hobbies-card,
+.contact-card{
+
+padding:36px;
+
+}
+
+.contact-card{
+
+grid-template-columns:1fr;
+
+gap:18px;
+
+}
+
+.contact-button{
+
+grid-column:auto;
+
+width:100%;
+
+}
+
+.hobby-list{
+
+grid-template-columns:
+repeat(3,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.about-header h1,
+.contact-title h1{
+
+font-size:2.8rem;
+
+}
+
+.about-header p,
+.contact-title p{
+
+font-size:1rem;
+
+}
+
+.about-card{
+
+padding:30px;
+
+}
+
+.about-card h2{
+
+font-size:1.8rem;
+
+}
+
+.about-card p{
+
+font-size:1rem;
+
+line-height:1.9;
+
+}
+
+.download-btn{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+.contact-card{
+
+padding:28px;
+
+}
+
+.contact-links{
+
+gap:24px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.about-page{
+    width:94%;
+    padding:90px 0 60px;
+}
+
+.about-header h1,
+.contact-title h1{
+
+font-size:2.3rem;
+
+}
+
+.about-card,
+.hobbies-card,
+.contact-card{
+
+padding:22px;
+
+border-radius:22px;
+
+}
+
+.about-card h2{
+
+font-size:1.5rem;
+
+}
+
+.about-card p{
+
+font-size:.95rem;
+
+}
+
+.hobby-list{
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:16px;
+
+}
+
+.hobby{
+
+min-height:130px;
+
+}
+
+.hobby-icon{
+
+width:64px;
+
+height:64px;
+
+}
+
+.hobby-icon img{
+
+width:42px;
+
+height:42px;
+
+}
+
+.hobby-name{
+
+font-size:.9rem;
+
+}
+
+.contact-card input,
+.contact-card textarea{
+
+padding:15px;
+
+}
+
+.contact-links{
+
+flex-direction:column;
+
+align-items:center;
+
+gap:16px;
+
+}
+
+}
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+body.dark .about-header h1,
+body.dark .contact-title h1{
+
+color:white;
+}
+
+body.dark .about-header p,
+body.dark .contact-title p{
+
+color:#cbd5e1;
+}
+
+body.dark .about-card{
+
+color:#f8fafc;
+}
+
+body.dark .about-card p{
+
+color:#cbd5e1;
+}
+
+body.dark .hobby-name{
+
+color:#f8fafc;
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+body.light .about-header h1,
+body.light .contact-title h1{
+
+color:#0f172a;
+}
+
+body.light .about-header p,
+body.light .contact-title p{
+
+color:#475569;
+}
+
+body.light .about-card p{
+
+color:#475569;
+}
+
+body.light .hobby-name{
+
+color:#1e293b;
+}
+
+/* ==========================================================
+   SMOOTH ANIMATIONS
+========================================================== */
+
+.about-card,
+.hobbies-card,
+.contact-card,
+.hobby,
+.download-btn,
+.contact-button,
+.contact-links a{
+
+transition:
+transform .35s ease,
+box-shadow .35s ease,
+background .35s ease,
+border-color .35s ease,
+color .35s ease;
+}
+
+/* ==========================================================
+   INPUTS
+========================================================== */
+
+.contact-card input,
+.contact-card textarea{
+
+transition:
+background .3s,
+border-color .3s,
+box-shadow .3s,
+transform .3s;
+}
+
+.contact-card input:focus,
+.contact-card textarea:focus{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 0 4px rgba(37,99,235,.15);
+}
+
+/* ==========================================================
+   SELECTION
+========================================================== */
+
+::selection{
+
+background:#2563eb;
+
+color:white;
+}

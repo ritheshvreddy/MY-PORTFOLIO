@@ -1,0 +1,791 @@
+/* ==========================================================
+   PAGE
+========================================================== */
+
+.certifications-page{
+
+    width:min(1250px,92%);
+
+    margin:auto;
+
+    padding:140px 0 120px;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.certifications-header{
+
+    text-align:center;
+
+    margin-bottom:90px;
+}
+
+.certifications-header h1{
+
+    font-size:2.7rem;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.certifications-header p{
+
+    max-width:760px;
+
+    margin:auto;
+
+    font-size:1.08rem;
+
+    line-height:1.8;
+
+    opacity:.75;
+}
+
+/* ==========================================================
+   SECTIONS
+========================================================== */
+
+.course-section{
+
+    margin-bottom:90px;
+}
+
+.achievement-section{
+
+    margin-top:40px;
+}
+
+.section-title{
+
+    font-size:1.6rem;
+
+    font-weight:800;
+
+    margin-bottom:35px;
+}
+
+/* ==========================================================
+   COURSE LIST
+========================================================== */
+
+.course-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:34px;
+}
+
+/* ==========================================================
+   ACHIEVEMENT GRID
+========================================================== */
+
+.achievement-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    gap:32px;
+}
+/* ==========================================================
+   CERTIFICATION CARD
+========================================================== */
+
+.certification-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    padding:36px 40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:40px;
+
+    transition:.35s;
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+}
+
+/* ==========================================================
+   LIGHT
+========================================================== */
+
+body.light .certification-card{
+
+    background:rgba(255,255,255,.58);
+
+    border:1px solid rgba(255,255,255,.65);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.08);
+}
+
+body.light .certification-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.25),
+        rgba(96,165,250,.08)
+    );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   DARK
+========================================================== */
+
+body.dark .certification-card{
+
+    background:rgba(10,18,40,.72);
+
+    border:1px solid rgba(96,165,250,.15);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.45);
+}
+
+body.dark .certification-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at top right,
+            rgba(96,165,250,.12),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            circle at bottom left,
+            rgba(147,197,253,.08),
+            transparent 45%
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.certification-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 30px 70px rgba(37,99,235,.25);
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.certification-content{
+
+    flex:1;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.certification-provider{
+
+    color:#3b82f6;
+
+    font-size:.82rem;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    margin-bottom:14px;
+}
+
+.certification-content h2{
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    margin-bottom:22px;
+}
+
+body.dark .certification-content h2{
+
+    color:white;
+}
+
+body.dark .certification-content{
+
+    color:#f8fafc;
+}
+
+/* ==========================================================
+   POINTS
+========================================================== */
+
+.certification-points{
+
+    padding-left:22px;
+
+    margin-bottom:28px;
+}
+
+.certification-points li{
+
+    margin-bottom:12px;
+
+    line-height:1.9;
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.certification-icon{
+
+    width:95px;
+
+    height:95px;
+
+    border-radius:24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    font-size:2rem;
+
+    color:#2563eb;
+}
+
+body.light .certification-icon{
+
+    background:rgba(37,99,235,.08);
+}
+
+body.dark .certification-icon{
+
+    background:rgba(37,99,235,.16);
+
+    color:#93c5fd;
+}
+/* ==========================================================
+   ACHIEVEMENT CARD
+========================================================== */
+
+.achievement-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    padding:32px;
+
+    transition:.35s;
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+}
+
+/* ==========================================================
+   LIGHT
+========================================================== */
+
+body.light .achievement-card{
+
+    background:rgba(255,255,255,.58);
+
+    border:1px solid rgba(255,255,255,.65);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.08);
+}
+
+body.light .achievement-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.25),
+        rgba(96,165,250,.08)
+    );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   DARK
+========================================================== */
+
+body.dark .achievement-card{
+
+    background:rgba(10,18,40,.72);
+
+    border:1px solid rgba(96,165,250,.15);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.45);
+}
+
+body.dark .achievement-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(96,165,250,.12),
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(147,197,253,.08),
+            transparent 45%
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.achievement-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 30px 70px rgba(37,99,235,.22);
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.achievement-card>*{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.achievement-org{
+
+    color:#3b82f6;
+
+    font-size:.82rem;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    margin-bottom:12px;
+}
+
+.achievement-card h3{
+
+    font-size:1.55rem;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+
+    line-height:1.35;
+}
+
+.achievement-description{
+
+    line-height:1.9;
+
+    margin-bottom:28px;
+
+    opacity:.88;
+
+    min-height:120px;
+}
+
+body.dark .achievement-card{
+
+    color:#f8fafc;
+}
+
+body.dark .achievement-card h3{
+
+    color:white;
+}
+
+body.dark .achievement-description{
+
+    color:#cbd5e1;
+}
+
+/* ==========================================================
+   CREDENTIAL BUTTON
+========================================================== */
+
+.credential-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    text-decoration:none;
+
+    font-weight:700;
+
+    color:#2563eb;
+
+    transition:.3s;
+}
+
+.credential-btn svg{
+
+    transition:.3s;
+}
+
+.credential-btn:hover{
+
+    color:#1d4ed8;
+}
+
+.credential-btn:hover svg{
+
+    transform:translateX(5px);
+}
+
+/* Small variant */
+
+.credential-btn.small{
+
+    font-size:.95rem;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1100px){
+
+.achievement-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.certification-card{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.certification-icon{
+
+width:72px;
+
+height:72px;
+
+font-size:1.6rem;
+
+}
+
+}
+
+@media(max-width:900px){
+
+.certifications-page{
+
+padding:120px 0 90px;
+
+}
+
+.certifications-header{
+
+margin-bottom:70px;
+
+}
+
+.certifications-header h1{
+
+font-size:2.8rem;
+
+}
+
+.certification-card,
+.achievement-card{
+
+padding:28px;
+
+}
+
+.certification-content h2{
+
+font-size:1.7rem;
+
+}
+
+.section-title{
+
+font-size:1.7rem;
+
+}
+
+}
+
+@media(max-width:650px){
+
+.certifications-header h1{
+
+font-size:2.3rem;
+
+}
+
+.certifications-header p{
+
+font-size:0.95rem;
+
+}
+
+.section-title{
+
+font-size:1.5rem;
+
+margin-bottom:28px;
+
+}
+
+.certification-card,
+.achievement-card{
+
+padding:22px;
+
+border-radius:22px;
+
+}
+
+.certification-content h2{
+
+font-size:1.45rem;
+
+}
+
+.achievement-card h3{
+
+font-size:1.3rem;
+
+}
+
+.certification-points li{
+
+font-size:.95rem;
+
+}
+
+.achievement-description{
+
+min-height:auto;
+
+font-size:.95rem;
+
+}
+
+.certification-icon{
+
+display:none;
+
+}
+
+}
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+body.dark .certifications-header h1{
+
+color:white;
+
+}
+
+body.dark .certifications-header p{
+
+color:#cbd5e1;
+
+}
+
+/* ==========================================================
+   LIGHT MODE
+========================================================== */
+
+body.light .certifications-header h1{
+
+color:#0f172a;
+
+}
+
+body.light .certifications-header p{
+
+color:#475569;
+
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.credential-btn{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:12px 22px;
+
+border-radius:999px;
+
+font-weight:700;
+
+text-decoration:none;
+
+transition:.3s;
+}
+
+body.light .credential-btn{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+body.dark .credential-btn{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+.credential-btn:hover{
+
+background:#1d4ed8;
+
+transform:translateY(-3px);
+
+box-shadow:
+0 12px 30px rgba(37,99,235,.25);
+
+}
+
+.credential-btn svg{
+
+transition:.3s;
+
+}
+
+.credential-btn:hover svg{
+
+transform:translateX(5px);
+
+}
+
+/* ==========================================================
+   SMOOTH TRANSITIONS
+========================================================== */
+
+.certification-card,
+.achievement-card{
+
+transition:
+transform .35s,
+box-shadow .35s,
+border-color .35s;
+}
+
+/* ==========================================================
+   TEXT
+========================================================== */
+
+body.dark .certification-points,
+body.dark .achievement-description{
+
+color:#cbd5e1;
+
+}
+
+body.light .certification-points,
+body.light .achievement-description{
+
+color:#475569;
+
+}
+
+/* ==========================================================
+   SECTION SPACING
+========================================================== */
+
+.course-section{
+
+margin-bottom:100px;
+
+}
+
+.achievement-section{
+
+margin-bottom:40px;
+
+}

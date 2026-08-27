@@ -1,0 +1,270 @@
+/* ==========================================================
+   TERMINAL PAGE
+========================================================== */
+
+.terminal-page{
+    width:min(1000px,90%);
+    margin:auto;
+    padding:170px 0 120px;
+}
+
+/* ==========================================================
+   TERMINAL WINDOW
+========================================================== */
+
+.terminal-window{
+
+    background:#050505;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.45);
+
+    border:1px solid #202020;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.terminal-header{
+
+    height:52px;
+
+    background:#1f2937;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 18px;
+}
+
+/* mac buttons */
+
+.terminal-controls{
+
+    display:flex;
+
+    gap:10px;
+}
+
+.control{
+
+    width:13px;
+
+    height:13px;
+
+    border-radius:50%;
+}
+
+.control.red{
+    background:#ff5f57;
+}
+
+.control.yellow{
+    background:#febc2e;
+}
+
+.control.green{
+    background:#28c840;
+}
+
+/* title */
+
+.terminal-title{
+
+    color:white;
+
+    font-size:.92rem;
+
+    font-weight:600;
+
+    font-family:monospace;
+}
+
+/* status */
+
+.terminal-status{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    font-size:.8rem;
+
+    font-weight:700;
+}
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+.terminal-body{
+
+    background:#050505;
+
+    color:#00ff66;
+
+    min-height:450px;
+
+    max-height:450px;
+
+    overflow-y:auto;
+
+    padding:28px;
+
+    font-family:
+        "JetBrains Mono",
+        "Fira Code",
+        monospace;
+
+    font-size:15px;
+
+    line-height:1.85;
+}
+
+/* ==========================================================
+   OUTPUT
+========================================================== */
+
+.terminal-line{
+
+    white-space:pre-wrap;
+
+    word-break:break-word;
+}
+
+.terminal-line.command{
+
+    color:#ffd54a;
+
+    margin-top:10px;
+
+    font-weight:700;
+}
+
+.terminal-line.output{
+
+    color:#00ff66;
+}
+
+.terminal-line.error{
+
+    color:#ff6b6b;
+}
+
+/* ==========================================================
+   INPUT
+========================================================== */
+
+.terminal-input-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:10px;
+}
+
+.terminal-input-row span{
+
+    color:#ffd54a;
+
+    font-weight:700;
+}
+
+.terminal-input-row input{
+
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    outline:none;
+
+    color:#00ff66;
+
+    font-size:15px;
+
+    font-family:inherit;
+
+    caret-color:#00ff66;
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+.terminal-body::-webkit-scrollbar{
+
+    width:10px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb{
+
+    background:#333;
+
+    border-radius:10px;
+}
+
+.terminal-body::-webkit-scrollbar-track{
+
+    background:#111;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+.terminal-page{
+
+padding:130px 0 70px;
+
+}
+
+.terminal-body{
+
+min-height:520px;
+
+max-height:520px;
+
+font-size:14px;
+
+padding:20px;
+
+}
+
+.terminal-header{
+
+padding:0 12px;
+
+}
+
+.terminal-title{
+
+font-size:.8rem;
+
+}
+
+.terminal-status{
+
+display:none;
+
+}
+
+}

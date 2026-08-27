@@ -1,0 +1,442 @@
+/* ===========================================
+   HERO SECTION
+=========================================== */
+
+.hero-section{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:110px 6% 80px;
+}
+
+.hero-container{
+
+    width:100%;
+    max-width:1500px;
+
+    display:grid;
+
+    grid-template-columns:280px minmax(0,1fr);
+
+    gap:90px;
+
+    align-items:center;
+}
+
+
+/* ===========================================
+   LEFT SIDE
+=========================================== */
+
+.hero-profile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:22px;
+
+    margin-top:-55px;
+}
+
+.profile-image{
+
+    width:300px;
+
+    height:px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:6px solid rgba(255,255,255,.45);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.18),
+        0 0 60px rgba(255,255,255,.15);
+
+    transition:.35s ease;
+}
+
+.profile-image:hover{
+
+    transform:translateY(-8px) scale(1.02);
+
+    box-shadow:
+        0 35px 80px rgba(0,0,0,.22),
+        0 0 70px rgba(255,255,255,.18);
+}
+
+
+/* ===========================================
+   CONTACT BUTTON
+=========================================== */
+
+.contact-btn{
+
+    width:190px;
+
+    height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,.30);
+
+    backdrop-filter:blur(20px);
+
+    color:#111827;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.08);
+}
+
+.contact-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:white;
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.15);
+}
+
+
+/* ===========================================
+   RIGHT SIDE
+=========================================== */
+
+.hero-content{
+
+    width:100%;
+
+    max-width:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+}
+
+
+/* ===========================================
+   TEXT
+=========================================== */
+
+.hero-greeting{
+
+    font-size:18px;
+
+    opacity:.75;
+
+    margin-bottom:10px;
+
+    line-height:1.2;
+}
+
+.hero-title{
+
+    width:100%;
+
+    font-size:clamp(3.2rem,4.5vw,4.5rem);
+
+    font-weight:800;
+
+    line-height:0.95;
+
+    letter-spacing:-2.8px;;
+
+    margin-bottom:10px;
+
+    margin:0 0 8px;
+}
+
+.animated-role{
+
+    font-size:30px;
+
+    font-weight:600;
+
+    color:#3b82f6;
+
+    margin-bottom:26px;
+}
+
+.hero-description{
+
+    width:100%;
+
+    max-width:980px;
+
+    font-size:1.1rem;
+
+    line-height:1.75;
+
+    margin-bottom:24px;
+
+    color:var(--text);
+}
+
+
+/* ===========================================
+   BUTTONS
+=========================================== */
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:34px;
+}
+
+.primary-btn,
+.secondary-btn{
+
+    height:48px;
+
+    padding:0 22px;
+
+    border:none;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.3s;
+}
+
+.primary-btn{
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #3b82f6,
+        #2563eb
+    );
+
+    box-shadow:
+        0 15px 35px rgba(37,99,235,.35);
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 20px 45px rgba(37,99,235,.45);
+}
+
+.secondary-btn{
+
+    background:rgba(255,255,255,.35);
+
+    backdrop-filter:blur(20px);
+
+    color:#111827;
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,.08);
+}
+
+.secondary-btn:hover{
+
+    background:white;
+
+    transform:translateY(-4px);
+}
+
+
+/* ===========================================
+   QUOTE
+=========================================== */
+
+.quote-card{
+
+    width:100%;
+
+    max-width:1000px;
+
+    padding:24px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.25);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.08);
+}
+
+.quote-card p{
+
+    margin:0;
+
+    font-size:1.5rem;
+
+    line-height:1.7;
+
+    font-style:italic;
+
+    font-weight:500;
+}
+
+.quote-card span{
+
+    display:block;
+
+    margin-top:20px;
+
+    font-size:.8rem;
+
+    font-weight:700;
+
+    opacity:.8;
+}
+
+
+/* ===========================================
+   RESPONSIVE
+=========================================== */
+
+@media(max-width:1100px){
+
+.hero-container{
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+
+    gap:60px;
+}
+
+.hero-profile{
+
+    order:1;
+}
+
+.hero-content{
+
+    order:2;
+
+    align-items:center;
+}
+
+.hero-description{
+
+    max-width:800px;
+}
+
+.hero-buttons{
+
+    justify-content:center;
+}
+
+.quote-card{
+
+    text-align:left;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-section{
+
+    padding:120px 24px 60px;
+}
+
+.hero-container{
+
+    gap:40px;
+}
+
+.profile-image{
+
+    width:220px;
+
+    height:220px;
+}
+
+.hero-title{
+
+    font-size:3rem;
+}
+
+.hero-greeting{
+
+    font-size:18px;
+}
+
+.animated-role{
+
+    font-size:22px;
+}
+
+.hero-description{
+
+    font-size:1.05rem;
+
+    line-height:1.75;
+}
+
+.hero-buttons{
+
+    flex-direction:column;
+
+    width:100%;
+}
+
+.primary-btn,
+.secondary-btn,
+.contact-btn{
+
+    width:100%;
+}
+
+.quote-card{
+
+    padding:22px;
+}
+
+.quote-card p{
+
+    font-size:1.1rem;
+}
+
+}

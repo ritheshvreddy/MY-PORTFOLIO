@@ -1,0 +1,627 @@
+/* ==========================================================
+   PAGE
+========================================================== */
+
+.roles-page{
+    width:min(1250px,92%);
+    margin:auto;
+    padding:140px 0 120px;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.roles-header{
+    text-align:center;
+    margin-bottom:90px;
+}
+
+.roles-header h1{
+    font-size:2.7rem;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.roles-header p{
+    max-width:720px;
+    margin:auto;
+    font-size:1.08rem;
+    line-height:1.8;
+    opacity:.75;
+}
+
+/* ==========================================================
+   TIMELINE
+========================================================== */
+
+.roles-timeline{
+    position:relative;
+    max-width:1100px;
+    margin:auto;
+}
+
+.roles-timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:46px;
+
+    top:0;
+
+    bottom:0;
+
+    width:3px;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+        to bottom,
+        #7dd3fc,
+        #2563eb,
+        #1d4ed8
+    );
+
+    box-shadow:
+        0 0 20px rgba(59,130,246,.35);
+}
+
+/* ==========================================================
+   ROW
+========================================================== */
+
+.timeline-row{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:28px;
+
+    margin-bottom:60px;
+}
+
+/* ==========================================================
+   TIMELINE DOT
+========================================================== */
+
+.timeline-line{
+
+    width:70px;
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+.timeline-circle{
+
+    width:20px;
+
+    height:20px;
+
+    margin-top:34px;
+
+    border-radius:50%;
+
+    background:white;
+
+    border:5px solid #2563eb;
+
+    box-shadow:
+        0 0 0 8px rgba(37,99,235,.15),
+        0 0 30px rgba(59,130,246,.55);
+
+    z-index:5;
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.role-card{
+
+    flex:1;
+
+    border-radius:28px;
+
+    padding:36px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+}
+
+/* ==========================================================
+   MORNING THEME
+========================================================== */
+
+body.light .role-card{
+
+    background:rgba(255,255,255,.55);
+
+    border:1px solid rgba(255,255,255,.55);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.08);
+}
+
+body.light .role-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.28),
+        rgba(96,165,250,.08)
+    );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   SPACE THEME
+========================================================== */
+
+body.dark .role-card{
+
+    background:rgba(10,18,40,.72);
+
+    border:1px solid rgba(96,165,250,.15);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.45);
+}
+
+body.dark .role-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(circle at top right,
+        rgba(96,165,250,.12),
+        transparent 45%),
+
+        radial-gradient(circle at bottom left,
+        rgba(147,197,253,.08),
+        transparent 45%);
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.role-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 25px 70px rgba(59,130,246,.25);
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.role-card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:25px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.role-card-header h2{
+
+    font-size:1.6rem;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+}
+
+.role-card-header h3{
+
+    font-size:1rem;
+
+    margin-bottom:12px;
+
+    font-weight:600;
+
+    opacity:.85;
+}
+
+.role-location{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    opacity:.8;
+}
+
+.role-date{
+
+    padding:9px 18px;
+
+    border-radius:999px;
+
+    font-size:.82rem;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+    background:#2563eb;
+
+    color:white;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,.3);
+}
+
+/* ==========================================================
+   DIVIDER
+========================================================== */
+
+.role-divider{
+
+    width:100%;
+
+    height:1px;
+
+    margin:28px 0;
+
+    background:rgba(255,255,255,.08);
+}
+
+body.light .role-divider{
+
+    background:rgba(0,0,0,.08);
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.role-section{
+
+    position:relative;
+
+    z-index:2;
+}
+
+.role-section h4{
+
+    color:#3b82f6;
+
+    margin-bottom:16px;
+
+    font-size:1rem;
+}
+
+.role-section p,
+.role-section li{
+
+font-size:.95rem;
+
+line-height:1.75;
+}
+
+.role-section ul{
+
+    padding-left:20px;
+}
+
+.role-section li{
+
+    margin-bottom:10px;
+}
+
+/* ==========================================================
+   SKILLS
+========================================================== */
+
+.role-skills{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+}
+
+.role-skills span{
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:.82rem;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+body.light .role-skills span{
+
+    background:rgba(255,255,255,.55);
+
+    color:#2563eb;
+
+    border:1px solid rgba(37,99,235,.15);
+}
+
+body.dark .role-skills span{
+
+    background:rgba(37,99,235,.16);
+
+    color:#93c5fd;
+
+    border:1px solid rgba(96,165,250,.18);
+}
+
+.role-skills span:hover{
+
+    transform:translateY(-2px);
+}
+
+/* ==========================================================
+   FUTURE CARD
+========================================================== */
+
+.role-card.future{
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    ) !important;
+
+    color:white;
+}
+
+.role-card.future h3,
+.role-card.future .role-location{
+
+    color:white;
+}
+
+.role-card.future .role-date{
+
+    background:white;
+
+    color:#2563eb;
+}
+
+.role-card.future .role-divider{
+
+    background:rgba(255,255,255,.2);
+}
+
+.role-card.future h4{
+
+    color:white;
+}
+
+.role-card.future .role-skills span{
+
+    background:rgba(255,255,255,.18);
+
+    color:white;
+
+    border:none;
+}
+
+/* ==========================================================
+   DARK TEXT
+========================================================== */
+
+body.dark .role-card{
+
+    color:#f8fafc;
+}
+
+body.dark .role-card h2{
+
+    color:white;
+}
+
+body.dark .role-card h3{
+
+    color:#cbd5e1;
+}
+
+body.dark .role-location{
+
+    color:#94a3b8;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+.roles-timeline::before{
+left:24px;
+}
+
+.timeline-line{
+width:46px;
+}
+
+.timeline-row{
+gap:18px;
+}
+
+.role-card{
+padding:26px;
+}
+
+.role-card-header{
+flex-direction:column;
+}
+
+.role-date{
+align-self:flex-start;
+}
+
+}
+
+@media(max-width:650px){
+
+.roles-header h1{
+font-size:2.3rem;
+}
+
+.role-card{
+padding:22px;
+}
+
+.role-card-header h2{
+font-size:1.55rem;
+}
+
+.role-skills span{
+font-size:.75rem;
+padding:7px 12px;
+}
+
+}
+
+/* ==========================================
+   VIEW ALL BUTTON
+========================================== */
+
+.roles-view-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.roles-button {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+body.light .roles-button {
+  background: #2563eb;
+  color: #fff;
+}
+
+body.light .roles-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-3px);
+}
+
+body.dark .roles-button {
+  background: #2563eb;
+  color: #fff;
+}
+
+body.dark .roles-button:hover {
+  background: #3b82f6;
+  transform: translateY(-3px);
+}
+
+/* HOME PREVIEW */
+
+.roles-preview{
+    display:flex;
+    flex-direction:column;
+    gap:36px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.roles-preview .role-card{
+    width:100%;
+}
+
+/* Hide timeline on Home preview */
+
+.roles-preview .timeline-line,
+.roles-preview .timeline-circle{
+    display:none;
+}
+
+/* ==========================================
+   HOME PAGE – ROLES PREVIEW
+========================================== */
+
+.roles-preview-page{
+    padding: 80px 0 50px;
+}
+
+/* Header – match Featured Projects */
+
+.roles-preview-page .roles-header{
+    display: block !important;
+    width: 100%;
+    text-align: center !important;
+    margin: 0 auto 50px !important;
+}
+
+.roles-preview-page .roles-header h1{
+    display: block;
+    width: 100%;
+    text-align: center !important;
+
+    font-size: 2.7rem;
+    font-weight: 800;
+    line-height: 1.2;
+
+    margin: 0 0 18px !important;
+}
+
+.roles-preview-page .roles-header p{
+    display: block;
+    width: 100%;
+    max-width: 720px;
+
+    margin: 0 auto !important;
+    text-align: center !important;
+
+    font-size: 1.08rem;
+    line-height: 1.8;
+    opacity: 0.75;
+}
+
+.roles-preview-page .roles-view-all{
+    margin-top: 35px;
+}

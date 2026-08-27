@@ -1,0 +1,25 @@
+/* ===============================
+   HOME PAGE SECTION SPACING
+================================= */
+
+/* Skills → Roles */
+.home-page .roles-page {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Roles → Projects */
+.home-page .projects-page {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Projects → Contact */
+.home-page .contact-section {
+  margin-top: 40px;
+}
+
+/* Remove extra spacing inside Skills */
+.home-page .skills-section {
+  padding-bottom: 40px;
+}
