@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import "./Hero.css";
 
@@ -20,57 +23,128 @@ import {
   type HeroQuote,
 } from "../../services/heroQuotes.service";
 
+
 export default function Hero() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [roles, setRoles] = useState<HeroRole[]>([]);
-  const [quotes, setQuotes] = useState<HeroQuote[]>([]);
+
+  const [
+    profile,
+    setProfile,
+  ] =
+    useState<Profile | null>(
+      null
+    );
+
+  const [
+    roles,
+    setRoles,
+  ] =
+    useState<HeroRole[]>([]);
+
+  const [
+    quotes,
+    setQuotes,
+  ] =
+    useState<HeroQuote[]>([]);
+
+
+  /* ========================================================
+     LOAD HERO DATA
+  ======================================================== */
 
   useEffect(() => {
+
     async function loadHero() {
-      const [profileData, rolesData, quotesData] =
-        await Promise.all([
-          getProfile(),
-          getHeroRoles(),
-          getHeroQuotes(),
-        ]);
 
-      console.log("========== HERO DATA ==========");
-      console.log("Profile:", profileData);
-      console.log("Roles:", rolesData);
-      console.log("Quotes:", quotesData);
-      console.log("===============================");
+      try {
 
-      setProfile(profileData);
-      setRoles(rolesData);
-      setQuotes(quotesData);
+        const [
+          profileData,
+          rolesData,
+          quotesData,
+        ] =
+          await Promise.all([
+            getProfile(),
+            getHeroRoles(),
+            getHeroQuotes(),
+          ]);
+
+
+        setProfile(
+          profileData
+        );
+
+        setRoles(
+          rolesData
+        );
+
+        setQuotes(
+          quotesData
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Failed to load hero data:",
+          error
+        );
+
+      }
+
     }
 
-    loadHero();
+
+    void loadHero();
+
   }, []);
 
+
+  /* ========================================================
+     LOADING
+  ======================================================== */
+
   if (!profile) {
-  return (
-    <section className="hero-section">
-      <div
-        style={{
-          minHeight: "100vh",
-        }}
-      />
-    </section>
-  );
-}
+
+    return (
+      <section
+        className="hero-section hero-loading"
+      >
+
+        <div
+          className="hero-loading-space"
+        />
+
+      </section>
+    );
+
+  }
+
+
+  /* ========================================================
+     HERO
+  ======================================================== */
 
   return (
+
     <section className="hero-section">
+
       <div className="hero-container">
-        <HeroProfile profile={profile} />
+
+        <HeroProfile
+          profile={profile}
+        />
+
 
         <HeroContent
           profile={profile}
+
           roles={roles}
+
           quotes={quotes}
         />
+
       </div>
+
     </section>
+
   );
 }

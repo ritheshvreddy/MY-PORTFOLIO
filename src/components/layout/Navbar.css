@@ -1,166 +1,528 @@
-.navbar{
+/* ==========================================================
+   NAVBAR
+========================================================== */
 
-    position:fixed;
+.navbar {
+    position: fixed;
 
-    top:18px;
-    left:50%;
-    transform:translateX(-50%);
+    top: 18px;
+    left: 50%;
 
-    width:min(94%,1450px);
+    transform: translateX(-50%);
 
-    height:68px;
+    width: min(94%, 1450px);
 
-    padding:0 32px;
+    height: 68px;
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    padding: 0 32px;
 
-    border-radius:22px;
+    display: flex;
 
-    background:rgba(255,255,255,.12);
+    align-items: center;
 
-    backdrop-filter:blur(24px);
-    -webkit-backdrop-filter:blur(24px);
+    justify-content: space-between;
 
-    border:1px solid rgba(255,255,255,.18);
+    border-radius: 22px;
+
+    background:
+        rgba(255, 255, 255, .12);
+
+    backdrop-filter:
+        blur(24px);
+
+    -webkit-backdrop-filter:
+        blur(24px);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .18);
 
     box-shadow:
-        0 10px 35px rgba(0,0,0,.12);
+        0 10px 35px
+        rgba(0, 0, 0, .12);
 
-    z-index:1000;
+    z-index: 1000;
+
+    box-sizing: border-box;
 }
 
 
-/* Logo */
+/* ==========================================================
+   LOGO
+========================================================== */
 
-.logo{
+.logo {
+    text-decoration: none;
 
-    text-decoration:none;
+    font-size: 1.75rem;
 
-    font-size:1.75rem;
+    font-weight: 800;
 
-    font-weight:800;
+    letter-spacing: -1px;
 
-    letter-spacing:-1px;
+    color: var(--text-color);
 
-    color:var(--text-color);
-
-    transition:.3s;
+    transition:
+        opacity .3s ease;
 }
 
-.logo:hover{
-
-    opacity:.9;
-}
-
-
-/* Right Side */
-
-.navbar-right{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:28px;
+.logo:hover {
+    opacity: .9;
 }
 
 
-/* Navigation */
+/* ==========================================================
+   RIGHT SIDE
+========================================================== */
 
-.nav-links{
+.navbar-right {
+    display: flex;
 
-    display:flex;
+    align-items: center;
 
-    align-items:center;
-
-    gap:36px;
+    gap: 28px;
 }
 
-.nav-links a{
 
-    position:relative;
+/* ==========================================================
+   NAV LINKS
+========================================================== */
 
-    text-decoration:none;
+.nav-links {
+    display: flex;
 
-    color:var(--text-color);
+    align-items: center;
 
-    font-size:1rem;
+    gap: 36px;
+}
 
-    font-weight:600;
+.nav-links a {
+    position: relative;
 
-    opacity:.75;
+    text-decoration: none;
 
-    transition:.3s ease;
+    color: var(--text-color);
+
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    opacity: .75;
+
+    transition:
+        opacity .3s ease;
 }
 
 .nav-links a:hover,
-.nav-links a.active{
-
-    opacity:1;
+.nav-links a.active {
+    opacity: 1;
 }
 
 
-/* Underline */
+/* ==========================================================
+   ACTIVE UNDERLINE
+========================================================== */
 
-.nav-links a::after{
+.nav-links a::after {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    left: 0;
 
-    left:0;
-    bottom:-8px;
+    bottom: -8px;
 
-    width:0;
+    width: 0;
 
-    height:2px;
+    height: 2px;
 
-    border-radius:20px;
+    border-radius: 20px;
 
-    background:#3b82f6;
+    background: #3b82f6;
 
-    transition:.3s;
+    transition:
+        width .3s ease;
 }
 
 .nav-links a:hover::after,
-.nav-links a.active::after{
-
-    width:100%;
+.nav-links a.active::after {
+    width: 100%;
 }
 
 
-/* Theme Toggle */
+/* ==========================================================
+   THEME TOGGLE
+========================================================== */
 
-.theme-toggle{
+.theme-toggle {
+    position: static !important;
 
-    position:static !important;
-
-    margin-left:8px;
+    margin-left: 8px;
 }
 
 
-/* Responsive */
+/* ==========================================================
+   MOBILE MENU BUTTON
+========================================================== */
 
-@media(max-width:1100px){
+.mobile-menu-button {
+    display: none;
 
-    .navbar{
+    width: 42px;
 
-        width:95%;
+    height: 42px;
 
-        padding:0 22px;
+    padding: 0;
 
-        height:66px;
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, .16);
+
+    backdrop-filter:
+        blur(16px);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    cursor: pointer;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    transition:
+        background .25s ease,
+        transform .25s ease;
+}
+
+.mobile-menu-button:hover {
+    background:
+        rgba(255, 255, 255, .25);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* ==========================================================
+   HAMBURGER LINES
+========================================================== */
+
+.mobile-menu-button span {
+    display: block;
+
+    width: 19px;
+
+    height: 2.5px;
+
+    border-radius: 999px;
+
+    background: #0f172a;
+
+    opacity: 1;
+
+    flex-shrink: 0;
+
+    transition:
+        transform .25s ease,
+        opacity .25s ease;
+}
+
+
+/* ==========================================================
+   DARK THEME HAMBURGER
+========================================================== */
+
+body.dark .mobile-menu-button span {
+    background: #ffffff;
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1100px) {
+
+    .navbar {
+        width: 95%;
+
+        padding: 0 22px;
+
+        height: 66px;
     }
 
-    .logo{
-
-        font-size:1.5rem;
+    .logo {
+        font-size: 1.5rem;
     }
 
-    .nav-links{
-
-        display:none;
+    .nav-links {
+        display: none;
     }
+
+    .mobile-menu-button {
+        display: flex;
+    }
+
+    .navbar-right {
+        gap: 12px;
+    }
+
+    .theme-toggle {
+        margin-left: 0;
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        top: 12px;
+
+        width: calc(100% - 24px);
+
+        height: 60px;
+
+        padding:
+            0 14px 0 18px;
+
+        border-radius: 18px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+
+        letter-spacing: -.6px;
+
+        white-space: nowrap;
+    }
+
+    .navbar-right {
+        gap: 8px;
+    }
+
+    .mobile-menu-button {
+        width: 40px;
+
+        height: 40px;
+
+        border-radius: 11px;
+    }
+
+
+    /* ======================================================
+       MOBILE NAVIGATION DROPDOWN
+    ====================================================== */
+
+    .nav-links.mobile-open {
+        position: absolute;
+
+        top: calc(100% + 10px);
+
+        right: 0;
+
+        width: 210px;
+
+        padding: 12px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 4px;
+
+        border-radius: 18px;
+
+        background:
+            rgba(255, 255, 255, .90);
+
+        backdrop-filter:
+            blur(24px);
+
+        -webkit-backdrop-filter:
+            blur(24px);
+
+        border:
+            1px solid
+            rgba(255, 255, 255, .60);
+
+        box-shadow:
+            0 18px 45px
+            rgba(0, 0, 0, .16);
+
+        animation:
+            mobileMenuIn
+            .22s ease
+            both;
+    }
+
+    .nav-links.mobile-open a {
+        display: block;
+
+        padding: 12px 14px;
+
+        border-radius: 10px;
+
+        color: #111827;
+
+        opacity: 1;
+
+        font-size: .95rem;
+
+        font-weight: 600;
+
+        line-height: 1.3;
+    }
+
+    .nav-links.mobile-open a:hover {
+        background:
+            rgba(59, 130, 246, .10);
+    }
+
+    .nav-links.mobile-open a.active {
+        background:
+            rgba(59, 130, 246, .12);
+
+        color: #2563eb;
+    }
+
+    .nav-links.mobile-open a::after {
+        display: none;
+    }
+
+}
+
+
+/* ==========================================================
+   DARK MOBILE MENU
+========================================================== */
+
+@media (max-width: 768px) {
+
+    body.dark .nav-links.mobile-open {
+        background:
+            rgba(15, 23, 42, .95);
+
+        border:
+            1px solid
+            rgba(148, 163, 184, .16);
+
+        box-shadow:
+            0 20px 50px
+            rgba(0, 0, 0, .45);
+    }
+
+    body.dark .nav-links.mobile-open a {
+        color: #f8fafc;
+    }
+
+    body.dark .nav-links.mobile-open a:hover {
+        background:
+            rgba(96, 165, 250, .10);
+    }
+
+    body.dark .nav-links.mobile-open a.active {
+        background:
+            rgba(59, 130, 246, .18);
+
+        color: #93c5fd;
+    }
+
+    body.dark .mobile-menu-button {
+        background:
+            rgba(255, 255, 255, .10);
+    }
+
+    body.dark .mobile-menu-button:hover {
+        background:
+            rgba(255, 255, 255, .18);
+    }
+
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 420px) {
+
+    .navbar {
+        width: calc(100% - 18px);
+
+        padding:
+            0 10px 0 15px;
+
+        height: 58px;
+
+        border-radius: 17px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    .navbar-right {
+        gap: 6px;
+    }
+
+    .mobile-menu-button {
+        width: 38px;
+
+        height: 38px;
+
+        border-radius: 10px;
+    }
+
+    .mobile-menu-button span {
+        width: 18px;
+
+        height: 2.5px;
+    }
+
+    .nav-links.mobile-open {
+        width: 195px;
+
+        right: 0;
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE MENU ANIMATION
+========================================================== */
+
+@keyframes mobileMenuIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-8px)
+            scale(.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
 }
