@@ -1,6 +1,8 @@
 import "./Certifications.css";
 
-import type { Certification } from "../../types/certification";
+import type {
+  Certification,
+} from "../../types/certification";
 
 import {
   FaExternalLinkAlt,
@@ -14,22 +16,42 @@ interface CertificationCardProps {
 export default function CertificationCard({
   certification,
 }: CertificationCardProps) {
+
   return (
-    <article className="certification-card">
-      <div className="certification-content">
-        <p className="certification-provider">
+    <article className="course-certification-card">
+
+      <div className="course-certification-content">
+
+        {/* ORGANIZATION */}
+
+        <p className="course-certification-provider">
           {certification.organization}
         </p>
 
-        <h2>{certification.title}</h2>
 
-        <ul className="certification-points">
-          {certification.points.map((point) => (
-            <li key={point.id}>
-              {point.point}
-            </li>
-          ))}
+        {/* TITLE */}
+
+        <h2>
+          {certification.title}
+        </h2>
+
+
+        {/* POINTS */}
+
+        <ul className="course-certification-points">
+
+          {certification.points.map(
+            (point) => (
+              <li key={point.id}>
+                {point.point}
+              </li>
+            )
+          )}
+
         </ul>
+
+
+        {/* CREDENTIAL */}
 
         {certification.credential_url && (
           <a
@@ -39,15 +61,19 @@ export default function CertificationCard({
             className="credential-btn"
           >
             View Credential
-
             <FaArrowRight />
           </a>
         )}
+
       </div>
 
-      <div className="certification-icon">
+
+      {/* ICON */}
+
+      <div className="course-certification-icon">
         <FaExternalLinkAlt />
       </div>
+
     </article>
   );
 }

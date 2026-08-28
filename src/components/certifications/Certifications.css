@@ -4,11 +4,8 @@
 
 .certifications-page {
     width: min(1250px, 92%);
-
     margin: 0 auto;
-
     padding: 140px 0 120px;
-
     box-sizing: border-box;
 }
 
@@ -19,49 +16,28 @@
 
 .certifications-header {
     width: 100%;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     text-align: center;
-
     margin: 0 auto 90px;
-
-    gap: 0;
 }
 
 .certifications-header h1 {
     margin: 0 0 18px;
-
-    color: #0f172a;
-
     font-size: 2.7rem;
-
     font-weight: 800;
-
     line-height: 1.2;
-
     text-align: center;
 }
 
 .certifications-header p {
     width: 100%;
-
     max-width: 760px;
-
     margin: 0 auto;
-
-    color: #475569;
-
     font-size: 1.08rem;
-
     line-height: 1.8;
-
     text-align: center;
 }
 
@@ -76,19 +52,13 @@
 
 .achievement-section {
     margin-top: 40px;
-
     margin-bottom: 40px;
 }
 
 .section-title {
     margin: 0 0 35px;
-
-    color: #0f172a;
-
     font-size: 1.6rem;
-
     font-weight: 800;
-
     line-height: 1.3;
 }
 
@@ -99,9 +69,7 @@
 
 .course-list {
     display: flex;
-
     flex-direction: column;
-
     gap: 34px;
 }
 
@@ -112,51 +80,38 @@
 
 .achievement-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px;
 }
 
 
 /* ==========================================================
    CERTIFICATION CARD
-   SAME GLASS STYLE AS ACHIEVEMENT CARD
-   KEEPING FULL-WIDTH CERTIFICATION SIZE
-========================================================== */
-
-/* ==========================================================
-   CERTIFICATION CARD
-   SAME MIRROR / GLASS EFFECT AS ACHIEVEMENT CARD
-   SIZE AND LAYOUT PRESERVED
+   SAME VISUAL STYLE AS ACHIEVEMENT CARD
+   SIZE/LAYOUT REMAINED LARGE + FULL WIDTH
 ========================================================== */
 
 .certification-card {
     position: relative;
-
     overflow: hidden;
 
     width: 100%;
-
+    min-height: 360px;
     box-sizing: border-box;
 
     border-radius: 28px;
 
+    /* Keep certification spacing */
     padding: 36px 40px;
 
-    min-height: 360px;
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
 
     gap: 40px;
 
+    /* SAME AS ACHIEVEMENT CARD */
     backdrop-filter: blur(18px);
-
     -webkit-backdrop-filter: blur(18px);
 
     transition:
@@ -167,12 +122,12 @@
 
 
 /* ==========================================================
-   LIGHT MODE
+   CERTIFICATION CARD - LIGHT
+   COPIED VISUAL TREATMENT FROM ACHIEVEMENT CARD
 ========================================================== */
 
 body.light .certification-card {
-    background:
-        rgba(255, 255, 255, .58);
+    background: rgba(255, 255, 255, .58);
 
     border:
         1px solid
@@ -185,37 +140,11 @@ body.light .certification-card {
 
 
 /* ==========================================================
-   LIGHT MIRROR EFFECT
-   SAME AS ACHIEVEMENT CARD
-========================================================== */
-
-body.light .certification-card::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 1;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, .25),
-            rgba(96, 165, 250, .08)
-        );
-}
-
-
-/* ==========================================================
-   DARK MODE
+   CERTIFICATION CARD - DARK
 ========================================================== */
 
 body.dark .certification-card {
-    background:
-        rgba(10, 18, 40, .72);
+    background: rgba(10, 18, 40, .72);
 
     border:
         1px solid
@@ -224,36 +153,35 @@ body.dark .certification-card {
     box-shadow:
         0 25px 55px
         rgba(0, 0, 0, .45);
+
+    color: #f8fafc;
 }
 
 
 /* ==========================================================
-   DARK MIRROR EFFECT
-   SAME AS ACHIEVEMENT CARD
+   NO EXTRA WHITE OVERLAY
+   IMPORTANT:
+   Achievement cards do NOT have an opaque overlay.
+   Keep certification transparent so the background shows.
 ========================================================== */
 
-body.dark .certification-card::before {
-    content: "";
+.certification-card::before,
+.certification-card::after {
+    display: none;
+}
 
-    position: absolute;
 
-    inset: 0;
+/* ==========================================================
+   CERTIFICATION HOVER
+   SAME AS ACHIEVEMENT
+========================================================== */
 
-    z-index: 1;
+.certification-card:hover {
+    transform: translateY(-8px);
 
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(96, 165, 250, .12),
-            transparent 45%
-        ),
-        radial-gradient(
-            circle at bottom left,
-            rgba(147, 197, 253, .08),
-            transparent 45%
-        );
+    box-shadow:
+        0 30px 70px
+        rgba(37, 99, 235, .22);
 }
 
 
@@ -263,11 +191,9 @@ body.dark .certification-card::before {
 
 .certification-content {
     flex: 1;
-
     min-width: 0;
 
     position: relative;
-
     z-index: 2;
 }
 
@@ -298,13 +224,15 @@ body.dark .certification-card::before {
 .certification-content h2 {
     margin: 0 0 22px;
 
-    color: #0f172a;
-
     font-size: 2rem;
 
     font-weight: 800;
 
     line-height: 1.3;
+}
+
+body.light .certification-content h2 {
+    color: #0f172a;
 }
 
 body.dark .certification-content h2 {
@@ -320,20 +248,22 @@ body.dark .certification-content h2 {
     padding-left: 22px;
 
     margin: 0 0 28px;
-
-    color: #475569;
 }
 
 .certification-points li {
     margin-bottom: 12px;
 
-    line-height: 1.9;
-
     font-size: 1rem;
+
+    line-height: 1.9;
 }
 
 .certification-points li:last-child {
     margin-bottom: 0;
+}
+
+body.light .certification-points {
+    color: #475569;
 }
 
 body.dark .certification-points {
@@ -347,21 +277,17 @@ body.dark .certification-points {
 
 .certification-icon {
     width: 95px;
-
     height: 95px;
 
     flex-shrink: 0;
 
     position: relative;
-
     z-index: 2;
 
     border-radius: 24px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     font-size: 2rem;
@@ -370,36 +296,18 @@ body.dark .certification-points {
 }
 
 body.light .certification-icon {
-    background:
-        rgba(37, 99, 235, .08);
+    background: rgba(37, 99, 235, .08);
 }
 
 body.dark .certification-icon {
-    background:
-        rgba(37, 99, 235, .16);
-
+    background: rgba(37, 99, 235, .16);
     color: #93c5fd;
 }
 
 
 /* ==========================================================
-   HOVER
-   SAME FEEL AS ACHIEVEMENT
-========================================================== */
-
-.certification-card:hover {
-    transform:
-        translateY(-8px);
-
-    box-shadow:
-        0 30px 70px
-        rgba(37, 99, 235, .22);
-}
-
-
-/* ==========================================================
    ACHIEVEMENT CARD
-   ORIGINAL STYLE
+   THIS IS THE REFERENCE STYLE
 ========================================================== */
 
 .achievement-card {
@@ -423,12 +331,11 @@ body.dark .certification-icon {
 
 
 /* ==========================================================
-   LIGHT ACHIEVEMENT
+   ACHIEVEMENT LIGHT
 ========================================================== */
 
 body.light .achievement-card {
-    background:
-        rgba(255, 255, 255, .58);
+    background: rgba(255, 255, 255, .58);
 
     border:
         1px solid
@@ -463,12 +370,11 @@ body.light .achievement-card::before {
 
 
 /* ==========================================================
-   DARK ACHIEVEMENT
+   ACHIEVEMENT DARK
 ========================================================== */
 
 body.dark .achievement-card {
-    background:
-        rgba(10, 18, 40, .72);
+    background: rgba(10, 18, 40, .72);
 
     border:
         1px solid
@@ -483,7 +389,7 @@ body.dark .achievement-card {
 
 
 /* ==========================================================
-   DARK ACHIEVEMENT MIRROR
+   ACHIEVEMENT DARK MIRROR
 ========================================================== */
 
 body.dark .achievement-card::before {
@@ -514,8 +420,7 @@ body.dark .achievement-card::before {
 ========================================================== */
 
 .achievement-card:hover {
-    transform:
-        translateY(-8px);
+    transform: translateY(-8px);
 
     box-shadow:
         0 30px 70px
@@ -529,7 +434,6 @@ body.dark .achievement-card::before {
 
 .achievement-card > * {
     position: relative;
-
     z-index: 2;
 }
 
@@ -560,13 +464,15 @@ body.dark .achievement-card::before {
 .achievement-card h3 {
     margin: 0 0 18px;
 
-    color: #0f172a;
-
     font-size: 1.55rem;
 
     font-weight: 800;
 
     line-height: 1.35;
+}
+
+body.light .achievement-card h3 {
+    color: #0f172a;
 }
 
 body.dark .achievement-card h3 {
@@ -583,11 +489,13 @@ body.dark .achievement-card h3 {
 
     min-height: 120px;
 
-    color: #475569;
-
     line-height: 1.9;
 
     opacity: .88;
+}
+
+body.light .achievement-description {
+    color: #475569;
 }
 
 body.dark .achievement-description {
@@ -627,8 +535,7 @@ body.dark .achievement-description {
 .credential-btn:hover {
     background: #1d4ed8;
 
-    transform:
-        translateY(-3px);
+    transform: translateY(-3px);
 
     box-shadow:
         0 12px 30px
@@ -641,8 +548,7 @@ body.dark .achievement-description {
 }
 
 .credential-btn:hover svg {
-    transform:
-        translateX(5px);
+    transform: translateX(5px);
 }
 
 
@@ -658,15 +564,12 @@ body.dark .achievement-description {
 
     .certification-card {
         flex-direction: column;
-
         align-items: flex-start;
     }
 
     .certification-icon {
         width: 72px;
-
         height: 72px;
-
         font-size: 1.6rem;
     }
 }
@@ -679,8 +582,7 @@ body.dark .achievement-description {
 @media (max-width: 900px) {
 
     .certifications-page {
-        padding:
-            120px 0 90px;
+        padding: 120px 0 90px;
     }
 
     .certifications-header {
@@ -722,14 +624,12 @@ body.dark .achievement-description {
 
     .section-title {
         font-size: 1.5rem;
-
         margin-bottom: 28px;
     }
 
     .certification-card,
     .achievement-card {
         padding: 22px;
-
         border-radius: 22px;
     }
 
@@ -747,7 +647,6 @@ body.dark .achievement-description {
 
     .achievement-description {
         min-height: auto;
-
         font-size: .95rem;
     }
 
@@ -758,8 +657,16 @@ body.dark .achievement-description {
 
 
 /* ==========================================================
-   DARK MODE TEXT
+   PAGE HEADER TEXT
 ========================================================== */
+
+body.light .certifications-header h1 {
+    color: #0f172a;
+}
+
+body.light .certifications-header p {
+    color: #475569;
+}
 
 body.dark .certifications-header h1 {
     color: #ffffff;
@@ -769,15 +676,345 @@ body.dark .certifications-header p {
     color: #cbd5e1;
 }
 
-
 /* ==========================================================
-   LIGHT MODE TEXT
+   COURSE CERTIFICATION CARD
+   UNIQUE CLASS - SAME VISUAL STYLE AS ACHIEVEMENT CARD
 ========================================================== */
 
-body.light .certifications-header h1 {
+.course-certification-card {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+
+    min-height: 360px;
+
+    box-sizing: border-box;
+
+    border-radius: 28px;
+
+    padding: 36px 40px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 40px;
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+    isolation: isolate;
+}
+
+
+/* ==========================================================
+   LIGHT
+   EXACT SAME BASE STYLE AS ACHIEVEMENT
+========================================================== */
+
+body.light .course-certification-card {
+    background: rgba(255, 255, 255, .58) !important;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .65) !important;
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, .08) !important;
+}
+
+
+/* ==========================================================
+   LIGHT MIRROR
+   SAME AS ACHIEVEMENT CARD
+========================================================== */
+
+body.light .course-certification-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, .25),
+            rgba(96, 165, 250, .08)
+        );
+}
+
+
+/* ==========================================================
+   DARK
+   EXACT SAME BASE STYLE AS ACHIEVEMENT
+========================================================== */
+
+body.dark .course-certification-card {
+    background: rgba(10, 18, 40, .72) !important;
+
+    border:
+        1px solid
+        rgba(96, 165, 250, .15) !important;
+
+    box-shadow:
+        0 25px 55px
+        rgba(0, 0, 0, .45) !important;
+
+    color: #f8fafc;
+}
+
+
+/* ==========================================================
+   DARK MIRROR
+========================================================== */
+
+body.dark .course-certification-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(96, 165, 250, .12),
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(147, 197, 253, .08),
+            transparent 45%
+        );
+}
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.course-certification-content {
+    flex: 1;
+
+    min-width: 0;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* ==========================================================
+   PROVIDER
+========================================================== */
+
+.course-certification-provider {
+    margin: 0 0 14px;
+
+    color: #3b82f6;
+
+    font-size: .82rem;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+}
+
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.course-certification-content h2 {
+    margin: 0 0 22px;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+
+    line-height: 1.3;
+}
+
+body.light .course-certification-content h2 {
     color: #0f172a;
 }
 
-body.light .certifications-header p {
+body.dark .course-certification-content h2 {
+    color: #ffffff;
+}
+
+
+/* ==========================================================
+   POINTS
+========================================================== */
+
+.course-certification-points {
+    padding-left: 22px;
+
+    margin: 0 0 28px;
+}
+
+.course-certification-points li {
+    margin-bottom: 12px;
+
+    font-size: 1rem;
+
+    line-height: 1.9;
+}
+
+.course-certification-points li:last-child {
+    margin-bottom: 0;
+}
+
+body.light .course-certification-points {
     color: #475569;
+}
+
+body.dark .course-certification-points {
+    color: #cbd5e1;
+}
+
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.course-certification-icon {
+    width: 95px;
+
+    height: 95px;
+
+    flex-shrink: 0;
+
+    position: relative;
+
+    z-index: 2;
+
+    border-radius: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 2rem;
+
+    color: #2563eb;
+}
+
+body.light .course-certification-icon {
+    background:
+        rgba(37, 99, 235, .08);
+}
+
+body.dark .course-certification-icon {
+    background:
+        rgba(37, 99, 235, .16);
+
+    color: #93c5fd;
+}
+
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.course-certification-card:hover {
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 30px 70px
+        rgba(37, 99, 235, .22) !important;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 1100px) {
+
+    .course-certification-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .course-certification-icon {
+        width: 72px;
+
+        height: 72px;
+
+        font-size: 1.6rem;
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .course-certification-card {
+        padding: 28px;
+    }
+
+    .course-certification-content h2 {
+        font-size: 1.7rem;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .course-certification-card {
+        padding: 22px;
+
+        border-radius: 22px;
+    }
+
+    .course-certification-content h2 {
+        font-size: 1.45rem;
+    }
+
+    .course-certification-points li {
+        font-size: .95rem;
+    }
+
+    .course-certification-icon {
+        display: none;
+    }
+}
+
+/* ==========================================================
+   DARK MODE - MAIN CERTIFICATIONS HEADING
+========================================================== */
+
+body.dark .certifications-header h1 {
+    color: #ffffff !important;
+}
+
+body.dark .certifications-header p {
+    color: #cbd5e1 !important;
 }
