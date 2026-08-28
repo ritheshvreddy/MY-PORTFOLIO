@@ -8,163 +8,317 @@ import type {
   FullRole,
 } from "../types/roles";
 
+
 /* ======================================================
    ROLES - ADMIN
 ====================================================== */
 
-/* GET ALL ROLES */
+
+/* ======================================================
+   GET ALL ROLES
+====================================================== */
 
 export async function getRoles(): Promise<Role[]> {
-  const { data, error } = await supabase
-    .from("roles")
-    .select("*")
-    .order("display_order", {
-      ascending: true,
-    });
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .select("*")
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data ?? [];
+
+  return (
+    data ?? []
+  ) as Role[];
+
 }
 
 
-/* GET PUBLISHED ROLES - PUBLIC WEBSITE */
+/* ======================================================
+   GET PUBLISHED ROLES - PUBLIC WEBSITE
+====================================================== */
 
 export async function getPublishedRoles(): Promise<Role[]> {
-  const { data, error } = await supabase
-    .from("roles")
-    .select("*")
-    .eq("is_published", true)
-    .order("display_order", {
-      ascending: true,
-    });
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .select("*")
+      .eq(
+        "published",
+        true
+      )
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data ?? [];
+
+  return (
+    data ?? []
+  ) as Role[];
+
 }
 
 
-/* GET FEATURED ROLES - HOME PAGE */
+/* ======================================================
+   GET FEATURED ROLES - HOME PAGE
+====================================================== */
 
 export async function getFeaturedRoles(): Promise<Role[]> {
-  const { data, error } = await supabase
-    .from("roles")
-    .select("*")
-    .eq("is_published", true)
-    .eq("featured", true)
-    .order("display_order", {
-      ascending: true,
-    })
-    .limit(2);
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .select("*")
+      .eq(
+        "published",
+        true
+      )
+      .eq(
+        "featured",
+        true
+      )
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      )
+      .limit(2);
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data ?? [];
+
+  return (
+    data ?? []
+  ) as Role[];
+
 }
 
 
-/* GET ROLE BY ID */
+/* ======================================================
+   GET ROLE BY ID
+====================================================== */
 
 export async function getRoleById(
   id: string
 ): Promise<Role | null> {
-  const { data, error } = await supabase
-    .from("roles")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .select("*")
+      .eq(
+        "id",
+        id
+      )
+      .maybeSingle();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as Role | null;
+
 }
 
 
-/* CREATE ROLE */
+/* ======================================================
+   CREATE ROLE
+====================================================== */
 
 export async function createRole(
   input: RoleInput
 ): Promise<Role> {
-  const { data, error } = await supabase
-    .from("roles")
-    .insert(input)
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .insert(
+        input
+      )
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as Role;
+
 }
 
 
-/* UPDATE ROLE */
+/* ======================================================
+   UPDATE ROLE
+====================================================== */
 
 export async function updateRole(
   id: string,
   input: Partial<RoleInput>
 ): Promise<Role> {
-  const { data, error } = await supabase
-    .from("roles")
-    .update(input)
-    .eq("id", id)
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .update(
+        input
+      )
+      .eq(
+        "id",
+        id
+      )
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as Role;
+
 }
 
 
-/* DELETE ROLE */
+/* ======================================================
+   DELETE ROLE
+====================================================== */
 
 export async function deleteRole(
   id: string
 ): Promise<void> {
-  const { error } = await supabase
-    .from("roles")
-    .delete()
-    .eq("id", id);
+
+  const {
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
+
 }
 
 
-/* UPDATE PUBLISH STATUS */
+/* ======================================================
+   UPDATE PUBLISH STATUS
+====================================================== */
 
 export async function updateRolePublished(
   id: string,
-  is_published: boolean
+  published: boolean
 ): Promise<Role> {
-  const { data, error } = await supabase
-    .from("roles")
-    .update({
-      is_published,
-    })
-    .eq("id", id)
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("roles")
+      .update({
+
+        published,
+
+      })
+      .eq(
+        "id",
+        id
+      )
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as Role;
+
 }
 
 
@@ -178,19 +332,39 @@ export async function updateRolePublished(
 export async function getResponsibilities(
   roleId: string
 ): Promise<RoleResponsibility[]> {
-  const { data, error } = await supabase
-    .from("role_responsibilities")
-    .select("*")
-    .eq("role_id", roleId)
-    .order("display_order", {
-      ascending: true,
-    });
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_responsibilities")
+      .select("*")
+      .eq(
+        "role_id",
+        roleId
+      )
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data ?? [];
+
+  return (
+    data ?? []
+  ) as RoleResponsibility[];
+
 }
 
 
@@ -201,21 +375,40 @@ export async function createResponsibility(
   responsibility: string,
   displayOrder: number
 ): Promise<RoleResponsibility> {
-  const { data, error } = await supabase
-    .from("role_responsibilities")
-    .insert({
-      role_id: roleId,
-      responsibility,
-      display_order: displayOrder,
-    })
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_responsibilities")
+      .insert({
+
+        role_id:
+          roleId,
+
+        responsibility:
+          responsibility,
+
+        display_order:
+          displayOrder,
+
+      })
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as RoleResponsibility;
+
 }
 
 
@@ -226,21 +419,41 @@ export async function updateResponsibility(
   responsibility: string,
   displayOrder: number
 ): Promise<RoleResponsibility> {
-  const { data, error } = await supabase
-    .from("role_responsibilities")
-    .update({
-      responsibility,
-      display_order: displayOrder,
-    })
-    .eq("id", id)
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_responsibilities")
+      .update({
+
+        responsibility:
+          responsibility,
+
+        display_order:
+          displayOrder,
+
+      })
+      .eq(
+        "id",
+        id
+      )
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as RoleResponsibility;
+
 }
 
 
@@ -249,14 +462,27 @@ export async function updateResponsibility(
 export async function deleteResponsibility(
   id: string
 ): Promise<void> {
-  const { error } = await supabase
-    .from("role_responsibilities")
-    .delete()
-    .eq("id", id);
+
+  const {
+    error,
+  } =
+    await supabase
+      .from("role_responsibilities")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
+
 }
 
 
@@ -270,19 +496,39 @@ export async function deleteResponsibility(
 export async function getRoleSkills(
   roleId: string
 ): Promise<RoleSkill[]> {
-  const { data, error } = await supabase
-    .from("role_skills")
-    .select("*")
-    .eq("role_id", roleId)
-    .order("display_order", {
-      ascending: true,
-    });
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_skills")
+      .select("*")
+      .eq(
+        "role_id",
+        roleId
+      )
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data ?? [];
+
+  return (
+    data ?? []
+  ) as RoleSkill[];
+
 }
 
 
@@ -293,21 +539,40 @@ export async function createRoleSkill(
   skill: string,
   displayOrder: number
 ): Promise<RoleSkill> {
-  const { data, error } = await supabase
-    .from("role_skills")
-    .insert({
-      role_id: roleId,
-      skill,
-      display_order: displayOrder,
-    })
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_skills")
+      .insert({
+
+        role_id:
+          roleId,
+
+        skill:
+          skill,
+
+        display_order:
+          displayOrder,
+
+      })
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as RoleSkill;
+
 }
 
 
@@ -318,21 +583,41 @@ export async function updateRoleSkill(
   skill: string,
   displayOrder: number
 ): Promise<RoleSkill> {
-  const { data, error } = await supabase
-    .from("role_skills")
-    .update({
-      skill,
-      display_order: displayOrder,
-    })
-    .eq("id", id)
-    .select()
-    .single();
+
+  const {
+    data,
+    error,
+  } =
+    await supabase
+      .from("role_skills")
+      .update({
+
+        skill:
+          skill,
+
+        display_order:
+          displayOrder,
+
+      })
+      .eq(
+        "id",
+        id
+      )
+      .select()
+      .single();
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
 
-  return data;
+
+  return data as RoleSkill;
+
 }
 
 
@@ -341,14 +626,27 @@ export async function updateRoleSkill(
 export async function deleteRoleSkill(
   id: string
 ): Promise<void> {
-  const { error } = await supabase
-    .from("role_skills")
-    .delete()
-    .eq("id", id);
+
+  const {
+    error,
+  } =
+    await supabase
+      .from("role_skills")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
 
   if (error) {
-    throw new Error(error.message);
+
+    throw new Error(
+      error.message
+    );
+
   }
+
 }
 
 
@@ -356,31 +654,53 @@ export async function deleteRoleSkill(
    FULL ROLES - PUBLIC WEBSITE
 ====================================================== */
 
-export async function getFullRoles(): Promise<
-  FullRole[]
-> {
+export async function getFullRoles(): Promise<FullRole[]> {
+
   const roles =
     await getPublishedRoles();
 
-  const fullRoles = await Promise.all(
-    roles.map(async (role) => {
-      const [
-        responsibilities,
-        skills,
-      ] = await Promise.all([
-        getResponsibilities(role.id),
-        getRoleSkills(role.id),
-      ]);
 
-      return {
-        ...role,
-        responsibilities,
-        skills,
-      };
-    })
-  );
+  const fullRoles =
+    await Promise.all(
+
+      roles.map(
+        async (role) => {
+
+          const [
+            responsibilities,
+            skills,
+          ] =
+            await Promise.all([
+
+              getResponsibilities(
+                role.id
+              ),
+
+              getRoleSkills(
+                role.id
+              ),
+
+            ]);
+
+
+          return {
+
+            ...role,
+
+            responsibilities,
+
+            skills,
+
+          } as FullRole;
+
+        }
+      )
+
+    );
+
 
   return fullRoles;
+
 }
 
 
@@ -388,29 +708,52 @@ export async function getFullRoles(): Promise<
    FEATURED FULL ROLES - HOME PAGE
 ====================================================== */
 
-export async function getFeaturedFullRoles(): Promise<
-  FullRole[]
-> {
+export async function getFeaturedFullRoles():
+  Promise<FullRole[]> {
+
   const roles =
     await getFeaturedRoles();
 
-  const fullRoles = await Promise.all(
-    roles.map(async (role) => {
-      const [
-        responsibilities,
-        skills,
-      ] = await Promise.all([
-        getResponsibilities(role.id),
-        getRoleSkills(role.id),
-      ]);
 
-      return {
-        ...role,
-        responsibilities,
-        skills,
-      };
-    })
-  );
+  const fullRoles =
+    await Promise.all(
+
+      roles.map(
+        async (role) => {
+
+          const [
+            responsibilities,
+            skills,
+          ] =
+            await Promise.all([
+
+              getResponsibilities(
+                role.id
+              ),
+
+              getRoleSkills(
+                role.id
+              ),
+
+            ]);
+
+
+          return {
+
+            ...role,
+
+            responsibilities,
+
+            skills,
+
+          } as FullRole;
+
+        }
+      )
+
+    );
+
 
   return fullRoles;
+
 }
