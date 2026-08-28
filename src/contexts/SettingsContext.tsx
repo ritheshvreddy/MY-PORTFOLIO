@@ -16,6 +16,14 @@ import {
 
 
 /* =========================================================
+   CONSTANTS
+========================================================= */
+
+const SETTINGS_CACHE_KEY =
+  "portfolio_site_settings";
+
+
+/* =========================================================
    CONTEXT TYPE
 ========================================================= */
 
@@ -39,6 +47,62 @@ const SettingsContext =
 
 
 /* =========================================================
+   CACHE HELPERS
+========================================================= */
+
+function getCachedSettings():
+  SiteSettings | null {
+
+  try {
+
+    const cached =
+      sessionStorage.getItem(
+        SETTINGS_CACHE_KEY
+      );
+
+    if (!cached) {
+      return null;
+    }
+
+    return JSON.parse(
+      cached
+    ) as SiteSettings;
+
+  } catch (error) {
+
+    console.warn(
+      "Unable to read cached settings:",
+      error
+    );
+
+    return null;
+  }
+}
+
+
+function cacheSettings(
+  settings: SiteSettings
+) {
+
+  try {
+
+    sessionStorage.setItem(
+      SETTINGS_CACHE_KEY,
+      JSON.stringify(settings)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "Unable to cache settings:",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
    SETTINGS PROVIDER
 ========================================================= */
 
@@ -48,12 +112,16 @@ export function SettingsProvider({
   children: ReactNode;
 }) {
 
+  const cachedSettings =
+    getCachedSettings();
+
+
   const [
     settings,
     setSettings,
   ] =
     useState<SiteSettings | null>(
-      null
+      cachedSettings
     );
 
 
@@ -61,35 +129,47 @@ export function SettingsProvider({
     loading,
     setLoading,
   ] =
-    useState(true);
+    useState(
+      !cachedSettings
+    );
 
 
   /* =======================================================
      LOAD SETTINGS
   ======================================================= */
 
-  async function loadSettings() {
+  async function loadSettings(
+    showLoading = true
+  ) {
 
     try {
 
-      setLoading(true);
+      if (showLoading) {
+        setLoading(true);
+      }
+
 
       const data =
         await getSiteSettings();
 
-      setSettings(
-        data
-      );
+
+      if (data) {
+
+        setSettings(
+          data
+        );
+
+        cacheSettings(
+          data
+        );
+
+      }
 
     } catch (error) {
 
       console.error(
         "Error loading site settings:",
         error
-      );
-
-      setSettings(
-        null
       );
 
     } finally {
@@ -102,13 +182,21 @@ export function SettingsProvider({
 
 
   /* =======================================================
-     LOAD ON START
+     INITIAL LOAD
   ======================================================= */
 
   useEffect(() => {
 
-    void loadSettings();
+    /*
+      If cached settings exist, show them immediately
+      and refresh silently in the background.
+    */
 
+    void loadSettings(
+      !cachedSettings
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -118,9 +206,7 @@ export function SettingsProvider({
 
   useEffect(() => {
 
-    if (
-      !settings
-    ) {
+    if (!settings) {
       return;
     }
 
@@ -129,9 +215,7 @@ export function SettingsProvider({
        TITLE
     ===================================================== */
 
-    if (
-      settings.seo_title
-    ) {
+    if (settings.seo_title) {
 
       document.title =
         settings.seo_title;
@@ -191,28 +275,35 @@ export function SettingsProvider({
 
 
   /* =======================================================
+     REFRESH
+  ======================================================= */
+
+  async function refresh() {
+
+    await loadSettings(
+      false
+    );
+
+  }
+
+
+  /* =======================================================
      PROVIDER
   ======================================================= */
 
   return (
-
     <SettingsContext.Provider
       value={{
         settings,
-
         loading,
-
-        refresh:
-          loadSettings,
+        refresh,
       }}
     >
 
       {children}
 
     </SettingsContext.Provider>
-
   );
-
 }
 
 

@@ -14,7 +14,8 @@ import type {
    CONSTANTS
 ========================================================= */
 
-const PROJECT_IMAGE_BUCKET = "portfolio";
+const PROJECT_IMAGE_BUCKET =
+  "portfolio";
 
 
 /* =========================================================
@@ -28,6 +29,66 @@ export type ProjectInput =
     "created_at" |
     "updated_at"
   >;
+
+
+/* =========================================================
+   NORMALIZE PROJECT
+========================================================= */
+
+function normalizeProject(
+  project: Project
+): Project {
+
+  return {
+
+    ...project,
+
+    cover_image:
+      project.cover_image ??
+      null,
+
+    github_url:
+      project.github_url ??
+      null,
+
+    live_url:
+      project.live_url ??
+      null,
+
+    case_study_url:
+      project.case_study_url ??
+      null,
+
+    ppt_url:
+      project.ppt_url ??
+      null,
+
+    video_url:
+      project.video_url ??
+      null,
+
+    date:
+      project.date ??
+      null,
+
+    role:
+      project.role ??
+      null,
+
+    show_case_study:
+      project.show_case_study ??
+      false,
+
+    show_github_button:
+      project.show_github_button ??
+      true,
+
+    show_live_demo_button:
+      project.show_live_demo_button ??
+      true,
+
+  };
+}
 
 
 /* =========================================================
@@ -60,64 +121,14 @@ export async function getProjects():
     );
 
     throw error;
-
   }
 
 
   return (
     (data ?? []) as Project[]
   ).map(
-    (project) => ({
-
-      ...project,
-
-      cover_image:
-        project.cover_image ??
-        null,
-
-      github_url:
-        project.github_url ??
-        null,
-
-      live_url:
-        project.live_url ??
-        null,
-
-      case_study_url:
-        project.case_study_url ??
-        null,
-
-      ppt_url:
-        project.ppt_url ??
-        null,
-
-      video_url:
-        project.video_url ??
-        null,
-
-      date:
-        project.date ??
-        null,
-
-      role:
-        project.role ??
-        null,
-
-      show_case_study:
-        project.show_case_study ??
-        false,
-
-      show_github_button:
-        project.show_github_button ??
-        true,
-
-      show_live_demo_button:
-        project.show_live_demo_button ??
-        true,
-
-    })
+    normalizeProject
   );
-
 }
 
 
@@ -135,7 +146,9 @@ export async function createProject(
   } =
     await supabase
       .from("projects")
-      .insert(project)
+      .insert(
+        project
+      )
       .select("*")
       .single();
 
@@ -148,12 +161,10 @@ export async function createProject(
     );
 
     throw error;
-
   }
 
 
   return data as Project;
-
 }
 
 
@@ -172,7 +183,9 @@ export async function updateProject(
   } =
     await supabase
       .from("projects")
-      .update(project)
+      .update(
+        project
+      )
       .eq(
         "id",
         id
@@ -189,12 +202,10 @@ export async function updateProject(
     );
 
     throw error;
-
   }
 
 
   return data as Project;
-
 }
 
 
@@ -226,14 +237,12 @@ export async function deleteProject(
     );
 
     throw error;
-
   }
-
 }
 
 
 /* =========================================================
-   GET TECHNOLOGIES
+   GET PROJECT TECHNOLOGIES - SINGLE PROJECT
 ========================================================= */
 
 async function getProjectTechnologies(
@@ -269,7 +278,6 @@ async function getProjectTechnologies(
     );
 
     return [];
-
   }
 
 
@@ -286,12 +294,11 @@ async function getProjectTechnologies(
 
     })
   );
-
 }
 
 
 /* =========================================================
-   GET HIGHLIGHTS
+   GET PROJECT HIGHLIGHTS - SINGLE PROJECT
 ========================================================= */
 
 async function getProjectHighlights(
@@ -327,7 +334,6 @@ async function getProjectHighlights(
     );
 
     return [];
-
   }
 
 
@@ -344,12 +350,11 @@ async function getProjectHighlights(
 
     })
   );
-
 }
 
 
 /* =========================================================
-   GET PROJECT GALLERY
+   GET PROJECT GALLERY - SINGLE PROJECT
 ========================================================= */
 
 async function getProjectGallery(
@@ -385,17 +390,8 @@ async function getProjectGallery(
     );
 
     return [];
-
   }
 
-
-  /*
-    Database column:
-    image_path
-
-    Frontend property:
-    image_url
-  */
 
   return (
     data ?? []
@@ -421,12 +417,11 @@ async function getProjectGallery(
 
     })
   );
-
 }
 
 
 /* =========================================================
-   GET CASE STUDY
+   GET CASE STUDY - SINGLE PROJECT
 ========================================================= */
 
 async function getProjectCaseStudy(
@@ -457,14 +452,11 @@ async function getProjectCaseStudy(
     );
 
     return null;
-
   }
 
 
   if (!data) {
-
     return null;
-
   }
 
 
@@ -511,12 +503,12 @@ async function getProjectCaseStudy(
       data.updated_at,
 
   };
-
 }
 
 
 /* =========================================================
-   GET FULL PROJECT
+   GET FULL PROJECT - SINGLE PROJECT
+   Used by project details/admin.
 ========================================================= */
 
 export async function getFullProject(
@@ -564,12 +556,386 @@ export async function getFullProject(
       caseStudy,
 
   };
+}
 
+
+/* =========================================================
+   BATCH BUILD FULL PROJECTS
+========================================================= */
+
+async function buildFullProjects(
+  projects: Project[]
+): Promise<FullProject[]> {
+
+  if (!projects.length) {
+    return [];
+  }
+
+
+  const projectIds =
+    projects.map(
+      (project) =>
+        project.id
+    );
+
+
+  /*
+    Fetch every related dataset in ONE query
+    each instead of FOUR queries per project.
+  */
+
+  const [
+    technologiesResult,
+    highlightsResult,
+    galleryResult,
+    caseStudiesResult,
+  ] =
+    await Promise.all([
+
+      supabase
+        .from(
+          "project_technologies"
+        )
+        .select("*")
+        .in(
+          "project_id",
+          projectIds
+        )
+        .order(
+          "display_order",
+          {
+            ascending: true,
+          }
+        ),
+
+      supabase
+        .from(
+          "project_highlights"
+        )
+        .select("*")
+        .in(
+          "project_id",
+          projectIds
+        )
+        .order(
+          "display_order",
+          {
+            ascending: true,
+          }
+        ),
+
+      supabase
+        .from(
+          "project_gallery"
+        )
+        .select("*")
+        .in(
+          "project_id",
+          projectIds
+        )
+        .order(
+          "display_order",
+          {
+            ascending: true,
+          }
+        ),
+
+      supabase
+        .from(
+          "case_studies"
+        )
+        .select("*")
+        .in(
+          "project_id",
+          projectIds
+        ),
+
+    ]);
+
+
+  if (technologiesResult.error) {
+
+    throw new Error(
+      technologiesResult.error.message
+    );
+  }
+
+
+  if (highlightsResult.error) {
+
+    throw new Error(
+      highlightsResult.error.message
+    );
+  }
+
+
+  if (galleryResult.error) {
+
+    throw new Error(
+      galleryResult.error.message
+    );
+  }
+
+
+  if (caseStudiesResult.error) {
+
+    throw new Error(
+      caseStudiesResult.error.message
+    );
+  }
+
+
+  /* =======================================================
+     TECHNOLOGIES
+  ======================================================= */
+
+  const technologiesByProject =
+    new Map<
+      string,
+      ProjectTechnology[]
+    >();
+
+
+  for (
+    const item
+    of technologiesResult.data ?? []
+  ) {
+
+    const technology: ProjectTechnology = {
+
+      id:
+        item.id,
+
+      technology:
+        item.technology,
+
+    };
+
+
+    const existing =
+      technologiesByProject.get(
+        item.project_id
+      ) ?? [];
+
+
+    existing.push(
+      technology
+    );
+
+
+    technologiesByProject.set(
+      item.project_id,
+      existing
+    );
+  }
+
+
+  /* =======================================================
+     HIGHLIGHTS
+  ======================================================= */
+
+  const highlightsByProject =
+    new Map<
+      string,
+      ProjectHighlight[]
+    >();
+
+
+  for (
+    const item
+    of highlightsResult.data ?? []
+  ) {
+
+    const highlight: ProjectHighlight = {
+
+      id:
+        item.id,
+
+      highlight:
+        item.highlight,
+
+    };
+
+
+    const existing =
+      highlightsByProject.get(
+        item.project_id
+      ) ?? [];
+
+
+    existing.push(
+      highlight
+    );
+
+
+    highlightsByProject.set(
+      item.project_id,
+      existing
+    );
+  }
+
+
+  /* =======================================================
+     GALLERY
+  ======================================================= */
+
+  const galleryByProject =
+    new Map<
+      string,
+      ProjectGallery[]
+    >();
+
+
+  for (
+    const item
+    of galleryResult.data ?? []
+  ) {
+
+    const galleryItem: ProjectGallery = {
+
+      id:
+        item.id,
+
+      project_id:
+        item.project_id,
+
+      image_url:
+        item.image_path,
+
+      caption:
+        item.caption ??
+        null,
+
+      display_order:
+        item.display_order ??
+        0,
+
+    };
+
+
+    const existing =
+      galleryByProject.get(
+        item.project_id
+      ) ?? [];
+
+
+    existing.push(
+      galleryItem
+    );
+
+
+    galleryByProject.set(
+      item.project_id,
+      existing
+    );
+  }
+
+
+  /* =======================================================
+     CASE STUDIES
+  ======================================================= */
+
+  const caseStudyByProject =
+    new Map<
+      string,
+      ProjectCaseStudy
+    >();
+
+
+  for (
+    const item
+    of caseStudiesResult.data ?? []
+  ) {
+
+    const caseStudy: ProjectCaseStudy = {
+
+      id:
+        item.id,
+
+      project_id:
+        item.project_id,
+
+      title:
+        item.title ??
+        null,
+
+      introduction:
+        item.introduction ??
+        null,
+
+      overview:
+        item.overview ??
+        null,
+
+      problem:
+        item.problem ??
+        null,
+
+      goals:
+        item.goals ??
+        null,
+
+      solution:
+        item.solution ??
+        null,
+
+      role:
+        item.role ??
+        null,
+
+      created_at:
+        item.created_at,
+
+      updated_at:
+        item.updated_at,
+
+    };
+
+
+    caseStudyByProject.set(
+      item.project_id,
+      caseStudy
+    );
+  }
+
+
+  /* =======================================================
+     BUILD FINAL PROJECTS
+  ======================================================= */
+
+  return projects.map(
+    (project) => ({
+
+      ...project,
+
+      technologies:
+        technologiesByProject.get(
+          project.id
+        ) ?? [],
+
+      highlights:
+        highlightsByProject.get(
+          project.id
+        ) ?? [],
+
+      gallery:
+        galleryByProject.get(
+          project.id
+        ) ?? [],
+
+      case_study:
+        caseStudyByProject.get(
+          project.id
+        ) ?? null,
+
+    }) as FullProject
+  );
 }
 
 
 /* =========================================================
    GET ALL FULL PROJECTS
+   PUBLIC WEBSITE - BATCHED
 ========================================================= */
 
 export async function getFullProjects():
@@ -579,20 +945,15 @@ export async function getFullProjects():
     await getProjects();
 
 
-  return Promise.all(
-    projects.map(
-      (project) =>
-        getFullProject(
-          project
-        )
-    )
+  return buildFullProjects(
+    projects
   );
-
 }
 
 
 /* =========================================================
    GET FEATURED FULL PROJECTS
+   HOME PAGE - BATCHED
 ========================================================= */
 
 export async function getFeaturedFullProjects():
@@ -629,79 +990,25 @@ export async function getFeaturedFullProjects():
     );
 
     throw error;
-
   }
 
 
   const projects =
     ((data ?? []) as Project[])
       .map(
-        (project) => ({
-
-          ...project,
-
-          cover_image:
-            project.cover_image ??
-            null,
-
-          github_url:
-            project.github_url ??
-            null,
-
-          live_url:
-            project.live_url ??
-            null,
-
-          case_study_url:
-            project.case_study_url ??
-            null,
-
-          ppt_url:
-            project.ppt_url ??
-            null,
-
-          video_url:
-            project.video_url ??
-            null,
-
-          date:
-            project.date ??
-            null,
-
-          role:
-            project.role ??
-            null,
-
-          show_case_study:
-            project.show_case_study ??
-            false,
-
-          show_github_button:
-            project.show_github_button ??
-            true,
-
-          show_live_demo_button:
-            project.show_live_demo_button ??
-            true,
-
-        })
+        normalizeProject
       );
 
 
-  return Promise.all(
-    projects.map(
-      (project) =>
-        getFullProject(
-          project
-        )
-    )
+  return buildFullProjects(
+    projects
   );
-
 }
 
 
 /* =========================================================
    GET PROJECT BY SLUG
+   SINGLE PROJECT PAGE
 ========================================================= */
 
 export async function getProjectBySlug(
@@ -734,71 +1041,19 @@ export async function getProjectBySlug(
     );
 
     throw error;
-
   }
 
 
   if (!data) {
-
     return null;
-
   }
 
 
-  const project =
-    data as Project;
-
-
-  return getFullProject({
-
-    ...project,
-
-    cover_image:
-      project.cover_image ??
-      null,
-
-    github_url:
-      project.github_url ??
-      null,
-
-    live_url:
-      project.live_url ??
-      null,
-
-    case_study_url:
-      project.case_study_url ??
-      null,
-
-    ppt_url:
-      project.ppt_url ??
-      null,
-
-    video_url:
-      project.video_url ??
-      null,
-
-    date:
-      project.date ??
-      null,
-
-    role:
-      project.role ??
-      null,
-
-    show_case_study:
-      project.show_case_study ??
-      false,
-
-    show_github_button:
-      project.show_github_button ??
-      true,
-
-    show_live_demo_button:
-      project.show_live_demo_button ??
-      true,
-
-  });
-
+  return getFullProject(
+    normalizeProject(
+      data as Project
+    )
+  );
 }
 
 
@@ -832,71 +1087,19 @@ export async function getProjectById(
     );
 
     throw error;
-
   }
 
 
   if (!data) {
-
     return null;
-
   }
 
 
-  const project =
-    data as Project;
-
-
-  return getFullProject({
-
-    ...project,
-
-    cover_image:
-      project.cover_image ??
-      null,
-
-    github_url:
-      project.github_url ??
-      null,
-
-    live_url:
-      project.live_url ??
-      null,
-
-    case_study_url:
-      project.case_study_url ??
-      null,
-
-    ppt_url:
-      project.ppt_url ??
-      null,
-
-    video_url:
-      project.video_url ??
-      null,
-
-    date:
-      project.date ??
-      null,
-
-    role:
-      project.role ??
-      null,
-
-    show_case_study:
-      project.show_case_study ??
-      false,
-
-    show_github_button:
-      project.show_github_button ??
-      true,
-
-    show_live_demo_button:
-      project.show_live_demo_button ??
-      true,
-
-  });
-
+  return getFullProject(
+    normalizeProject(
+      data as Project
+    )
+  );
 }
 
 
@@ -919,7 +1122,6 @@ export interface CaseStudyInput {
   solution?: string | null;
 
   role?: string | null;
-
 }
 
 
@@ -934,7 +1136,6 @@ export async function getCaseStudy(
   return getProjectCaseStudy(
     projectId
   );
-
 }
 
 
@@ -957,7 +1158,6 @@ export async function upsertCaseStudy(
       )
       .upsert(
         {
-
           project_id:
             projectId,
 
@@ -988,7 +1188,6 @@ export async function upsertCaseStudy(
           role:
             input.role ??
             null,
-
         },
         {
           onConflict:
@@ -1007,7 +1206,6 @@ export async function upsertCaseStudy(
     );
 
     throw error;
-
   }
 
 
@@ -1054,7 +1252,6 @@ export async function upsertCaseStudy(
       data.updated_at,
 
   };
-
 }
 
 
@@ -1088,9 +1285,7 @@ export async function deleteCaseStudy(
     );
 
     throw error;
-
   }
-
 }
 
 
@@ -1118,11 +1313,6 @@ export async function createGalleryItem(
         project_id:
           projectId,
 
-        /*
-          Actual database column:
-          image_path
-        */
-
         image_path:
           imageUrl,
 
@@ -1146,7 +1336,6 @@ export async function createGalleryItem(
     throw new Error(
       `Gallery database insert failed: ${error.message}`
     );
-
   }
 
 
@@ -1170,7 +1359,6 @@ export async function createGalleryItem(
       0,
 
   };
-
 }
 
 
@@ -1197,7 +1385,6 @@ export async function updateGalleryItem(
 
     updates.caption =
       caption;
-
   }
 
 
@@ -1207,7 +1394,6 @@ export async function updateGalleryItem(
 
     updates.display_order =
       displayOrder;
-
   }
 
 
@@ -1219,7 +1405,9 @@ export async function updateGalleryItem(
       .from(
         "project_gallery"
       )
-      .update(updates)
+      .update(
+        updates
+      )
       .eq(
         "id",
         id
@@ -1236,7 +1424,6 @@ export async function updateGalleryItem(
     );
 
     throw error;
-
   }
 
 
@@ -1260,7 +1447,6 @@ export async function updateGalleryItem(
       0,
 
   };
-
 }
 
 
@@ -1294,9 +1480,7 @@ export async function deleteGalleryItem(
     );
 
     throw error;
-
   }
-
 }
 
 
@@ -1317,7 +1501,6 @@ export async function uploadProjectImage(
     throw new Error(
       "Only image files are allowed."
     );
-
   }
 
 
@@ -1369,7 +1552,6 @@ export async function uploadProjectImage(
     throw new Error(
       `Project image upload failed: ${uploadError.message}`
     );
-
   }
 
 
@@ -1387,7 +1569,6 @@ export async function uploadProjectImage(
 
 
   return data.publicUrl;
-
 }
 
 
@@ -1409,7 +1590,6 @@ export async function uploadProjectGalleryImage(
     throw new Error(
       "Only image files are allowed."
     );
-
   }
 
 
@@ -1418,7 +1598,6 @@ export async function uploadProjectGalleryImage(
     throw new Error(
       "Project ID is required for gallery upload."
     );
-
   }
 
 
@@ -1470,7 +1649,6 @@ export async function uploadProjectGalleryImage(
     throw new Error(
       `Gallery storage upload failed: ${uploadError.message}`
     );
-
   }
 
 
@@ -1492,12 +1670,10 @@ export async function uploadProjectGalleryImage(
     throw new Error(
       "Unable to generate gallery image URL."
     );
-
   }
 
 
   return data.publicUrl;
-
 }
 
 
@@ -1531,7 +1707,6 @@ export async function deleteProjectImage(
     ) {
 
       return;
-
     }
 
 
@@ -1543,9 +1718,7 @@ export async function deleteProjectImage(
 
 
     if (!filePath) {
-
       return;
-
     }
 
 
@@ -1563,9 +1736,7 @@ export async function deleteProjectImage(
 
 
     if (error) {
-
       throw error;
-
     }
 
   } catch (
@@ -1578,7 +1749,5 @@ export async function deleteProjectImage(
     );
 
     throw error;
-
   }
-
 }

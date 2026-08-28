@@ -5,22 +5,14 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import {
+  lazy,
+  Suspense,
+} from "react";
+
 import Navbar from "./components/layout/Navbar";
 import SkyBackground from "./components/background/SkyBackground";
 import Footer from "./components/footer/Footer";
-
-
-/* =========================================================
-   WEBSITE
-========================================================= */
-
-import Home from "./pages/Home";
-import About from "./pages/About";
-import RolesPage from "./pages/Roles";
-import ProjectsPage from "./pages/Projects";
-import ProjectDetails from "./pages/ProjectDetails";
-import CertificationsPage from "./pages/Certifications";
-import TerminalPage from "./pages/Terminal";
 
 
 /* =========================================================
@@ -32,21 +24,117 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 
 
 /* =========================================================
-   ADMIN
+   LAZY LOADED WEBSITE PAGES
 ========================================================= */
 
-import AdminLayout from "./admin/AdminLayout";
+const Home = lazy(
+  () => import("./pages/Home")
+);
 
-import Dashboard from "./admin/pages/Dashboard";
-import Hero from "./admin/pages/Hero";
-import Projects from "./admin/pages/Projects";
-import Certifications from "./admin/pages/Certifications";
-import AboutAdmin from "./admin/pages/About";
-import Skills from "./admin/pages/Skills";
-import Roles from "./admin/pages/Roles";
-import Messages from "./admin/pages/Messages";
-import AdminTerminal from "./admin/pages/Terminal";
-import AdminSettings from "./admin/pages/Settings";
+const About = lazy(
+  () => import("./pages/About")
+);
+
+const RolesPage = lazy(
+  () => import("./pages/Roles")
+);
+
+const ProjectsPage = lazy(
+  () => import("./pages/Projects")
+);
+
+const ProjectDetails = lazy(
+  () => import("./pages/ProjectDetails")
+);
+
+const CertificationsPage = lazy(
+  () => import("./pages/Certifications")
+);
+
+const TerminalPage = lazy(
+  () => import("./pages/Terminal")
+);
+
+
+/* =========================================================
+   LAZY LOADED ADMIN
+========================================================= */
+
+const AdminLayout = lazy(
+  () => import("./admin/AdminLayout")
+);
+
+const Dashboard = lazy(
+  () => import("./admin/pages/Dashboard")
+);
+
+const Hero = lazy(
+  () => import("./admin/pages/Hero")
+);
+
+const AdminProjects = lazy(
+  () => import("./admin/pages/Projects")
+);
+
+const AdminCertifications = lazy(
+  () => import("./admin/pages/Certifications")
+);
+
+const AboutAdmin = lazy(
+  () => import("./admin/pages/About")
+);
+
+const Skills = lazy(
+  () => import("./admin/pages/Skills")
+);
+
+const Roles = lazy(
+  () => import("./admin/pages/Roles")
+);
+
+const Messages = lazy(
+  () => import("./admin/pages/Messages")
+);
+
+const AdminTerminal = lazy(
+  () => import("./admin/pages/Terminal")
+);
+
+const AdminSettings = lazy(
+  () => import("./admin/pages/Settings")
+);
+
+
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
+
+function PageLoader() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "40px",
+        boxSizing: "border-box",
+        color: "var(--text-color)",
+      }}
+    >
+      <div
+        style={{
+          width: "28px",
+          height: "28px",
+          borderRadius: "50%",
+          border: "3px solid rgba(59, 130, 246, 0.2)",
+          borderTopColor: "#3b82f6",
+          animation: "appLoaderSpin .8s linear infinite",
+        }}
+      />
+    </div>
+  );
+}
 
 
 /* =========================================================
@@ -57,7 +145,9 @@ function Layout() {
   const location = useLocation();
 
   const isAdmin =
-    location.pathname.startsWith("/admin");
+    location.pathname.startsWith(
+      "/admin"
+    );
 
 
   return (
@@ -79,178 +169,179 @@ function Layout() {
           ROUTES
       ===================================================== */}
 
-      <Routes>
+      <Suspense fallback={<PageLoader />}>
 
-
-        {/* ===================================================
-            WEBSITE
-        =================================================== */}
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-
-        <Route
-          path="/about"
-          element={<About />}
-        />
-
-
-        <Route
-          path="/roles"
-          element={<RolesPage />}
-        />
-
-
-        <Route
-          path="/projects"
-          element={<ProjectsPage />}
-        />
-
-
-        <Route
-          path="/projects/:slug"
-          element={<ProjectDetails />}
-        />
-
-
-        <Route
-          path="/certifications"
-          element={<CertificationsPage />}
-        />
-
-
-        <Route
-          path="/terminal"
-          element={<TerminalPage />}
-        />
-
-
-        {/* ===================================================
-            ADMIN LOGIN
-        =================================================== */}
-
-        <Route
-          path="/admin/login"
-          element={<Login />}
-        />
-
-
-        {/* ===================================================
-            PROTECTED ADMIN
-        =================================================== */}
-
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Routes>
 
           {/* =================================================
-              DASHBOARD
+              WEBSITE
           ================================================= */}
 
           <Route
-            index
-            element={<Dashboard />}
+            path="/"
+            element={<Home />}
+          />
+
+          <Route
+            path="/about"
+            element={<About />}
+          />
+
+          <Route
+            path="/roles"
+            element={<RolesPage />}
+          />
+
+          <Route
+            path="/projects"
+            element={<ProjectsPage />}
+          />
+
+          <Route
+            path="/projects/:slug"
+            element={<ProjectDetails />}
+          />
+
+          <Route
+            path="/certifications"
+            element={<CertificationsPage />}
+          />
+
+          <Route
+            path="/terminal"
+            element={<TerminalPage />}
           />
 
 
           {/* =================================================
-              HERO
+              ADMIN LOGIN
           ================================================= */}
 
           <Route
-            path="hero"
-            element={<Hero />}
+            path="/admin/login"
+            element={<Login />}
           />
 
 
           {/* =================================================
-              PROJECTS
+              ADMIN
           ================================================= */}
 
           <Route
-            path="projects"
-            element={<Projects />}
-          />
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+
+            {/* ===============================================
+                DASHBOARD
+            =============================================== */}
+
+            <Route
+              index
+              element={<Dashboard />}
+            />
 
 
-          {/* =================================================
-              CERTIFICATIONS
-          ================================================= */}
+            {/* ===============================================
+                HERO
+            =============================================== */}
 
-          <Route
-            path="certifications"
-            element={<Certifications />}
-          />
-
-
-          {/* =================================================
-              ABOUT
-          ================================================= */}
-
-          <Route
-            path="about"
-            element={<AboutAdmin />}
-          />
+            <Route
+              path="hero"
+              element={<Hero />}
+            />
 
 
-          {/* =================================================
-              SKILLS
-          ================================================= */}
+            {/* ===============================================
+                PROJECTS
+            =============================================== */}
 
-          <Route
-            path="skills"
-            element={<Skills />}
-          />
-
-
-          {/* =================================================
-              ROLES
-          ================================================= */}
-
-          <Route
-            path="roles"
-            element={<Roles />}
-          />
+            <Route
+              path="projects"
+              element={<AdminProjects />}
+            />
 
 
-          {/* =================================================
-              MESSAGES
-          ================================================= */}
+            {/* ===============================================
+                CERTIFICATIONS
+            =============================================== */}
 
-          <Route
-            path="messages"
-            element={<Messages />}
-          />
+            <Route
+              path="certifications"
+              element={
+                <AdminCertifications />
+              }
+            />
 
-          {/* =================================================
-              TERMINAL
-          ================================================= */}
 
-          <Route
-            path="terminal"
-            element={<AdminTerminal />}
-          />
+            {/* ===============================================
+                ABOUT
+            =============================================== */}
 
-          {/* =================================================
-              SETTINGS
-          ================================================= */}
+            <Route
+              path="about"
+              element={<AboutAdmin />}
+            />
 
-          <Route
-            path="settings"
-            element={<AdminSettings />}
-          />
 
-        </Route>
+            {/* ===============================================
+                SKILLS
+            =============================================== */}
 
-      </Routes>
+            <Route
+              path="skills"
+              element={<Skills />}
+            />
+
+
+            {/* ===============================================
+                ROLES
+            =============================================== */}
+
+            <Route
+              path="roles"
+              element={<Roles />}
+            />
+
+
+            {/* ===============================================
+                MESSAGES
+            =============================================== */}
+
+            <Route
+              path="messages"
+              element={<Messages />}
+            />
+
+
+            {/* ===============================================
+                TERMINAL
+            =============================================== */}
+
+            <Route
+              path="terminal"
+              element={<AdminTerminal />}
+            />
+
+
+            {/* ===============================================
+                SETTINGS
+            =============================================== */}
+
+            <Route
+              path="settings"
+              element={<AdminSettings />}
+            />
+
+          </Route>
+
+        </Routes>
+
+      </Suspense>
 
 
       {/* =====================================================
