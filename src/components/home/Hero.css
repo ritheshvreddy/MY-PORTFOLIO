@@ -82,6 +82,39 @@
         .35s ease;
 }
 
+/* The frame (.profile-image) owns the size, ring and shadow and
+   clips the photo inside it */
+.profile-image {
+    display: block;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    background:
+        rgba(148, 163, 184, .25);
+}
+
+/* Zoom in 8%: crops the thin dark strip along the top edge of the
+   uploaded photo while keeping the original framing */
+.profile-photo {
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transform: scale(1.08);
+
+    transform-origin: 50% 45%;
+
+    user-select: none;
+}
+
 .profile-image:hover {
     transform:
         translateY(-8px)

@@ -19,15 +19,20 @@ export default function HeroProfile({
 
   return (
     <div className="hero-profile">
-      <img
-        src={profile.profile_image}
-        alt={profile.full_name}
-        className="profile-image"
-        width={300}
-        height={300}
-        fetchPriority="high"
-        decoding="async"
-      />
+      {/* The frame clips the photo, so it can be zoomed slightly
+          to hide the dark strip along the top edge of the file */}
+      <div className="profile-image">
+        <img
+          src={profile.profile_image}
+          alt={profile.full_name}
+          className="profile-photo"
+          width={300}
+          height={300}
+          fetchPriority="high"
+          decoding="async"
+          draggable={false}
+        />
+      </div>
 
       <button
         className="contact-btn"
