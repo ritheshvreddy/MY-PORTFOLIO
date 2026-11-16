@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 
 import {
+  useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -30,13 +32,59 @@ export default function Navbar() {
   ] = useState(false);
 
 
+  const headerRef =
+    useRef<HTMLElement>(null);
+
+
   function closeMenu() {
     setMenuOpen(false);
   }
 
 
+  /* Close the menu whenever the page changes */
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+
+  /* Close on outside tap or Escape */
+  useEffect(() => {
+    if (!menuOpen) {
+      return;
+    }
+
+    function onPointerDown(event: PointerEvent) {
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(
+          event.target as Node
+        )
+      ) {
+        setMenuOpen(false);
+      }
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
+
   return (
-    <header className="navbar">
+    <header
+      className="navbar"
+      ref={headerRef}
+    >
 
       {/* ==================================================
           LOGO
@@ -134,7 +182,9 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="mobile-menu-button"
+          className={`mobile-menu-button${
+            menuOpen ? " open" : ""
+          }`}
           aria-label={
             menuOpen
               ? "Close navigation menu"

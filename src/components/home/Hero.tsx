@@ -1,101 +1,25 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import "./Hero.css";
 
 import HeroProfile from "./HeroProfile";
 import HeroContent from "./HeroContent";
 
-import {
-  getProfile,
-  type Profile,
-} from "../../services/profile.service";
+import { useCachedData } from "../../lib/cache";
 
-import {
-  getHeroRoles,
-  type HeroRole,
-} from "../../services/heroRoles.service";
-
-import {
-  getHeroQuotes,
-  type HeroQuote,
-} from "../../services/heroQuotes.service";
+import { getProfile } from "../../services/profile.service";
+import { getHeroRoles } from "../../services/heroRoles.service";
+import { getHeroQuotes } from "../../services/heroQuotes.service";
 
 
 export default function Hero() {
 
-  const [
-    profile,
-    setProfile,
-  ] =
-    useState<Profile | null>(
-      null
-    );
+  const { data: profile } =
+    useCachedData("hero:profile", getProfile);
 
-  const [
-    roles,
-    setRoles,
-  ] =
-    useState<HeroRole[]>([]);
+  const { data: roles = [] } =
+    useCachedData("hero:roles", getHeroRoles);
 
-  const [
-    quotes,
-    setQuotes,
-  ] =
-    useState<HeroQuote[]>([]);
-
-
-  /* ========================================================
-     LOAD HERO DATA
-  ======================================================== */
-
-  useEffect(() => {
-
-    async function loadHero() {
-
-      try {
-
-        const [
-          profileData,
-          rolesData,
-          quotesData,
-        ] =
-          await Promise.all([
-            getProfile(),
-            getHeroRoles(),
-            getHeroQuotes(),
-          ]);
-
-
-        setProfile(
-          profileData
-        );
-
-        setRoles(
-          rolesData
-        );
-
-        setQuotes(
-          quotesData
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Failed to load hero data:",
-          error
-        );
-
-      }
-
-    }
-
-
-    void loadHero();
-
-  }, []);
+  const { data: quotes = [] } =
+    useCachedData("hero:quotes", getHeroQuotes);
 
 
   /* ========================================================
@@ -107,11 +31,23 @@ export default function Hero() {
     return (
       <section
         className="hero-section hero-loading"
+        aria-busy="true"
       >
 
-        <div
-          className="hero-loading-space"
-        />
+        <div className="hero-container">
+
+          <div className="hero-profile">
+            <div className="profile-image hero-skeleton" />
+          </div>
+
+          <div className="hero-content">
+            <div className="hero-skeleton hero-skeleton-line short" />
+            <div className="hero-skeleton hero-skeleton-line title" />
+            <div className="hero-skeleton hero-skeleton-line" />
+            <div className="hero-skeleton hero-skeleton-line" />
+          </div>
+
+        </div>
 
       </section>
     );

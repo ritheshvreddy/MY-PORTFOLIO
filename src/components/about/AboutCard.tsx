@@ -1,33 +1,18 @@
 import "./About.css";
 
-import { useEffect, useState } from "react";
-
 import { FaDownload } from "react-icons/fa";
 
-import { getAboutProfile } from "../../services/about.service";
+import { useCachedData } from "../../lib/cache";
 
-import type { AboutProfile } from "../../types/about";
+import { getAboutProfile } from "../../services/about.service";
 
 import { downloadFile } from "../../utils/download";
 
 export default function AboutCard() {
-  const [about, setAbout] =
-    useState<AboutProfile | null>(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-    async function loadAbout() {
-      const data = await getAboutProfile();
-
-      setAbout(data);
-
-      setLoading(false);
-    }
-
-    loadAbout();
-  }, []);
+  const { data: about, loading } = useCachedData(
+    "about:profile",
+    getAboutProfile
+  );
 
   if (loading) {
     return (

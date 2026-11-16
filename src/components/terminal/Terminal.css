@@ -268,3 +268,10 @@ display:none;
 }
 
 }
+/* iOS Safari zooms into inputs smaller than 16px; keep the
+   terminal at 16px on touch devices so the page stays put */
+@media (hover: none) and (pointer: coarse) {
+    .terminal-input-row input {
+        font-size: 16px;
+    }
+}

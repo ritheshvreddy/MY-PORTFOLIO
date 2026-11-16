@@ -18,7 +18,7 @@ export default function AnimatedRole({
   });
 
   return (
-    <div className="hero-role">
+    <div className="hero-role animated-role">
       <TypeAnimation
         sequence={sequence}
         wrapper="span"

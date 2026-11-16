@@ -18,7 +18,5 @@ export async function getPreviewRoles(): Promise<FullRole[]> {
     return [];
   }
 
-  console.log("Featured Roles:", data);
-
   return (data ?? []) as FullRole[];
 }

@@ -236,6 +236,21 @@
 }
 
 
+/* Hamburger turns into an X while the menu is open */
+
+.mobile-menu-button.open span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.mobile-menu-button.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-button.open span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+
 /* ==========================================================
    DARK THEME HAMBURGER
 ========================================================== */
@@ -321,10 +336,16 @@ body.dark .mobile-menu-button span {
         border-radius: 11px;
     }
 
+}
 
-    /* ======================================================
-       MOBILE NAVIGATION DROPDOWN
-    ====================================================== */
+
+/* ==========================================================
+   MOBILE / TABLET NAVIGATION DROPDOWN
+   (the menu button is shown up to 1100px, so the
+   dropdown must work up to 1100px too)
+========================================================== */
+
+@media (max-width: 1100px) {
 
     .nav-links.mobile-open {
         position: absolute;
@@ -373,7 +394,7 @@ body.dark .mobile-menu-button span {
     .nav-links.mobile-open a {
         display: block;
 
-        padding: 12px 14px;
+        padding: 13px 14px;
 
         border-radius: 10px;
 
@@ -411,7 +432,7 @@ body.dark .mobile-menu-button span {
    DARK MOBILE MENU
 ========================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
 
     body.dark .nav-links.mobile-open {
         background:

@@ -27,8 +27,16 @@
 }
 
 .category-header h2 {
-  font-size: 2.25rem;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
   font-weight: 800;
+  margin: 0 0 10px;
+}
+
+.category-header p {
+  margin: 0 auto;
+  max-width: 640px;
+  line-height: 1.6;
+  opacity: .8;
 }
 
 /* =======================================================
@@ -37,7 +45,7 @@
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 28px;
 }
 
@@ -47,7 +55,8 @@
 
 .skill-tilt {
   height: 250px;
-  perspective: 1200px;
+  min-width: 0;
+  border-radius: 24px;
 }
 
 /* =======================================================
@@ -55,26 +64,30 @@
 ======================================================= */
 
 .skill-card {
-
   position: relative;
-
   width: 100%;
   height: 100%;
-
   transform-style: preserve-3d;
-
   transition: transform .7s ease;
-
   border-radius: 24px;
-
   cursor: pointer;
-
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.skill-tilt:hover .skill-card {
-
+.skill-card.flipped {
   transform: rotateY(180deg);
+}
 
+@media (hover: hover) and (pointer: fine) {
+  .skill-tilt:hover .skill-card {
+    transform: rotateY(180deg);
+  }
+}
+
+.skill-card:focus-visible .skill-front,
+.skill-card:focus-visible .skill-back {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .55);
 }
 
 /* =======================================================
@@ -83,25 +96,17 @@
 
 .skill-front,
 .skill-back {
-
   position: absolute;
-
   inset: 0;
-
   border-radius: 24px;
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
-
   align-items: center;
-
   padding: 28px;
-
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-
 }
 
 /* =======================================================
@@ -110,15 +115,10 @@
 
 body.light .skill-front,
 body.light .skill-back {
-
   background: white;
-
+  color: #111827;
   border: 1px solid rgba(0,0,0,.08);
-
-  box-shadow:
-
-      0 15px 35px rgba(0,0,0,.08);
-
+  box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
 
 /* =======================================================
@@ -127,17 +127,10 @@ body.light .skill-back {
 
 body.dark .skill-front,
 body.dark .skill-back {
-
   background: #111827;
-
   border: 1px solid rgba(255,255,255,.08);
-
   color: white;
-
-  box-shadow:
-
-      0 18px 40px rgba(0,0,0,.45);
-
+  box-shadow: 0 18px 40px rgba(0,0,0,.45);
 }
 
 /* =======================================================
@@ -145,53 +138,67 @@ body.dark .skill-back {
 ======================================================= */
 
 .skill-back {
-
   transform: rotateY(180deg);
-
   text-align: center;
-
 }
 
 .skill-back h3 {
-
-  margin-bottom: 14px;
-
+  margin: 0 0 14px;
   font-size: 1.25rem;
-
 }
 
 .skill-back p {
-
+  margin: 0;
   line-height: 1.7;
-
   opacity: .8;
-
   font-size: .95rem;
-
+  overflow-wrap: anywhere;
 }
 
 /* =======================================================
-   SVG LOGO
+   ICON
+
+   Most logos are drawn for light backgrounds (black
+   strokes, dark wordmarks). In dark mode they sit on a
+   light badge so every icon stays visible, whatever
+   colours its file uses.
 ======================================================= */
 
-.skill-icon {
-
-  width: 68px;
-
-  height: 68px;
-
-  object-fit: contain;
-
-  margin-bottom: 22px;
-
-  transition: .35s;
-
+.skill-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  margin-bottom: 20px;
+  border-radius: 22px;
+  flex-shrink: 0;
+  transition: transform .35s ease;
 }
 
-.skill-tilt:hover .skill-icon {
+body.dark .skill-icon-wrap {
+  background: #f1f5f9;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .6),
+    0 8px 22px rgba(0, 0, 0, .35);
+}
 
-  transform: scale(1.08);
+.skill-icon {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  display: block;
+}
 
+body.dark .skill-icon {
+  width: 60px;
+  height: 60px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .skill-tilt:hover .skill-icon-wrap {
+    transform: scale(1.08);
+  }
 }
 
 /* =======================================================
@@ -199,82 +206,123 @@ body.dark .skill-back {
 ======================================================= */
 
 .skill-title {
-
+  margin: 0;
   font-size: 1.15rem;
-
   font-weight: 700;
-
+  line-height: 1.25;
   text-align: center;
-
+  overflow-wrap: anywhere;
 }
 
 /* =======================================================
    HOVER SHADOW
 ======================================================= */
 
-.skill-tilt:hover .skill-front,
-.skill-tilt:hover .skill-back {
-
-  box-shadow:
-
-      0 25px 60px rgba(37,99,235,.20);
-
+@media (hover: hover) and (pointer: fine) {
+  .skill-tilt:hover .skill-front,
+  .skill-tilt:hover .skill-back {
+    box-shadow: 0 25px 60px rgba(37,99,235,.20);
+  }
 }
 
 /* =======================================================
    RESPONSIVE
 ======================================================= */
 
-@media (max-width:900px){
+/* Tablet */
+@media (max-width: 900px) {
+  .skills-section {
+    padding: 40px 0 80px;
+  }
 
-.skills-grid{
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 22px;
+  }
 
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  .skill-tilt {
+    height: 220px;
+  }
 
+  .skill-icon-wrap {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .skill-icon,
+  body.dark .skill-icon {
+    width: 54px;
+    height: 54px;
+  }
 }
 
-.skill-tilt{
+/* Phone */
+@media (max-width: 600px) {
+  .skills-section {
+    width: calc(100% - 32px);
+  }
 
-height:220px;
+  .category-header {
+    margin-bottom: 26px;
+  }
 
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .skill-tilt {
+    height: 184px;
+    border-radius: 20px;
+  }
+
+  .skill-card,
+  .skill-front,
+  .skill-back {
+    border-radius: 20px;
+  }
+
+  .skill-front,
+  .skill-back {
+    padding: 16px 12px;
+  }
+
+  .skill-icon-wrap {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+  }
+
+  .skill-icon,
+  body.dark .skill-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .skill-title {
+    font-size: 1rem;
+  }
+
+  .skill-back h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .skill-back p {
+    font-size: .82rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
 }
 
-.skill-icon{
-
-width:58px;
-height:58px;
-margin-bottom:18px;
-}
-
-}
-
-@media(max-width:600px){
-
-.skills-grid{
-
-grid-template-columns:repeat(2,1fr);
-
-gap:22px;
-
-}
-
-.skill-tilt{
-
-height:200px;
-
-}
-
-.skill-icon{
-
-width:50px;
-height:50px;
-
-}
-
-.skill-title{
-
-font-size:1rem;
-
-}
-
+/* Very small phones */
+@media (max-width: 340px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
 }

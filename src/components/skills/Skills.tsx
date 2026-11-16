@@ -1,56 +1,26 @@
 import "./Skills.css";
 
-import { useEffect, useState } from "react";
-
 import SkillCard from "./SkillCard";
+
+import { useCachedData } from "../../lib/cache";
 
 import {
   getPublishedSkills,
   getSkillCategories,
 } from "../../services/skills.service";
 
-import type {
-  Skill,
-  SkillCategory,
-} from "../../types/skill";
-
 export default function Skills() {
-  const [categories, setCategories] = useState<
-    SkillCategory[]
-  >([]);
+  const { data: categories } = useCachedData(
+    "skills:categories",
+    getSkillCategories
+  );
 
-  const [skills, setSkills] = useState<
-    Skill[]
-  >([]);
+  const { data: skills } = useCachedData(
+    "skills:published",
+    getPublishedSkills
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-    async function loadSkills() {
-      try {
-        const [
-          categoryData,
-          skillData,
-        ] = await Promise.all([
-          getSkillCategories(),
-          getPublishedSkills(),
-        ]);
-
-        setCategories(categoryData);
-
-        setSkills(skillData);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadSkills();
-  }, []);
-
-  if (loading) return null;
+  if (!categories || !skills) return null;
 
   return (
     <section className="skills-section">

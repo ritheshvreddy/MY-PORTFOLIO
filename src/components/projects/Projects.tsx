@@ -1,78 +1,41 @@
 import "./Projects.css";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import FeaturedProject from "./FeaturedProject";
 import ProjectCard from "./ProjectCard";
+
+import { useCachedData } from "../../lib/cache";
 
 import {
   getFullProjects,
 } from "../../services/projects.service";
 
-import type {
-  FullProject,
-} from "../../types/project";
+
+/* Only show published projects */
+
+async function getPublishedFullProjects() {
+
+  const data =
+    await getFullProjects();
+
+  return data.filter(
+    (project) =>
+      project.published === true
+  );
+
+}
 
 
 export default function Projects() {
 
-  const [projects, setProjects] =
-    useState<FullProject[]>([]);
+  const {
+    data,
+    loading,
+  } = useCachedData(
+    "projects:published",
+    getPublishedFullProjects
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
-
-  /* ================= LOAD PROJECTS ================= */
-
-  useEffect(() => {
-
-    async function loadProjects() {
-
-      try {
-
-        setLoading(true);
-
-        const data =
-          await getFullProjects();
-
-
-        /* Only show published projects */
-
-        const publishedProjects =
-          data.filter(
-            (project) =>
-              project.published === true
-          );
-
-
-        setProjects(
-          publishedProjects
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Error loading projects:",
-          error
-        );
-
-        setProjects([]);
-
-      } finally {
-
-        setLoading(false);
-
-      }
-
-    }
-
-    loadProjects();
-
-  }, []);
+  const projects = data ?? [];
 
 
   /* ================= LOADING ================= */

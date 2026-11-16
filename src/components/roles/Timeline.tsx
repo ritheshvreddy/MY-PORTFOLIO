@@ -1,115 +1,34 @@
 import "./Timeline.css";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import TimelineCard from "./TimelineCard";
+
+import { useCachedData } from "../../lib/cache";
 
 import {
   getFullRoles,
 } from "../../services/roles.service";
 
-import type {
-  FullRole,
-} from "../../types/roles";
-
 
 export default function Timeline() {
 
-  const [
-    roles,
-    setRoles,
-  ] =
-    useState<FullRole[]>([]);
-
-
-  const [
+  const {
+    data,
     loading,
-    setLoading,
-  ] =
-    useState(true);
+    error: loadError,
+  } = useCachedData(
+    "roles:full",
+    getFullRoles
+  );
 
+  const roles = data ?? [];
 
-  const [
-    error,
-    setError,
-  ] =
-    useState("");
-
-
-  useEffect(() => {
-
-    let mounted = true;
-
-
-    async function loadRoles() {
-
-      try {
-
-        setLoading(true);
-
-        setError("");
-
-
-        const data =
-          await getFullRoles();
-
-
-        if (!mounted) {
-          return;
-        }
-
-
-        setRoles(
-          data
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Failed to load roles:",
-          error
-        );
-
-
-        if (!mounted) {
-          return;
-        }
-
-
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load roles."
-        );
-
-        setRoles([]);
-
-      } finally {
-
-        if (mounted) {
-
-          setLoading(false);
-
-        }
-
-      }
-
-    }
-
-
-    void loadRoles();
-
-
-    return () => {
-
-      mounted = false;
-
-    };
-
-  }, []);
+  /* Only surface an error when there is nothing cached to show */
+  const error =
+    loadError && !data
+      ? loadError instanceof Error
+        ? loadError.message
+        : "Unable to load roles."
+      : "";
 
 
   /* ========================================================

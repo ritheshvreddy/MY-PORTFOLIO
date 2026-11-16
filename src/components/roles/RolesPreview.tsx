@@ -1,33 +1,19 @@
 import "./Roles.css";
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 import RoleCard from "./RoleCard";
 
+import { useCachedData } from "../../lib/cache";
 import { getPreviewRoles } from "../../services/rolesPreview.service";
-import type { FullRole } from "../../types/roles";
 
 export default function RolesPreview() {
-  const [roles, setRoles] = useState<FullRole[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: roles } = useCachedData(
+    "roles:preview",
+    getPreviewRoles
+  );
 
-  useEffect(() => {
-    async function loadRoles() {
-      try {
-        const data = await getPreviewRoles();
-        setRoles(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadRoles();
-  }, []);
-
-  if (loading) {
+  if (!roles) {
     return null;
   }
 

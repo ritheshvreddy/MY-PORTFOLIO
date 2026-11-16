@@ -23,6 +23,10 @@ export default function HeroProfile({
         src={profile.profile_image}
         alt={profile.full_name}
         className="profile-image"
+        width={300}
+        height={300}
+        fetchPriority="high"
+        decoding="async"
       />
 
       <button

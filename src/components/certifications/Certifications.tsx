@@ -1,40 +1,20 @@
 import "./Certifications.css";
 
-import { useEffect, useState } from "react";
-
 import CertificationCard from "./CertificationCard";
 import AchievementCard from "./AchievementCard";
 
-import { getCertifications } from "../../services/certifications.service";
+import { useCachedData } from "../../lib/cache";
 
-import type {
-  Certification,
-} from "../../types/certification";
+import { getCertifications } from "../../services/certifications.service";
 
 export default function Certifications() {
 
-  const [certifications, setCertifications] =
-    useState<Certification[]>([]);
+  const { data, loading } = useCachedData(
+    "certifications:all",
+    getCertifications
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-
-    async function loadCertifications() {
-
-      const data =
-        await getCertifications();
-
-      setCertifications(data);
-
-      setLoading(false);
-
-    }
-
-    loadCertifications();
-
-  }, []);
+  const certifications = data ?? [];
 
   if (loading) {
     return (

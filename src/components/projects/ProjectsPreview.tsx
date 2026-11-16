@@ -2,62 +2,26 @@ import "./Projects.css";
 
 import { Link } from "react-router-dom";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import ProjectCard from "./ProjectCard";
+
+import { useCachedData } from "../../lib/cache";
 
 import {
   getFeaturedFullProjects,
 } from "../../services/projects.service";
 
-import type {
-  FullProject,
-} from "../../types/project";
-
 
 export default function ProjectsPreview() {
 
-  const [projects, setProjects] =
-    useState<FullProject[]>([]);
+  const {
+    data,
+    loading,
+  } = useCachedData(
+    "projects:featured",
+    getFeaturedFullProjects
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
-
-  /* ================= LOAD PROJECTS ================= */
-
-  useEffect(() => {
-
-    async function loadProjects() {
-
-      try {
-
-        const data =
-          await getFeaturedFullProjects();
-
-        setProjects(data);
-
-      } catch (error) {
-
-        console.error(
-          "Error loading featured projects:",
-          error
-        );
-
-      } finally {
-
-        setLoading(false);
-
-      }
-
-    }
-
-    loadProjects();
-
-  }, []);
+  const projects = data ?? [];
 
 
   /* ================= LOADING ================= */

@@ -24,7 +24,13 @@ export function ThemeProvider({
   children: ReactNode;
 }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem("theme");
+    let savedTheme: string | null = null;
+
+    try {
+      savedTheme = localStorage.getItem("theme");
+    } catch {
+      /* storage blocked */
+    }
 
     if (
       savedTheme === "light" ||
@@ -51,11 +57,18 @@ export function ThemeProvider({
 
     document.body.classList.add(theme);
 
+    document.documentElement.style.colorScheme =
+      theme;
+
     // Save preference
-    localStorage.setItem(
-      "theme",
-      theme
-    );
+    try {
+      localStorage.setItem(
+        "theme",
+        theme
+      );
+    } catch {
+      /* storage blocked: theme still applies for this visit */
+    }
   }, [theme]);
 
   const toggleTheme = () => {

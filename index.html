@@ -5,13 +5,39 @@
 
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
 
     <title>Rithesh V Reddy</title>
+
+    <!-- Open connections early: all page data and images come from Supabase -->
+    <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin />
+    <link rel="dns-prefetch" href="%VITE_SUPABASE_URL%" />
+
+    <!-- Fonts (loaded here instead of a CSS @import so they don't block on the JS bundle) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+    />
   </head>
 
   <body>
+    <!-- Apply the saved theme before first paint to avoid a light flash in dark mode -->
+    <script>
+      (function () {
+        var theme = "light";
+        try {
+          var saved = localStorage.getItem("theme");
+          if (saved === "light" || saved === "dark") theme = saved;
+        } catch (e) {}
+        document.documentElement.setAttribute("data-theme", theme);
+        document.body.classList.add(theme);
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+
     <div id="root"></div>
 
     <script

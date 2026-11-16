@@ -1,26 +1,16 @@
 import "./About.css";
 
-import { useEffect, useState } from "react";
+import { useCachedData } from "../../lib/cache";
 
 import { getHobbies } from "../../services/about.service";
 
-import type { Hobby } from "../../types/about";
-
 export default function Hobbies() {
-  const [hobbies, setHobbies] = useState<Hobby[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useCachedData(
+    "about:hobbies",
+    getHobbies
+  );
 
-  useEffect(() => {
-    async function loadHobbies() {
-      const data = await getHobbies();
-
-      setHobbies(data);
-
-      setLoading(false);
-    }
-
-    loadHobbies();
-  }, []);
+  const hobbies = data ?? [];
 
   if (loading) {
     return (
@@ -54,6 +44,8 @@ export default function Hobbies() {
                 <img
                   src={hobby.icon_url}
                   alt={hobby.name}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

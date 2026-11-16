@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import type { HeroQuote as HeroQuoteType } from "../../services/heroQuotes.service";
 
 interface HeroQuoteProps {
   quotes: HeroQuoteType[];
 }
 
+/*
+  Rotating quote. Uses a plain CSS fade (see .quote-slide in
+  Hero.css) rather than an animation library, which keeps the
+  landing page's JavaScript much smaller.
+*/
 export default function HeroQuote({
   quotes,
 }: HeroQuoteProps) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (!quotes.length) return;
+    if (quotes.length < 2) return;
 
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % quotes.length);
@@ -23,25 +27,19 @@ export default function HeroQuote({
 
   if (!quotes.length) return null;
 
-  return (
-    <div className="quote-card">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={quotes[index].id}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.45 }}
-        >
-          <p className="quote-text">
-            "{quotes[index].quote}"
-          </p>
+  const quote = quotes[index % quotes.length];
 
-          <span className="quote-author">
-            — {quotes[index].author}
-          </span>
-        </motion.div>
-      </AnimatePresence>
+  return (
+    <div className="quote-card" aria-live="polite">
+      <div key={quote.id} className="quote-slide">
+        <p className="quote-text">
+          "{quote.quote}"
+        </p>
+
+        <span className="quote-author">
+          — {quote.author}
+        </span>
+      </div>
     </div>
   );
 }

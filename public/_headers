@@ -1,0 +1,4 @@
+# Cloudflare static asset headers.
+# Built JS/CSS files get new names on every build, so browsers can keep them forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

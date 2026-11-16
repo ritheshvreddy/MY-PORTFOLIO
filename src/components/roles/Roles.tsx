@@ -1,41 +1,20 @@
 import "./Roles.css";
 
-import { useEffect, useState } from "react";
-
 import RoleCard from "./RoleCard";
+
+import { useCachedData } from "../../lib/cache";
 
 import {
   getFullRoles,
 } from "../../services/roles.service";
 
-import type {
-  FullRole,
-} from "../../types/roles";
-
 export default function RolesPage() {
-  const [roles, setRoles] = useState<
-    FullRole[]
-  >([]);
+  const { data, loading } = useCachedData(
+    "roles:full",
+    getFullRoles
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-    async function loadRoles() {
-      try {
-        const data =
-          await getFullRoles();
-
-        setRoles(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadRoles();
-  }, []);
+  const roles = data ?? [];
 
   if (loading) {
     return (

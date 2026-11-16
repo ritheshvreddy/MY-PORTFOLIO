@@ -8,11 +8,18 @@ import {
 import {
   lazy,
   Suspense,
+  useEffect,
 } from "react";
 
 import Navbar from "./components/layout/Navbar";
 import SkyBackground from "./components/background/SkyBackground";
 import Footer from "./components/footer/Footer";
+
+/*
+  Home is the landing page, so it ships in the main bundle
+  instead of waiting for a second chunk to download.
+*/
+import Home from "./pages/Home";
 
 
 /* =========================================================
@@ -27,33 +34,60 @@ import ProtectedRoute from "./auth/ProtectedRoute";
    LAZY LOADED WEBSITE PAGES
 ========================================================= */
 
-const Home = lazy(
-  () => import("./pages/Home")
-);
+const loadAbout = () => import("./pages/About");
+const loadRoles = () => import("./pages/Roles");
+const loadProjects = () => import("./pages/Projects");
+const loadProjectDetails = () => import("./pages/ProjectDetails");
+const loadCertifications = () => import("./pages/Certifications");
+const loadTerminal = () => import("./pages/Terminal");
 
-const About = lazy(
-  () => import("./pages/About")
-);
+const About = lazy(loadAbout);
 
-const RolesPage = lazy(
-  () => import("./pages/Roles")
-);
+const RolesPage = lazy(loadRoles);
 
-const ProjectsPage = lazy(
-  () => import("./pages/Projects")
-);
+const ProjectsPage = lazy(loadProjects);
 
-const ProjectDetails = lazy(
-  () => import("./pages/ProjectDetails")
-);
+const ProjectDetails = lazy(loadProjectDetails);
 
-const CertificationsPage = lazy(
-  () => import("./pages/Certifications")
-);
+const CertificationsPage = lazy(loadCertifications);
 
-const TerminalPage = lazy(
-  () => import("./pages/Terminal")
-);
+const TerminalPage = lazy(loadTerminal);
+
+
+/*
+  Once the first page has painted, quietly download the other
+  public pages so navigating between them is instant.
+*/
+function prefetchPages() {
+  const run = () => {
+    for (const load of [
+      loadAbout,
+      loadRoles,
+      loadProjects,
+      loadCertifications,
+      loadProjectDetails,
+      loadTerminal,
+    ]) {
+      void load().catch(() => {});
+    }
+  };
+
+  const connection = (
+    navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    }
+  ).connection;
+
+  if (connection?.saveData) {
+    return;
+  }
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(run, { timeout: 4000 });
+  } else {
+    setTimeout(run, 2500);
+  }
+}
 
 
 /* =========================================================
@@ -148,6 +182,29 @@ function Layout() {
     location.pathname.startsWith(
       "/admin"
     );
+
+
+  /* Start each new page at the top (hash links still scroll to their target) */
+  useEffect(() => {
+    if (location.hash) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [location.pathname, location.hash]);
+
+
+  useEffect(() => {
+    if (!isAdmin) {
+      prefetchPages();
+    }
+    // Only once, on first load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   return (
