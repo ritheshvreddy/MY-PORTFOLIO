@@ -54,6 +54,25 @@ a {
 button {
   cursor: pointer;
 }
+/* Visually hidden but read by search engines and screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Section headings that were demoted from h1 to h2 (one h1 per page):
+   match the h1 default top margin so they look exactly the same */
+:is(.about-header, .contact-title, .projects-header, .roles-header) > h2 {
+  margin-top: .67em;
+}
+
 /* Prevent iOS Safari from zooming into form fields on focus */
 @media (hover: none) and (pointer: coarse) {
   input,

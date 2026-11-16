@@ -85,7 +85,7 @@ export default function Contact() {
       className="contact-section"
     >
       <div className="contact-title">
-        <h1>Get In Touch</h1>
+        <h2>Get In Touch</h2>
 
         <p>
           Have an opportunity, collaboration,

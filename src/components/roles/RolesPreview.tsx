@@ -20,7 +20,7 @@ export default function RolesPreview() {
   return (
     <section className="roles-page roles-preview-page">
       <div className="roles-header">
-        <h1>Role & Responsibilities</h1>
+        <h2>Role & Responsibilities</h2>
 
         <p>
           A quick overview of my recent professional experience.

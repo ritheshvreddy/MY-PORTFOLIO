@@ -44,9 +44,9 @@ export default function ProjectsPreview() {
 
       <div className="projects-header">
 
-        <h1>
+        <h2>
           Featured Projects
-        </h1>
+        </h2>
 
         <p>
           A selection of AI systems and software

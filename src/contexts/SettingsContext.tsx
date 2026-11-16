@@ -200,78 +200,11 @@ export function SettingsProvider({
   }, []);
 
 
-  /* =======================================================
-     UPDATE DOCUMENT META
-  ======================================================= */
-
-  useEffect(() => {
-
-    if (!settings) {
-      return;
-    }
-
-
-    /* =====================================================
-       TITLE
-    ===================================================== */
-
-    if (settings.seo_title) {
-
-      document.title =
-        settings.seo_title;
-
-    } else if (
-      settings.portfolio_name
-    ) {
-
-      document.title =
-        settings.portfolio_name;
-
-    }
-
-
-    /* =====================================================
-       FAVICON
-    ===================================================== */
-
-    if (
-      settings.favicon_url
-    ) {
-
-      let favicon =
-        document.querySelector(
-          'link[rel="icon"]'
-        ) as HTMLLinkElement | null;
-
-
-      if (!favicon) {
-
-        favicon =
-          document.createElement(
-            "link"
-          );
-
-        favicon.rel =
-          "icon";
-
-        document.head.appendChild(
-          favicon
-        );
-
-      }
-
-
-      favicon.type =
-        "image/*";
-
-      favicon.href =
-        settings.favicon_url;
-
-    }
-
-  }, [
-    settings,
-  ]);
+  /*
+    Page titles, descriptions and icons are no longer set from here:
+    each page sets its own (src/seo/usePageMeta.ts), and the favicon
+    set is served statically from /public so crawlers see it too.
+  */
 
 
   /* =======================================================

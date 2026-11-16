@@ -8,7 +8,44 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
 
-    <title>Rithesh V Reddy</title>
+    <!--
+      SEO + social previews. These are the Home page values; the build
+      step (scripts/seo-build.mjs) writes a copy of this file for every
+      page with its own title, description and URL. Page values live in
+      src/seo/site.json.
+    -->
+    <title>Rithesh V Reddy | Product Associate Portfolio</title>
+    <meta name="description" content="Portfolio of Rithesh V Reddy, Product Associate with a Computer Science and Data Science background: AI, product management and full-stack projects." />
+    <meta name="author" content="Rithesh V Reddy" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://ritheshvreddy.pages.dev/" />
+
+    <!-- Open Graph (LinkedIn, WhatsApp, Facebook, Slack, Discord...) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rithesh V Reddy" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Rithesh V Reddy | Product Associate Portfolio" />
+    <meta property="og:description" content="Portfolio of Rithesh V Reddy, Product Associate with a Computer Science and Data Science background: AI, product management and full-stack projects." />
+    <meta property="og:url" content="https://ritheshvreddy.pages.dev/" />
+    <meta property="og:image" content="https://ritheshvreddy.pages.dev/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rithesh V Reddy, Product Associate: Product, AI and full-stack development" />
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rithesh V Reddy | Product Associate Portfolio" />
+    <meta name="twitter:description" content="Portfolio of Rithesh V Reddy, Product Associate with a Computer Science and Data Science background: AI, product management and full-stack projects." />
+    <meta name="twitter:image" content="https://ritheshvreddy.pages.dev/og-image.png" />
+    <meta name="twitter:image:alt" content="Rithesh V Reddy, Product Associate: Product, AI and full-stack development" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0b1224" />
 
     <!-- Open connections early: all page data and images come from Supabase -->
     <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin />

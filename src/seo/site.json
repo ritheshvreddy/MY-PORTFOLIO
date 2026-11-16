@@ -1,0 +1,39 @@
+{
+  "siteUrl": "https://ritheshvreddy.pages.dev",
+  "siteName": "Rithesh V Reddy",
+  "locale": "en_US",
+  "themeColor": "#0b1224",
+  "image": {
+    "path": "/og-image.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Rithesh V Reddy, Product Associate: Product, AI and full-stack development"
+  },
+  "pages": {
+    "/": {
+      "title": "Rithesh V Reddy | Product Associate Portfolio",
+      "description": "Portfolio of Rithesh V Reddy, Product Associate with a Computer Science and Data Science background: AI, product management and full-stack projects."
+    },
+    "/about": {
+      "title": "About | Rithesh V Reddy",
+      "description": "About Rithesh V Reddy: background in Computer Science and Data Science, product experience, interests and resume download."
+    },
+    "/roles": {
+      "title": "Experience & Roles | Rithesh V Reddy",
+      "description": "Professional experience, leadership roles, internships and responsibilities of Rithesh V Reddy."
+    },
+    "/projects": {
+      "title": "Projects | Rithesh V Reddy",
+      "description": "AI systems, machine learning models, full-stack applications and research projects designed and built by Rithesh V Reddy."
+    },
+    "/certifications": {
+      "title": "Certifications & Achievements | Rithesh V Reddy",
+      "description": "Professional certifications, courses, leadership positions and achievements of Rithesh V Reddy."
+    },
+    "/terminal": {
+      "title": "Interactive Terminal | Rithesh V Reddy",
+      "description": "Explore Rithesh V Reddy's portfolio from a command-line style interactive terminal."
+    }
+  },
+  "projectTitleSuffix": " | Projects | Rithesh V Reddy"
+}

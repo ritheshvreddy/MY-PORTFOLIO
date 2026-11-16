@@ -25,6 +25,21 @@ import type {
 
 import "../components/projects/Projects.css";
 
+import site from "../seo/site.json";
+import { usePageMeta } from "../seo/usePageMeta";
+
+
+/* Short plain-text description for search results and share previews */
+function summary(text: string | null | undefined, max = 160) {
+  const clean = (text ?? "").replace(/\s+/g, " ").trim();
+
+  if (clean.length <= max) {
+    return clean;
+  }
+
+  return clean.slice(0, clean.lastIndexOf(" ", max - 1)).replace(/[,.;:]$/, "") + "…";
+}
+
 
 /* =========================================================
    PROJECT DETAILS PAGE
@@ -140,6 +155,30 @@ export default function ProjectDetails() {
     void loadProject();
 
   }, [slug]);
+
+
+  /* =========================================================
+     PAGE TITLE / DESCRIPTION
+  ========================================================= */
+
+  usePageMeta(
+    loading
+      ? null
+      : project
+        ? {
+            title: `${project.title}${site.projectTitleSuffix}`,
+            description:
+              summary(project.tagline || project.description) ||
+              site.pages["/projects"].description,
+            path: `/projects/${project.slug}`,
+          }
+        : {
+            title: `Project not found | ${site.siteName}`,
+            description: site.pages["/projects"].description,
+            path: `/projects/${slug ?? ""}`,
+            noindex: true,
+          }
+  );
 
 
   /* =========================================================

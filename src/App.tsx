@@ -11,6 +11,9 @@ import {
   useEffect,
 } from "react";
 
+import { usePageMeta } from "./seo/usePageMeta";
+import site from "./seo/site.json";
+
 import Navbar from "./components/layout/Navbar";
 import SkyBackground from "./components/background/SkyBackground";
 import Footer from "./components/footer/Footer";
@@ -182,6 +185,19 @@ function Layout() {
     location.pathname.startsWith(
       "/admin"
     );
+
+
+  /* Admin pages must never appear in search results */
+  usePageMeta(
+    isAdmin
+      ? {
+          title: `Admin | ${site.siteName}`,
+          description: "Portfolio admin panel.",
+          path: location.pathname,
+          noindex: true,
+        }
+      : null
+  );
 
 
   /* Start each new page at the top (hash links still scroll to their target) */

@@ -25,7 +25,7 @@ export default function Hobbies() {
   return (
     <section className="hobbies-section">
       <div className="about-header">
-        <h1>Hobbies & Interests</h1>
+        <h2>Hobbies & Interests</h2>
 
         <p>
           Beyond building products and writing code,

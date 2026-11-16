@@ -17,7 +17,7 @@
     margin-bottom:90px;
 }
 
-.projects-header h1{
+.projects-header :is(h1, h2){
     font-size:2.7rem;
     font-weight:800;
     margin-bottom:18px;
@@ -813,7 +813,7 @@ justify-content:center;
 
 @media(max-width:650px){
 
-.projects-header h1{
+.projects-header :is(h1, h2){
 
 font-size:2.4rem;
 
