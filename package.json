@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "cf:dev": "npm run build && wrangler dev --test-scheduled",
-    "deploy": "npm run build && wrangler deploy"
+    "keep-alive:dev": "wrangler dev --config keep-alive/wrangler.jsonc --test-scheduled",
+    "keep-alive:deploy": "wrangler deploy --config keep-alive/wrangler.jsonc"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

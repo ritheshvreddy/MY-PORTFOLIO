@@ -1,0 +1,29 @@
+{
+  // Tiny Cloudflare Worker whose only job is keeping Supabase awake.
+  // The site itself is on Cloudflare Pages (ritheshvreddy.pages.dev).
+  //
+  // Deploy:  npm run keep-alive:deploy
+  // Test:    npm run keep-alive:dev, then open
+  //          http://127.0.0.1:8787/__scheduled?cron=0+9+*+*+*
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "supabase-keep-alive",
+  "main": "index.js",
+  "compatibility_date": "2025-09-01",
+
+  // Daily at 09:00 UTC: one tiny Supabase read so the project never pauses.
+  "triggers": {
+    "crons": ["0 9 * * *"]
+  },
+
+  // No public URL: this Worker only runs on its schedule.
+  "workers_dev": false,
+  "preview_urls": false,
+
+  // VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY are set in the
+  // Cloudflare dashboard. Don't let deploys wipe them.
+  "keep_vars": true,
+
+  "observability": {
+    "enabled": true
+  }
+}
