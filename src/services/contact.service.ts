@@ -12,14 +12,17 @@ import type {
 
 export async function createContactMessage(
   input: ContactInput
-): Promise<ContactMessage> {
+): Promise<void> {
 
-  const { data, error } =
+  /*
+    Insert only, no .select(): with Row Level Security on,
+    visitors may submit messages but must never read them
+    back (that would expose everyone's messages).
+  */
+  const { error } =
     await supabase
       .from("contact_messages")
-      .insert(input)
-      .select("*")
-      .single();
+      .insert(input);
 
   if (error) {
 
@@ -28,8 +31,6 @@ export async function createContactMessage(
     );
 
   }
-
-  return data as ContactMessage;
 
 }
 
