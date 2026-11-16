@@ -1,5 +1,5 @@
 /*
-  Supabase keep-alive (shared by keep-alive/ on Cloudflare and api/ on Vercel)
+  Supabase keep-alive (used by the keep-alive/ Cloudflare Worker)
 
   Supabase pauses free-plan projects after about a week with no
   API requests. A daily scheduled job calls this, which makes one
