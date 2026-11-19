@@ -24,6 +24,7 @@ import type {
 } from "../types/project";
 
 import "../components/projects/Projects.css";
+import CoverImage from "../components/projects/CoverImage";
 
 import site from "../seo/site.json";
 import { usePageMeta } from "../seo/usePageMeta";
@@ -409,7 +410,7 @@ export default function ProjectDetails() {
 
             <div className="project-details-image">
 
-              <img
+              <CoverImage
                 src={
                   project.cover_image
                 }

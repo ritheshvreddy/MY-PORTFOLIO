@@ -12,6 +12,7 @@ import {
 import type {
   FullProject,
 } from "../../types/project";
+import CoverImage from "./CoverImage";
 
 
 interface ProjectCardProps {
@@ -34,9 +35,10 @@ export default function ProjectCard({
 
         {project.cover_image ? (
 
-          <img
+          <CoverImage
             src={project.cover_image}
             alt={project.title}
+            loading="lazy"
           />
 
         ) : (
