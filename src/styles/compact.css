@@ -1,0 +1,237 @@
+/* =========================================================
+   COMPACT SIZING — PUBLIC WEBSITE, DESKTOP ONLY
+
+   The design is unchanged; it is just shown smaller and
+   with less empty space between sections.
+
+   1. The whole site is scaled down a little (like viewing it
+      at 85-90% browser zoom), so text, cards, buttons and
+      gaps all shrink together and keep their proportions.
+   2. Gaps between sections and page headers are tightened.
+   3. The cards that were oversized for their content (skills,
+      projects) get a denser grid.
+
+   "site-compact" is set on <html> by App.tsx for every page
+   except the admin panel. Phones and tablets (1024px and
+   narrower) already have their own smaller layouts and are
+   left alone. Every rule is prefixed with html.site-compact
+   so it wins over the component stylesheets, which load
+   after this file.
+========================================================= */
+
+
+/* =========================================================
+   1. OVERALL SCALE
+========================================================= */
+
+@media (min-width: 1025px) {
+
+  html.site-compact {
+    --site-zoom: 0.9;
+
+    zoom: var(--site-zoom);
+  }
+
+}
+
+@media (min-width: 1440px) {
+
+  html.site-compact {
+    --site-zoom: 0.85;
+  }
+
+}
+
+
+@media (min-width: 1025px) {
+
+  /* Zoom also shrinks 100vh, so the hero divides it back
+     out to keep filling exactly one screen. */
+  html.site-compact .hero-section {
+    min-height: calc(100vh / var(--site-zoom));
+  }
+
+
+  /* =======================================================
+     2. SECTION SPACING
+  ======================================================= */
+
+  /* ---------- Page tops / bottoms (still clear the navbar) */
+
+  html.site-compact .projects-page,
+  html.site-compact .roles-page,
+  html.site-compact .timeline-section-page,
+  html.site-compact .certifications-page {
+    padding: 110px 0 70px;
+  }
+
+  html.site-compact .about-page {
+    padding: 100px 0 60px;
+  }
+
+  /* The terminal page is shorter than a screen once scaled, so it
+     reserves the screen height minus the footer (~125px) and its
+     top margin (48px), keeping the footer at the bottom edge. */
+  html.site-compact .terminal-page {
+    box-sizing: border-box;
+
+    min-height: calc(100vh / var(--site-zoom) - 173px);
+
+    padding: 120px 0 70px;
+  }
+
+
+  /* ---------- Page headers */
+
+  html.site-compact .projects-header,
+  html.site-compact .roles-header,
+  html.site-compact .timeline-header {
+    margin-bottom: 48px;
+  }
+
+  html.site-compact .certifications-header {
+    margin: 0 auto 48px;
+  }
+
+  html.site-compact .about-header {
+    margin-bottom: 48px;
+  }
+
+  html.site-compact .contact-title {
+    margin-bottom: 36px;
+  }
+
+
+  /* ---------- Gaps inside pages */
+
+  html.site-compact .course-section,
+  html.site-compact .hobbies-section {
+    margin-bottom: 56px;
+  }
+
+  html.site-compact .timeline-item {
+    margin-bottom: 48px;
+  }
+
+  html.site-compact .timeline-row {
+    margin-bottom: 36px;
+  }
+
+  html.site-compact .footer {
+    margin-top: 48px;
+  }
+
+
+  /* ---------- Home page: sections sit closer together */
+
+  html.site-compact .home-page .skills-section {
+    padding: 48px 0 24px;
+  }
+
+  html.site-compact .home-page .roles-page,
+  html.site-compact .home-page .projects-page {
+    padding: 32px 0;
+  }
+
+  html.site-compact .home-page .contact-section {
+    margin-top: 24px;
+  }
+
+
+  /* =======================================================
+     3. SKILLS — smaller cards, six per row, room to breathe
+  ======================================================= */
+
+  html.site-compact .skill-category {
+    margin-bottom: 56px;
+  }
+
+  html.site-compact .skill-category:last-child {
+    margin-bottom: 0;
+  }
+
+  html.site-compact .category-header {
+    margin-bottom: 28px;
+  }
+
+  /* Fixed-width cards in centred rows, so a short last row
+     (or a category with only a few skills) sits in the middle
+     instead of hanging off the left edge. */
+  html.site-compact .skills-grid {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 30px;
+  }
+
+  html.site-compact .skill-tilt {
+    flex: 0 0 196px;
+
+    height: 205px;
+  }
+
+  html.site-compact .skill-front,
+  html.site-compact .skill-back {
+    padding: 20px;
+  }
+
+  html.site-compact .skill-icon-wrap {
+    width: 76px;
+    height: 76px;
+
+    margin-bottom: 14px;
+  }
+
+  html.site-compact .skill-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  html.site-compact body.dark .skill-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  html.site-compact .skill-title {
+    font-size: 1.05rem;
+  }
+
+  html.site-compact .skill-back h3 {
+    margin-bottom: 8px;
+
+    font-size: 1.1rem;
+  }
+
+  html.site-compact .skill-back p {
+    font-size: 0.82rem;
+
+    line-height: 1.55;
+  }
+
+
+  /* =======================================================
+     4. PROJECT CARDS
+  ======================================================= */
+
+  /* Date badge sized to the cards */
+  html.site-compact .project-date {
+    top: 12px;
+    right: 12px;
+
+    gap: 6px;
+
+    padding: 6px 12px;
+  }
+
+  html.site-compact .project-date span {
+    font-size: 14px;
+  }
+
+  html.site-compact .project-date svg {
+    font-size: 0.7rem;
+  }
+
+}

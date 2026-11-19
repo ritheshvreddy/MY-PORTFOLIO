@@ -9,6 +9,7 @@ import {
   lazy,
   Suspense,
   useEffect,
+  useLayoutEffect,
 } from "react";
 
 import { usePageMeta } from "./seo/usePageMeta";
@@ -198,6 +199,19 @@ function Layout() {
         }
       : null
   );
+
+
+  /*
+    Compact sizing for the public website (see styles/compact.css).
+    Runs before paint so the page never flashes at the larger size.
+    The admin panel keeps its normal sizing.
+  */
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle(
+      "site-compact",
+      !isAdmin
+    );
+  }, [isAdmin]);
 
 
   /* Start each new page at the top (hash links still scroll to their target) */

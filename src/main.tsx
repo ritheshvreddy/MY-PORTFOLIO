@@ -21,6 +21,7 @@ import {
 
 import "./styles/globals.css";
 import "./styles/variables.css";
+import "./styles/compact.css";
 
 
 /* =========================================================

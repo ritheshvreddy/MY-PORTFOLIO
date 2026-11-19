@@ -400,14 +400,83 @@
   background: #f8fafc;
 }
 
-.project-image-preview img {
-  width: 100%;
+/* Same 16:9 frame as the website, so the preview shows exactly
+   what visitors will see (blurred fill included). */
+.project-image-preview-frame {
+  position: relative;
 
-  max-height: 360px;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  background: #0f172a;
+}
+
+.project-image-preview-frame .cover-image,
+.admin-project-image .cover-image {
+  position: relative;
+
+  z-index: 1;
 
   display: block;
 
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.project-image-preview-frame .cover-image-backdrop,
+.admin-project-image .cover-image-backdrop {
+  position: absolute;
+
+  inset: -24px;
+
+  background-size: cover;
+
+  background-position: center;
+
+  filter: blur(22px) brightness(0.75) saturate(1.1);
+
+  pointer-events: none;
+}
+
+
+/* Recommended size note + size check of the uploaded image */
+.cover-size-hint {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+}
+
+.cover-size-hint strong {
+  color: #1e3a8a;
+}
+
+.cover-size-check {
+  padding: 10px 14px;
+
+  border-top: 1px solid #e2e8f0;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+.cover-size-check.good {
+  background: #f0fdf4;
+
+  color: #15803d;
+}
+
+.cover-size-check.warn {
+  background: #fffbeb;
+
+  color: #b45309;
 }
 
 .project-image-actions {
@@ -1072,9 +1141,11 @@
 ========================================================= */
 
 .admin-project-image {
+  position: relative;
+
   width: 100%;
 
-  height: 190px;
+  aspect-ratio: 16 / 9;
 
   background: #f1f5f9;
 

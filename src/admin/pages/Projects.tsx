@@ -27,6 +27,8 @@ import type {
   Project,
 } from "../../types/project";
 
+import CoverImage from "../../components/projects/CoverImage";
+
 import "./Projects.css";
 
 
@@ -89,6 +91,74 @@ const initialFormData: ProjectFormData = {
   show_github_button: true,
   show_live_demo_button: true,
 };
+
+
+/* =========================================================
+   COVER IMAGE SIZE
+   Every project image frame on the site is 16:9.
+========================================================= */
+
+const COVER_WIDTH = 1600;
+const COVER_HEIGHT = 900;
+
+
+interface CoverCheck {
+  status: "good" | "warn";
+  message: string;
+}
+
+
+function describeCover(
+  width: number,
+  height: number
+): CoverCheck {
+  const ratio =
+    width / height;
+
+  const target =
+    COVER_WIDTH / COVER_HEIGHT;
+
+  const rightShape =
+    Math.abs(ratio - target) / target < 0.03;
+
+  const bigEnough =
+    width >= 1280;
+
+  const size =
+    `${width} × ${height} px`;
+
+  if (rightShape && bigEnough) {
+    return {
+      status: "good",
+      message: `✓ ${size} — perfect fit (16:9).`,
+    };
+  }
+
+  const problems: string[] = [];
+
+  if (!rightShape) {
+    problems.push(
+      `it is ${ratio.toFixed(2)}:1, not 16:9, so the site will show blurred bars ${
+        ratio > target
+          ? "above and below it"
+          : "on its sides"
+      }`
+    );
+  }
+
+  if (!bigEnough) {
+    problems.push(
+      "it is small and may look blurry on sharp screens"
+    );
+  }
+
+  return {
+    status: "warn",
+    message: `⚠ ${size} — ${problems.join(
+      ", and "
+    )}. Re-export at ${COVER_WIDTH} × ${COVER_HEIGHT} px for an exact fit.`,
+  };
+}
 
 
 /* =========================================================
@@ -255,6 +325,63 @@ export default function Projects() {
   ] = useState<FullProject["gallery"]>(
     []
   );
+
+
+  /* =======================================================
+     COVER IMAGE SIZE CHECK
+  ======================================================= */
+
+  const [
+    coverMeta,
+    setCoverMeta,
+  ] = useState<{
+    src: string;
+    width: number;
+    height: number;
+  } | null>(null);
+
+
+  useEffect(() => {
+    const src =
+      formData.cover_image;
+
+    if (!src) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const image =
+      new Image();
+
+    image.onload = () => {
+      if (!cancelled) {
+        setCoverMeta({
+          src,
+          width:
+            image.naturalWidth,
+          height:
+            image.naturalHeight,
+        });
+      }
+    };
+
+    image.src = src;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [formData.cover_image]);
+
+
+  const coverCheck =
+    coverMeta &&
+    coverMeta.src === formData.cover_image
+      ? describeCover(
+          coverMeta.width,
+          coverMeta.height
+        )
+      : null;
 
 
   /* =======================================================
@@ -2058,6 +2185,18 @@ function handleChange(
                   </label>
 
 
+                  <p className="cover-size-hint">
+                    Recommended size:{" "}
+                    <strong>
+                      {COVER_WIDTH} × {COVER_HEIGHT} px (16:9)
+                    </strong>
+                    , JPG or WebP under 300 KB. The same image is
+                    used on the Projects page, the home page and
+                    the project's own page. Keep text and logos
+                    away from the edges.
+                  </p>
+
+
                   <input
                     ref={
                       coverImageRef
@@ -2075,15 +2214,31 @@ function handleChange(
 
                     <div className="project-image-preview">
 
-                      <img
-                        src={
-                          formData.cover_image
-                        }
-                        alt={
-                          formData.title ||
-                          "Project cover"
-                        }
-                      />
+                      {/* Same 16:9 frame visitors see */}
+                      <div className="project-image-preview-frame">
+
+                        <CoverImage
+                          src={
+                            formData.cover_image
+                          }
+                          alt={
+                            formData.title ||
+                            "Project cover"
+                          }
+                        />
+
+                      </div>
+
+
+                      {coverCheck && (
+
+                        <div
+                          className={`cover-size-check ${coverCheck.status}`}
+                        >
+                          {coverCheck.message}
+                        </div>
+
+                      )}
 
 
                       <div className="project-image-actions">
@@ -3264,13 +3419,14 @@ function handleChange(
 
                   {project.cover_image ? (
 
-                    <img
+                    <CoverImage
                       src={
                         project.cover_image
                       }
                       alt={
                         project.title
                       }
+                      loading="lazy"
                     />
 
                   ) : (

@@ -17,16 +17,37 @@ import CoverImage from "./CoverImage";
 
 interface ProjectCardProps {
   project: FullProject;
+
+  /*
+    "grid": image on top (home page, 3 per row).
+    "row":  image beside the details, one project per row
+            (projects page). Stacks like "grid" on phones.
+  */
+  layout?: "grid" | "row";
 }
 
 
 export default function ProjectCard({
   project,
+  layout = "grid",
 }: ProjectCardProps) {
+
+  const isRow =
+    layout === "row";
+
+  /* Row cards have room for more tags */
+  const tagLimit =
+    isRow ? 6 : 4;
 
   return (
 
-    <article className="project-card">
+    <article
+      className={
+        isRow
+          ? "project-card project-card--row"
+          : "project-card"
+      }
+    >
 
 
       {/* ================= IMAGE ================= */}
@@ -113,6 +134,19 @@ export default function ProjectCard({
         )}
 
 
+        {/* DESCRIPTION (row cards only) */}
+
+        {isRow && project.description && (
+
+          <p className="project-card-description">
+
+            {project.description}
+
+          </p>
+
+        )}
+
+
         {/* TECHNOLOGIES */}
 
         {project.technologies.length > 0 && (
@@ -120,7 +154,7 @@ export default function ProjectCard({
           <div className="project-technologies">
 
             {project.technologies
-              .slice(0, 4)
+              .slice(0, tagLimit)
               .map((tech) => (
 
                 <span
@@ -136,6 +170,21 @@ export default function ProjectCard({
 
               ))}
 
+
+            {project.technologies.length > tagLimit && (
+
+              <span
+                className="project-tech-more"
+                title={project.technologies
+                  .slice(tagLimit)
+                  .map((tech) => tech.technology)
+                  .join(", ")}
+              >
+                +{project.technologies.length - tagLimit}
+              </span>
+
+            )}
+
           </div>
 
         )}
@@ -148,7 +197,8 @@ export default function ProjectCard({
 
           {/* GITHUB */}
 
-          {project.github_url && (
+          {project.show_github_button !== false &&
+            project.github_url && (
 
             <a
               href={project.github_url}
@@ -168,7 +218,8 @@ export default function ProjectCard({
 
           {/* LIVE DEMO */}
 
-          {project.live_url && (
+          {project.show_live_demo_button !== false &&
+            project.live_url && (
 
             <a
               href={project.live_url}

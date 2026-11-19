@@ -1,6 +1,5 @@
 import "./Projects.css";
 
-import FeaturedProject from "./FeaturedProject";
 import ProjectCard from "./ProjectCard";
 
 import { useCachedData } from "../../lib/cache";
@@ -65,22 +64,6 @@ export default function Projects() {
   }
 
 
-  /* ================= SPLIT PROJECTS ================= */
-
-  const featuredProjects =
-    projects.filter(
-      (project) =>
-        project.featured === true
-    );
-
-
-  const otherProjects =
-    projects.filter(
-      (project) =>
-        project.featured !== true
-    );
-
-
   /* ================= PAGE ================= */
 
   return (
@@ -106,68 +89,25 @@ export default function Projects() {
       </div>
 
 
-      {/* ================= FEATURED PROJECTS ================= */}
+      {/* ================= ALL PROJECTS (one per row) ================= */}
 
-      {featuredProjects.length > 0 && (
+      {projects.length > 0 && (
 
-        <section className="projects-featured">
+        <div className="projects-list">
 
-          <h2 className="projects-section-title">
+          {projects.map(
+            (project) => (
 
-            Featured Projects
+              <ProjectCard
+                key={project.id}
+                project={project}
+                layout="row"
+              />
 
-          </h2>
+            )
+          )}
 
-
-          <div className="featured-list">
-
-            {featuredProjects.map(
-              (project) => (
-
-                <FeaturedProject
-                  key={project.id}
-                  project={project}
-                />
-
-              )
-            )}
-
-          </div>
-
-        </section>
-
-      )}
-
-
-      {/* ================= OTHER PROJECTS ================= */}
-
-      {otherProjects.length > 0 && (
-
-        <section className="projects-other">
-
-          <h2 className="projects-section-title">
-
-            Other Projects
-
-          </h2>
-
-
-          <div className="projects-grid">
-
-            {otherProjects.map(
-              (project) => (
-
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                />
-
-              )
-            )}
-
-          </div>
-
-        </section>
+        </div>
 
       )}
 
