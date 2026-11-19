@@ -170,11 +170,9 @@ body.dark .featured-project::before{
 
     width:100%;
 
-    /* Proportional frame instead of a fixed-height strip,
-       so wide cards don't crop the top/bottom of covers. */
+    /* Always exactly 2.4:1 (e.g. 1920x800) at every screen
+       width, so covers made at that size fill it edge to edge. */
     aspect-ratio:12 / 5;
-
-    max-height:440px;
 
     overflow:hidden;
 }
@@ -806,12 +804,6 @@ margin-bottom:70px;
 
 }
 
-.featured-banner{
-
-max-height:340px;
-
-}
-
 .featured-body{
 
 padding:28px;
@@ -868,11 +860,6 @@ font-size:1.6rem;
 
 }
 
-.featured-banner{
-
-aspect-ratio:2 / 1;
-
-}
 
 .featured-body{
 
