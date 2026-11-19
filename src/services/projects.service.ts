@@ -87,6 +87,72 @@ function normalizeProject(
       project.show_live_demo_button ??
       true,
 
+    display_order:
+      project.display_order ??
+      0,
+
+  };
+}
+
+
+/* =========================================================
+   NORMALIZE CASE STUDY
+========================================================= */
+
+type CaseStudyRow =
+  Pick<ProjectCaseStudy, "id" | "project_id"> &
+  Partial<ProjectCaseStudy>;
+
+function normalizeCaseStudy(
+  row: CaseStudyRow
+): ProjectCaseStudy {
+
+  return {
+
+    id:
+      row.id,
+
+    project_id:
+      row.project_id,
+
+    title:
+      row.title ??
+      null,
+
+    introduction:
+      row.introduction ??
+      null,
+
+    overview:
+      row.overview ??
+      null,
+
+    problem:
+      row.problem ??
+      null,
+
+    goals:
+      row.goals ??
+      null,
+
+    solution:
+      row.solution ??
+      null,
+
+    architecture:
+      row.architecture ??
+      null,
+
+    tech_stack:
+      row.tech_stack ??
+      null,
+
+    created_at:
+      row.created_at,
+
+    updated_at:
+      row.updated_at,
+
   };
 }
 
@@ -105,6 +171,12 @@ export async function getProjects():
     await supabase
       .from("projects")
       .select("*")
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
+      )
       .order(
         "created_at",
         {
@@ -460,49 +532,9 @@ async function getProjectCaseStudy(
   }
 
 
-  return {
-
-    id:
-      data.id,
-
-    project_id:
-      data.project_id,
-
-    title:
-      data.title ??
-      null,
-
-    introduction:
-      data.introduction ??
-      null,
-
-    overview:
-      data.overview ??
-      null,
-
-    problem:
-      data.problem ??
-      null,
-
-    goals:
-      data.goals ??
-      null,
-
-    solution:
-      data.solution ??
-      null,
-
-    role:
-      data.role ??
-      null,
-
-    created_at:
-      data.created_at,
-
-    updated_at:
-      data.updated_at,
-
-  };
+  return normalizeCaseStudy(
+    data
+  );
 }
 
 
@@ -847,54 +879,11 @@ async function buildFullProjects(
     of caseStudiesResult.data ?? []
   ) {
 
-    const caseStudy: ProjectCaseStudy = {
-
-      id:
-        item.id,
-
-      project_id:
-        item.project_id,
-
-      title:
-        item.title ??
-        null,
-
-      introduction:
-        item.introduction ??
-        null,
-
-      overview:
-        item.overview ??
-        null,
-
-      problem:
-        item.problem ??
-        null,
-
-      goals:
-        item.goals ??
-        null,
-
-      solution:
-        item.solution ??
-        null,
-
-      role:
-        item.role ??
-        null,
-
-      created_at:
-        item.created_at,
-
-      updated_at:
-        item.updated_at,
-
-    };
-
-
     caseStudyByProject.set(
       item.project_id,
-      caseStudy
+      normalizeCaseStudy(
+        item
+      )
     );
   }
 
@@ -973,6 +962,12 @@ export async function getFeaturedFullProjects():
       .eq(
         "published",
         true
+      )
+      .order(
+        "display_order",
+        {
+          ascending: true,
+        }
       )
       .order(
         "created_at",
@@ -1121,7 +1116,9 @@ export interface CaseStudyInput {
 
   solution?: string | null;
 
-  role?: string | null;
+  architecture?: string | null;
+
+  tech_stack?: string | null;
 }
 
 
@@ -1185,8 +1182,12 @@ export async function upsertCaseStudy(
             input.solution ??
             null,
 
-          role:
-            input.role ??
+          architecture:
+            input.architecture ??
+            null,
+
+          tech_stack:
+            input.tech_stack ??
             null,
         },
         {
@@ -1209,49 +1210,172 @@ export async function upsertCaseStudy(
   }
 
 
-  return {
+  return normalizeCaseStudy(
+    data
+  );
+}
 
-    id:
-      data.id,
 
-    project_id:
-      data.project_id,
+/* =========================================================
+   REPLACE PROJECT TECHNOLOGIES
+   Saves the tech stack tags in the given order. New rows are
+   written before old ones are removed, so a failed save never
+   leaves the project with no tags.
+========================================================= */
 
-    title:
-      data.title ??
-      null,
+export async function replaceProjectTechnologies(
+  projectId: string,
+  technologies: string[]
+): Promise<void> {
 
-    introduction:
-      data.introduction ??
-      null,
+  let keepIds: string[] = [];
 
-    overview:
-      data.overview ??
-      null,
 
-    problem:
-      data.problem ??
-      null,
+  if (technologies.length > 0) {
 
-    goals:
-      data.goals ??
-      null,
+    const {
+      data,
+      error,
+    } =
+      await supabase
+        .from(
+          "project_technologies"
+        )
+        .insert(
+          technologies.map(
+            (technology, index) => ({
+              project_id:
+                projectId,
 
-    solution:
-      data.solution ??
-      null,
+              technology,
 
-    role:
-      data.role ??
-      null,
+              display_order:
+                index,
+            })
+          )
+        )
+        .select("id");
 
-    created_at:
-      data.created_at,
 
-    updated_at:
-      data.updated_at,
+    if (error) {
 
-  };
+      console.error(
+        "Error saving technologies:",
+        error
+      );
+
+      throw error;
+    }
+
+
+    keepIds =
+      (data ?? []).map(
+        (row) =>
+          row.id as string
+      );
+  }
+
+
+  let deleteQuery =
+    supabase
+      .from(
+        "project_technologies"
+      )
+      .delete()
+      .eq(
+        "project_id",
+        projectId
+      );
+
+
+  if (keepIds.length > 0) {
+
+    deleteQuery =
+      deleteQuery.not(
+        "id",
+        "in",
+        `(${keepIds.join(",")})`
+      );
+  }
+
+
+  const {
+    error,
+  } =
+    await deleteQuery;
+
+
+  if (error) {
+
+    console.error(
+      "Error removing old technologies:",
+      error
+    );
+
+    throw error;
+  }
+}
+
+
+/* =========================================================
+   REORDER PROJECTS
+   Takes every project id in the wanted order and saves the
+   position of each one that moved.
+========================================================= */
+
+export async function reorderProjects(
+  orderedIds: string[],
+  currentOrder: Map<string, number>
+): Promise<void> {
+
+  const changes =
+    orderedIds
+      .map(
+        (id, index) => ({
+          id,
+          index,
+        })
+      )
+      .filter(
+        ({ id, index }) =>
+          currentOrder.get(id) !== index
+      );
+
+
+  const results =
+    await Promise.all(
+      changes.map(
+        ({ id, index }) =>
+          supabase
+            .from("projects")
+            .update({
+              display_order:
+                index,
+            })
+            .eq(
+              "id",
+              id
+            )
+      )
+    );
+
+
+  const failed =
+    results.find(
+      (result) =>
+        result.error
+    );
+
+
+  if (failed?.error) {
+
+    console.error(
+      "Error reordering projects:",
+      failed.error
+    );
+
+    throw failed.error;
+  }
 }
 
 

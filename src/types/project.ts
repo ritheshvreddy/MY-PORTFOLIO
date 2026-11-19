@@ -63,7 +63,9 @@ export interface ProjectCaseStudy {
 
   solution: string | null;
 
-  role: string | null;
+  architecture: string | null;
+
+  tech_stack: string | null;
 
   created_at?: string;
 
@@ -107,6 +109,9 @@ export interface Project {
   featured: boolean;
 
   published: boolean;
+
+  /* Lower numbers are shown first. */
+  display_order?: number;
 
 
   /* =======================================================

@@ -13,6 +13,8 @@ import {
   deleteProject,
   deleteProjectImage,
   getFullProjects,
+  reorderProjects,
+  replaceProjectTechnologies,
   updateGalleryItem,
   updateProject,
   uploadProjectGalleryImage,
@@ -62,7 +64,8 @@ interface CaseStudyFormData {
   problem: string;
   goals: string;
   solution: string;
-  role: string;
+  architecture: string;
+  tech_stack: string;
 }
 
 
@@ -88,6 +91,65 @@ const initialFormData: ProjectFormData = {
 };
 
 
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function moveItem<T>(
+  items: T[],
+  from: number,
+  to: number
+): T[] {
+  const next = [
+    ...items,
+  ];
+
+  if (
+    from < 0 ||
+    to < 0 ||
+    from >= next.length ||
+    to >= next.length
+  ) {
+    return next;
+  }
+
+  const [moved] =
+    next.splice(from, 1);
+
+  next.splice(to, 0, moved);
+
+  return next;
+}
+
+
+function cleanTechnologies(
+  items: string[]
+): string[] {
+  const seen =
+    new Set<string>();
+
+  const result: string[] = [];
+
+  for (const item of items) {
+    const value =
+      item.trim();
+
+    const key =
+      value.toLowerCase();
+
+    if (
+      value &&
+      !seen.has(key)
+    ) {
+      seen.add(key);
+      result.push(value);
+    }
+  }
+
+  return result;
+}
+
+
 const initialCaseStudyData: CaseStudyFormData = {
   title: "",
   introduction: "",
@@ -95,7 +157,8 @@ const initialCaseStudyData: CaseStudyFormData = {
   problem: "",
   goals: "",
   solution: "",
-  role: "",
+  architecture: "",
+  tech_stack: "",
 };
 
 
@@ -192,6 +255,38 @@ export default function Projects() {
   ] = useState<FullProject["gallery"]>(
     []
   );
+
+
+  /* =======================================================
+     TECH STACK TAGS
+  ======================================================= */
+
+  const [
+    technologies,
+    setTechnologies,
+  ] = useState<string[]>([]);
+
+
+  const [
+    newTechnology,
+    setNewTechnology,
+  ] = useState("");
+
+
+  /* =======================================================
+     PROJECT ORDER
+  ======================================================= */
+
+  const [
+    reordering,
+    setReordering,
+  ] = useState(false);
+
+
+  const [
+    draggedProjectId,
+    setDraggedProjectId,
+  ] = useState<string | null>(null);
 
 
   /* =======================================================
@@ -348,6 +443,235 @@ function handleChange(
 
 
   /* =========================================================
+     TECH STACK TAGS
+  ========================================================= */
+
+  function handleAddTechnologies() {
+    /* Comma separated input adds several tags at once. */
+    const additions =
+      newTechnology
+        .split(",")
+        .map(
+          (item) =>
+            item.trim()
+        )
+        .filter(Boolean);
+
+
+    if (
+      additions.length === 0
+    ) {
+      return;
+    }
+
+
+    setTechnologies(
+      (previous) => {
+        const next = [
+          ...previous,
+        ];
+
+        for (
+          const item of additions
+        ) {
+          const exists =
+            next.some(
+              (current) =>
+                current.toLowerCase() ===
+                item.toLowerCase()
+            );
+
+          if (!exists) {
+            next.push(item);
+          }
+        }
+
+        return next;
+      }
+    );
+
+
+    setNewTechnology("");
+  }
+
+
+  function handleRenameTechnology(
+    index: number,
+    value: string
+  ) {
+    setTechnologies(
+      (previous) =>
+        previous.map(
+          (item, current) =>
+            current === index
+              ? value
+              : item
+        )
+    );
+  }
+
+
+  function handleRemoveTechnology(
+    index: number
+  ) {
+    setTechnologies(
+      (previous) =>
+        previous.filter(
+          (_, current) =>
+            current !== index
+        )
+    );
+  }
+
+
+  function handleMoveTechnology(
+    index: number,
+    direction: -1 | 1
+  ) {
+    setTechnologies(
+      (previous) =>
+        moveItem(
+          previous,
+          index,
+          index + direction
+        )
+    );
+  }
+
+
+  /* =========================================================
+     PROJECT ORDER
+  ========================================================= */
+
+  async function saveProjectOrder(
+    next: FullProject[]
+  ) {
+    if (reordering) {
+      return;
+    }
+
+
+    const previous =
+      projects;
+
+
+    const currentOrder =
+      new Map(
+        previous.map(
+          (project) => [
+            project.id,
+            project.display_order ?? 0,
+          ]
+        )
+      );
+
+
+    setProjects(
+      next.map(
+        (project, index) => ({
+          ...project,
+          display_order:
+            index,
+        })
+      )
+    );
+
+
+    try {
+      setReordering(true);
+      setError("");
+      setSuccess("");
+
+      await reorderProjects(
+        next.map(
+          (project) =>
+            project.id
+        ),
+        currentOrder
+      );
+
+      setSuccess(
+        "Project order saved."
+      );
+
+    } catch (orderError) {
+      console.error(
+        "Error saving project order:",
+        orderError
+      );
+
+      setProjects(previous);
+
+      setError(
+        orderError instanceof Error
+          ? orderError.message
+          : "Unable to save project order."
+      );
+
+    } finally {
+      setReordering(false);
+    }
+  }
+
+
+  function handleMoveProject(
+    index: number,
+    targetIndex: number
+  ) {
+    if (
+      targetIndex < 0 ||
+      targetIndex >= projects.length ||
+      targetIndex === index
+    ) {
+      return;
+    }
+
+
+    void saveProjectOrder(
+      moveItem(
+        projects,
+        index,
+        targetIndex
+      )
+    );
+  }
+
+
+  function handleProjectDrop(
+    targetId: string
+  ) {
+    const fromIndex =
+      projects.findIndex(
+        (project) =>
+          project.id === draggedProjectId
+      );
+
+    const toIndex =
+      projects.findIndex(
+        (project) =>
+          project.id === targetId
+      );
+
+
+    setDraggedProjectId(null);
+
+
+    if (
+      fromIndex === -1 ||
+      toIndex === -1
+    ) {
+      return;
+    }
+
+
+    handleMoveProject(
+      fromIndex,
+      toIndex
+    );
+  }
+
+
+  /* =========================================================
      RESET FORM
   ========================================================= */
 
@@ -361,6 +685,10 @@ function handleChange(
     );
 
     setGallery([]);
+
+    setTechnologies([]);
+
+    setNewTechnology("");
 
     setActiveTab(
       "general"
@@ -470,10 +798,24 @@ function handleChange(
         project.case_study?.solution ||
         "",
 
-      role:
-        project.case_study?.role ||
+      architecture:
+        project.case_study?.architecture ||
+        "",
+
+      tech_stack:
+        project.case_study?.tech_stack ||
         "",
     });
+
+
+    setTechnologies(
+      project.technologies.map(
+        (item) =>
+          item.technology
+      )
+    );
+
+    setNewTechnology("");
 
 
     setGallery(
@@ -741,7 +1083,8 @@ function handleChange(
           Project,
           "id" |
           "created_at" |
-          "updated_at"
+          "updated_at" |
+          "display_order"
         > = {
 
         title:
@@ -821,13 +1164,61 @@ function handleChange(
         );
 
       } else {
+        /* New projects go to the top of the list. */
+        const topOrder =
+          projects.length > 0
+            ? Math.min(
+                ...projects.map(
+                  (project) =>
+                    project.display_order ?? 0
+                )
+              ) - 1
+            : 0;
+
+
         const created =
-          await createProject(
-            projectData
-          );
+          await createProject({
+            ...projectData,
+            display_order:
+              topOrder,
+          });
 
         projectId =
           created.id;
+      }
+
+
+      /* =====================================================
+         SAVE TECH STACK TAGS
+      ===================================================== */
+
+      const nextTechnologies =
+        cleanTechnologies(
+          technologies
+        );
+
+      const previousTechnologies =
+        (
+          editingProject?.technologies ??
+          []
+        ).map(
+          (item) =>
+            item.technology
+        );
+
+      const technologiesChanged =
+        nextTechnologies.join("\n") !==
+        previousTechnologies.join("\n");
+
+
+      if (
+        projectId &&
+        technologiesChanged
+      ) {
+        await replaceProjectTechnologies(
+          projectId,
+          nextTechnologies
+        );
       }
 
 
@@ -861,8 +1252,11 @@ function handleChange(
             solution:
               caseStudyData.solution.trim(),
 
-            role:
-              caseStudyData.role.trim(),
+            architecture:
+              caseStudyData.architecture.trim(),
+
+            tech_stack:
+              caseStudyData.tech_stack.trim(),
           }
         );
       }
@@ -1499,6 +1893,8 @@ function handleChange(
 
           <p>
             Create, edit and manage your portfolio projects.
+            Drag cards or use the arrows to set the order
+            they appear on your site.
           </p>
 
         </div>
@@ -1968,6 +2364,157 @@ function handleChange(
 
 
                 {/* =============================================
+                    TECH STACK TAGS
+                ============================================= */}
+
+                <div className="form-group form-group-full">
+
+                  <label>
+                    Tech Stack Tags
+                  </label>
+
+
+                  <p className="tech-tags-hint">
+                    The small tags shown on project cards.
+                    Click a tag to rename it, use the arrows to
+                    reorder. Changes save with the project.
+                  </p>
+
+
+                  {technologies.length > 0 && (
+
+                    <div className="tech-tags-editor">
+
+                      {technologies.map(
+                        (technology, index) => (
+
+                          <div
+                            key={index}
+                            className="tech-tag-chip"
+                          >
+
+                            <button
+                              type="button"
+                              className="tech-tag-icon"
+                              aria-label={`Move ${technology} left`}
+                              disabled={
+                                index === 0
+                              }
+                              onClick={() =>
+                                handleMoveTechnology(
+                                  index,
+                                  -1
+                                )
+                              }
+                            >
+                              ‹
+                            </button>
+
+
+                            <input
+                              type="text"
+                              value={
+                                technology
+                              }
+                              size={Math.max(
+                                technology.length,
+                                3
+                              )}
+                              aria-label={`Tag ${index + 1}`}
+                              onChange={(event) =>
+                                handleRenameTechnology(
+                                  index,
+                                  event.target.value
+                                )
+                              }
+                            />
+
+
+                            <button
+                              type="button"
+                              className="tech-tag-icon"
+                              aria-label={`Move ${technology} right`}
+                              disabled={
+                                index ===
+                                technologies.length - 1
+                              }
+                              onClick={() =>
+                                handleMoveTechnology(
+                                  index,
+                                  1
+                                )
+                              }
+                            >
+                              ›
+                            </button>
+
+
+                            <button
+                              type="button"
+                              className="tech-tag-icon tech-tag-remove"
+                              aria-label={`Remove ${technology}`}
+                              onClick={() =>
+                                handleRemoveTechnology(
+                                  index
+                                )
+                              }
+                            >
+                              ×
+                            </button>
+
+                          </div>
+
+                        )
+                      )}
+
+                    </div>
+
+                  )}
+
+
+                  <div className="dynamic-add-row">
+
+                    <input
+                      type="text"
+                      value={
+                        newTechnology
+                      }
+                      onChange={(event) =>
+                        setNewTechnology(
+                          event.target.value
+                        )
+                      }
+                      onKeyDown={(event) => {
+                        if (
+                          event.key === "Enter"
+                        ) {
+                          event.preventDefault();
+                          handleAddTechnologies();
+                        }
+                      }}
+                      placeholder="Add a tag, e.g. React (comma separate to add several)"
+                    />
+
+
+                    <button
+                      type="button"
+                      className="admin-secondary-button"
+                      disabled={
+                        !newTechnology.trim()
+                      }
+                      onClick={
+                        handleAddTechnologies
+                      }
+                    >
+                      Add Tag
+                    </button>
+
+                  </div>
+
+                </div>
+
+
+                {/* =============================================
                     BUTTON CONTROLS
                 ============================================= */}
 
@@ -2296,27 +2843,59 @@ function handleChange(
 
 
                     {/* =========================================
-                        ROLE
+                        SYSTEM ARCHITECTURE
                     ========================================= */}
 
                     <div className="form-group form-group-full">
 
                       <label>
-                        My Role & Contribution
+                        System Architecture
                       </label>
 
 
                       <textarea
-                        name="role"
+                        name="architecture"
                         value={
-                          caseStudyData.role
+                          caseStudyData.architecture
+                        }
+                        onChange={
+                          handleCaseStudyChange
+                        }
+                        rows={8}
+                        placeholder="How the system fits together: components, data flow, APIs, models, storage..."
+                      />
+
+                    </div>
+
+
+                    {/* =========================================
+                        TECHNOLOGY STACK
+                    ========================================= */}
+
+                    <div className="form-group form-group-full">
+
+                      <label>
+                        Technology Stack
+                      </label>
+
+
+                      <textarea
+                        name="tech_stack"
+                        value={
+                          caseStudyData.tech_stack
                         }
                         onChange={
                           handleCaseStudyChange
                         }
                         rows={7}
-                        placeholder="Describe your role and contribution..."
+                        placeholder={"Frontend: React, TypeScript\nBackend: FastAPI, Python\nML: TensorFlow\nDatabase: PostgreSQL"}
                       />
+
+
+                      <p className="tech-tags-hint">
+                        Shown above the tech stack tags from the
+                        General tab. Leave empty to show the tags only.
+                      </p>
 
                     </div>
 
@@ -2571,14 +3150,110 @@ function handleChange(
         ) : (
 
           projects.map(
-            (project) => (
+            (project, index) => (
 
               <article
                 key={
                   project.id
                 }
-                className="admin-project-card"
+                className={
+                  [
+                    "admin-project-card",
+                    draggedProjectId === project.id
+                      ? "dragging"
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")
+                }
+                draggable={
+                  !reordering
+                }
+                onDragStart={(event) => {
+                  event.dataTransfer.effectAllowed =
+                    "move";
+
+                  setDraggedProjectId(
+                    project.id
+                  );
+                }}
+                onDragEnd={() =>
+                  setDraggedProjectId(
+                    null
+                  )
+                }
+                onDragOver={(event) => {
+                  if (draggedProjectId) {
+                    event.preventDefault();
+                  }
+                }}
+                onDrop={(event) => {
+                  event.preventDefault();
+
+                  handleProjectDrop(
+                    project.id
+                  );
+                }}
               >
+
+
+                {/* =============================================
+                    ORDER
+                ============================================= */}
+
+                <div className="admin-project-order">
+
+                  <span
+                    className="admin-project-position"
+                    title="Drag the card to reorder"
+                  >
+                    ⠿ #{index + 1}
+                  </span>
+
+
+                  <div className="admin-project-order-buttons">
+
+                    <button
+                      type="button"
+                      aria-label={`Move ${project.title} up`}
+                      title="Move up"
+                      disabled={
+                        reordering ||
+                        index === 0
+                      }
+                      onClick={() =>
+                        handleMoveProject(
+                          index,
+                          index - 1
+                        )
+                      }
+                    >
+                      ↑
+                    </button>
+
+
+                    <button
+                      type="button"
+                      aria-label={`Move ${project.title} down`}
+                      title="Move down"
+                      disabled={
+                        reordering ||
+                        index ===
+                          projects.length - 1
+                      }
+                      onClick={() =>
+                        handleMoveProject(
+                          index,
+                          index + 1
+                        )
+                      }
+                    >
+                      ↓
+                    </button>
+
+                  </div>
+
+                </div>
 
 
                 {/* =============================================

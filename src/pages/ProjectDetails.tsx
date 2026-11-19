@@ -569,22 +569,22 @@ export default function ProjectDetails() {
 
 
             {/* =================================================
-                ROLE
+                SYSTEM ARCHITECTURE
             ================================================= */}
 
-            {caseStudy.role && (
+            {caseStudy.architecture && (
 
               <section className="case-study-block">
 
                 <h2>
-                  My Role & Contribution
+                  System Architecture
                 </h2>
 
 
                 <div className="case-study-text">
 
                   <p>
-                    {caseStudy.role}
+                    {caseStudy.architecture}
                   </p>
 
                 </div>
@@ -595,17 +595,33 @@ export default function ProjectDetails() {
 
 
             {/* =================================================
-                TECHNOLOGIES
+                TECHNOLOGY STACK
             ================================================= */}
 
-            {project.technologies.length > 0 && (
+            {(caseStudy.tech_stack ||
+              project.technologies.length > 0) && (
 
               <section className="case-study-block">
 
                 <h2>
-                  Technologies Used
+                  Technology Stack
                 </h2>
 
+
+                {caseStudy.tech_stack && (
+
+                  <div className="case-study-text case-study-tech-stack">
+
+                    <p>
+                      {caseStudy.tech_stack}
+                    </p>
+
+                  </div>
+
+                )}
+
+
+                {project.technologies.length > 0 && (
 
                 <div className="project-technologies">
 
@@ -628,6 +644,8 @@ export default function ProjectDetails() {
                   )}
 
                 </div>
+
+                )}
 
               </section>
 

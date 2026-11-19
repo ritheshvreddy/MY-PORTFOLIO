@@ -675,6 +675,128 @@
 
 
 /* =========================================================
+   TECH STACK TAG EDITOR
+========================================================= */
+
+.tech-tags-hint {
+  margin: 0 0 4px;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+.tech-tags-editor {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 4px;
+}
+
+.tech-tag-chip {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 2px;
+
+  padding: 3px 4px;
+
+  background: #f1f5f9;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 8px;
+}
+
+.form-group .tech-tag-chip input {
+  width: auto;
+
+  min-width: 0;
+
+  padding: 4px 4px;
+
+  border: 1px solid transparent;
+
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #334155;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  box-shadow: none;
+}
+
+.form-group .tech-tag-chip input:hover {
+  border-color: #cbd5e1;
+}
+
+.form-group .tech-tag-chip input:focus {
+  background: #ffffff;
+
+  border-color: #2563eb;
+
+  box-shadow: none;
+}
+
+.tech-tag-icon {
+  width: 22px;
+  height: 22px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #64748b;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.tech-tag-icon:hover:not(:disabled) {
+  background: #e2e8f0;
+
+  color: #172033;
+}
+
+.tech-tag-icon:disabled {
+  opacity: 0.3;
+
+  cursor: default;
+}
+
+.tech-tag-remove:hover:not(:disabled) {
+  background: #fee2e2;
+
+  color: #dc2626;
+}
+
+
+/* =========================================================
    CHALLENGE FORM
 ========================================================= */
 
@@ -841,6 +963,107 @@
 
   box-shadow:
     0 16px 35px rgba(15, 23, 42, 0.1);
+}
+
+.admin-project-card {
+  position: relative;
+}
+
+.admin-project-card[draggable="true"] {
+  cursor: grab;
+}
+
+.admin-project-card.dragging {
+  opacity: 0.45;
+
+  outline: 2px dashed #2563eb;
+
+  outline-offset: -2px;
+}
+
+
+/* =========================================================
+   PROJECT CARD ORDER CONTROLS
+========================================================= */
+
+.admin-project-order {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+  right: 12px;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  pointer-events: none;
+}
+
+.admin-project-position,
+.admin-project-order-buttons {
+  pointer-events: auto;
+
+  background: rgba(15, 23, 42, 0.72);
+
+  color: #ffffff;
+
+  border-radius: 999px;
+
+  backdrop-filter: blur(4px);
+}
+
+.admin-project-position {
+  padding: 5px 11px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+}
+
+.admin-project-order-buttons {
+  display: flex;
+
+  padding: 3px;
+
+  gap: 2px;
+}
+
+.admin-project-order-buttons button {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.admin-project-order-buttons button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-project-order-buttons button:disabled {
+  opacity: 0.35;
+
+  cursor: default;
 }
 
 
